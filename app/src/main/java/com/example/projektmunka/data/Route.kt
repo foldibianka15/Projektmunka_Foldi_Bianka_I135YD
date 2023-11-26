@@ -1,4 +1,4 @@
 package com.example.projektmunka.data
 
-data class Route(val path: List<Node>)
+data class Route(val path: MutableList<Node>)
 

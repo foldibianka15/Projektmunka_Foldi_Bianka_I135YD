@@ -9,4 +9,17 @@ data class Node(
     val lon: Double,
     val tags: Map<String, String>? = null,
     var importance: Int = 0  // Add an importance property with a default value of 0
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        val otherNode: Node? = other as? Node
+
+        if (otherNode != null && otherNode.id == this.id) {
+            return true
+        }
+        return false
+    }
+
+    override fun hashCode(): Int {
+        return this.id.hashCode()
+    }
+}
