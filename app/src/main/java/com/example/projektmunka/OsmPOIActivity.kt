@@ -49,6 +49,7 @@ class OsmPOIActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var currentLocation: Location? = null
 
+    //mu
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_osm_poiactivity)
