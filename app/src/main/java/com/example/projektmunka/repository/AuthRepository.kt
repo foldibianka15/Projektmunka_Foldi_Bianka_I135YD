@@ -34,5 +34,4 @@ class AuthRepository(val authService: AuthService, val fireStoreRepository: Fire
     suspend fun logout(){
         authService.logout()
     }
-
 }

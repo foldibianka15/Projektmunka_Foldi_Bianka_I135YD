@@ -11,7 +11,10 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.projektmunka.databinding.ActivityLoginBinding
 import com.example.projektmunka.viewModel.LoginViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +30,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private val loginViewModel: LoginViewModel by viewModels()
 
+    private var googleSignInClient: GoogleSignInClient? = null
+    lateinit var gso:GoogleSignInOptions
+
+    companion object {
+        private const val RC_SIGN_IN = 9001
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,6 +47,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+
+        createRequest()
 
         lifecycleScope.launchWhenCreated {
             loginViewModel.error.collect{
@@ -63,9 +75,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                         ).show()
                     }
                 }
-
             }
-
         }
         binding.tvFloat.setOnClickListener(this)
         binding.tvForgotpsw.setOnClickListener(this)
@@ -74,17 +84,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnGoogleLogin.setOnClickListener(this)
     }
 
-    /*  fun userLoggedInSuccess(user: User){
-
-          if (user.profileCompleted == 0) {
-              val intent = Intent(this@LoginActivity, UserProfileActivity::class.java)
-              intent.putExtra(Constants.EXTRA_USER_DETAILS, user)
-              startActivity(intent)
-          } else {
-              startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
-          }
-          finish()
-      }*/
     override fun onClick(view: View?) {
         if(view != null) {
             when (view.id) {
@@ -114,13 +113,39 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun signInWithGoogle() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("545072268503-k3gadca81gn754jdsjb8ks9qlkhjddr9.apps.googleusercontent.com")
+    // Handle the result of Google Sign-In
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            val exception=task.exception
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)!!
+                loginViewModel.signInWithGoogle(account)
+            } catch (e: ApiException) {
+                // Handle Google Sign-In failure
+                // You can show an error message or take appropriate action.
+                Toast.makeText(this, "Google Sign-In failed", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun createRequest() {
+        // Configure Google Sign In
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("336702136386-3lk56lce4b8v4k9ct33kis4r252gajvt.apps.googleusercontent.com")
             .requestEmail()
             .build()
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+    }
 
-        // loginViewModel.signInWithGoogle(this, gso)
+    // Start the Google Sign-In process
+    private fun signInWithGoogle() {
+        val signInIntent = googleSignInClient?.signInIntent
+        if (signInIntent != null) {
+            startActivityForResult(signInIntent, RC_SIGN_IN)
+        }
     }
 
     private fun onFloatButtonClicked(){

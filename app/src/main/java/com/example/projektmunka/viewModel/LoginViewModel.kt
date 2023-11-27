@@ -50,7 +50,5 @@ class LoginViewModel @Inject constructor(val authRepository: AuthRepository, val
             // After signing in with Google, create a user collection
             fireStoreRepository.registerFromGoogleAccount(account)
         }
-
     }
-
 }
