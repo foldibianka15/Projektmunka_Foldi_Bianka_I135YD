@@ -71,7 +71,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         binding.tvForgotpsw.setOnClickListener(this)
         binding.btnLogin.setOnClickListener(this)
         binding.tvRegister.setOnClickListener(this)
-
     }
 
     /*  fun userLoggedInSuccess(user: User){
