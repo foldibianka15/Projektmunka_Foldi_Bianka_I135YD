@@ -166,7 +166,6 @@ class OsmPOIActivity : AppCompatActivity() {
                                     val importantPOIs = evaluatedNodes?.let { it1 ->
                                         selectImportantPOIs(
                                             it1, 0.1)
-
                                     }
 
 
@@ -183,6 +182,8 @@ class OsmPOIActivity : AppCompatActivity() {
 
 
                                     val cityGraph = fetchCityGraph(nearestNode.lat, nearestNode.lon, rOpt)
+                                    println("Done with city graph. Is it null? " + cityGraph == null)
+
 
                                     // Iterate through the graph and draw lines for edges
                                     if (cityGraph != null) {
@@ -190,9 +191,17 @@ class OsmPOIActivity : AppCompatActivity() {
                                         if (importantPOIs != null) {
                                             for (poi in importantPOIs) {
 
-                                                val closestNonIsolatedNode = findNearestNonIsolatedNode(poi, 300.0, cityGraph)
+                                                // HTTP kéréses verzió:
+                                                //val closestNonIsolatedNode = findNearestNonIsolatedNode(poi, 300.0, cityGraph)
+
+
+                                                // Gráfban keesős verzió:
+                                                // Ez is jó, de ez addig iterál, amig nem talál elég közeli nem izolált node-ot
+                                                // nagy cityGraph-nál ez lassabb lehet, mint a HTTP kéréses, de le kéne mérni
+                                                val closestNonIsolatedNode = findClosestNonIsolatedNode(cityGraph, poi, 0.0)
+
                                                 println(closestNonIsolatedNode == null)
-                                                println(poi.id)
+                                                println(poi.lat.toString() + " " + poi.lon)
                                                 poiToClosestNonIsolatedNode[poi] = closestNonIsolatedNode!!
                                             }
                                         }
@@ -231,6 +240,7 @@ class OsmPOIActivity : AppCompatActivity() {
                                            graph: Graph<Node, DefaultWeightedEdge>): Node? =
         withContext(Dispatchers.IO) {
 
+            println("In FNNIN")
             val client = OkHttpClient.Builder().build()
 
             // Formulate an Overpass query to find the nearest node
@@ -244,9 +254,10 @@ class OsmPOIActivity : AppCompatActivity() {
                 .url(url)
                 .build()
 
+            println("In FNNIN 1")
             try {
                 val response = client.newCall(request).execute()
-
+                println("In FNNIN2")
                 if (!response.isSuccessful) {
                     println("Failed to fetch data: ${response.code}")
                 }
@@ -255,6 +266,7 @@ class OsmPOIActivity : AppCompatActivity() {
                 val osmJson = JSONObject(osmData)
 
                 val elements = osmJson.getJSONArray("elements")
+                println("In FNNIN elements: " + elements.length())
 
                 if (elements.length() > 0) {
                     val nodes = mutableListOf<Node>()
@@ -263,6 +275,7 @@ class OsmPOIActivity : AppCompatActivity() {
                         val element = elements.getJSONObject(i)
 
                         if (element.getString("type") == "node") {
+                            println("in if")
                             val nodeId = element.getLong("id")
                             val nodeLat = element.getDouble("lat")
                             val nodeLon = element.getDouble("lon")
@@ -287,10 +300,12 @@ class OsmPOIActivity : AppCompatActivity() {
                             if (!isIsolatedNode(node, graph))
                             {
                                 nodes.add(node)
+                                println("nodes.add")
                             }
                         }
                     }
 
+                    println("FNNIN nodes size: " + nodes.size)
                     return@withContext nodes.minByOrNull { calculateGeodesicDistance(it, poi)  }
                 }
             } catch (e: Exception) {
@@ -300,7 +315,10 @@ class OsmPOIActivity : AppCompatActivity() {
         }
 
     fun isIsolatedNode(node : Node, graph: Graph<Node, DefaultWeightedEdge>) : Boolean {
-        return graph.degreeOf(node) == 0
+        if (graph.containsVertex(node)) {
+            return graph.degreeOf(node) == 0
+        }
+        return true
     }
 
     fun drawLine(sourceLat: Double, sourceLon: Double, targetLat: Double, targetLon: Double) {
@@ -1173,11 +1191,14 @@ class OsmPOIActivity : AppCompatActivity() {
 
     fun connectPois(userLocation: Node, pois : Route, graph: Graph<Node, DefaultWeightedEdge>) : Route
     {
+        println("graph null? " + graph == null)
         val dijkstra = DijkstraShortestPath(graph)
         val connectedRoute = Route(mutableListOf())
 
+        println("1")
         connectedRoute.path.addAll(dijkstra.getPath(userLocation, poiToClosestNonIsolatedNode[pois.path.first()]).vertexList)
 
+        println("2")
         for (i in 0 .. pois.path.size - 2) {
             val current = connectedRoute.path[i]
             val next = connectedRoute.path[i + 1]
@@ -1188,6 +1209,7 @@ class OsmPOIActivity : AppCompatActivity() {
             connectedRoute.path.addAll(dijkstra.getPath(currentNonIsolated, nextNonIsolated).vertexList)
         }
 
+        println("3")
         connectedRoute.path.addAll(dijkstra.getPath(poiToClosestNonIsolatedNode[pois.path.last()], userLocation).vertexList)
 
 
