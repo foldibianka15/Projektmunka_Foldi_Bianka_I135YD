@@ -1,8 +1,11 @@
 package com.example.projektmunka
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -48,6 +51,7 @@ class OsmPOIActivity : AppCompatActivity() {
     lateinit var mMyLocationOverlay: MyLocationNewOverlay
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var currentLocation: Location? = null
+    private lateinit var locationManager: LocationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,19 +68,58 @@ class OsmPOIActivity : AppCompatActivity() {
         )
 
         mMap = binding.osmmap
-        mMap.setTileSource(TileSourceFactory.MAPNIK)
-        mMap.isHorizontalMapRepetitionEnabled = false
-        mMap.isVerticalMapRepetitionEnabled = false
-        mMap.setMultiTouchControls(true)
-        mMap.setBuiltInZoomControls(true)
+        mMap.apply {
+            setTileSource(TileSourceFactory.MAPNIK)
+            isHorizontalMapRepetitionEnabled = false
+            isVerticalMapRepetitionEnabled = false
+            setMultiTouchControls(true)
+            setBuiltInZoomControls(true)
+        }
 
         controller = mMap.controller
         controller.setZoom(15.0)
 
-        //val bbox = "47.506,19.036,47.510,19.042"  //"47.497,19.035,47.4972,19.0352"
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+// Check for location permissions
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Request location permissions if not granted
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                1
+            )
+        } else {
+            // Request location updates
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                0,
+                0f,
+                locationListener
+            )
+        }
+
 
         lifecycleScope.launch {
             fetchLastLocation()
+        }
+    }
+
+    private val locationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            // Update the map center to the new location
+            val newLocation = GeoPoint(location.latitude, location.longitude)
+            mMap.controller.setCenter(newLocation)
         }
     }
 
