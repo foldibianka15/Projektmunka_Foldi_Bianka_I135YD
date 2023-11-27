@@ -1,3 +1,64 @@
 <resources>
     <string name="app_name">Projektmunka</string>
+    <string name="register">Signup</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="login">Login</string>
+    <string name="create_an_account">Register</string>
+
+
+    <string name="err_msg_enter_user_name">Please enter username.</string>
+    <string name="err_msg_enter_first_name">Please enter first name.</string>
+    <string name="err_msg_enter_last_name">Please enter last name.</string>
+    <string name="err_msg_enter_email">Please enter email.</string>
+    <string name="err_msg_enter_password">Please enter email.</string>
+    <string name="err_msg_enter_confirm_password">
+        Please enter confirm password.</string>
+    <string name="err_msg_enter_password_and_confirm_password_mismatch">
+        Password and confirm password does not match.</string>
+    <string name="alma">Thanks for registering!.</string>
+    <string name="title_forgot_password">FORGOT PASSWORD?</string>
+    <string name="forgot_password_description">Enter your username and e-mail address we\'ll send you an e-mail.</string>
+    <string name="btn_lbl_submit">Submit</string>
+    <string name="register_success">You are registered successfully.</string>
+
+    <string name="title_complete_profile">Complete Profile</string>
+    <string name="et_hint_mobile_number">mobile number</string>
+    <string name="et_hint_email_id">email</string>
+    <string name="hint_last_name">lastname</string>
+    <string name="hint_first_name">firstname</string>
+    <string name="rb_lbl_male">male</string>
+    <string name="rb_lbl_female">female</string>
+    <string name="btn_lbl_save">Save</string>
+    <string name="content_description">image</string>
+
+    <string name="read_storage_permission_denied">You just denied the permission for storage. You can
+    also allow it from settings.</string>
+    <string name="image_selection_failed">Image selection Failed!</string>
+    <string name="msg_profile_update_success">Your profile is updated successfully.</string>
+    <string name="title_activity_maps">MapActivity</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_home">Map</string>
+    <string name="title_dashboard">Friends</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="please_click_back_again_to_exit">Please click back again to exit.</string>
+    <string name="title_activity_db">dbActivity</string>
+    <string name="title_activity_bottom_nav">BottomNavActivity</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_settings">action_settings</string>
+    <string name="title_settings">Profile</string>
+    <string name="lbl_edit">Edit</string>
+    <string name="btn_lbl_logout">Logout</string>
+    <string name="action_map">action_map</string>
+    <string name="action_map2">action_map2</string>
+    <string name="start">start</string>
+    <string name="google_map_api_key">AIzaSyD_xUJWiXW-oSdaAkNNLRHDgsRtxsBdFs0</string>
+    <!--<string name="default_web_client_id">AIzaSyD_xUJWiXW-oSdaAkNNLRHDgsRtxsBdFs0</string>-->
+    <string name="male">MALE</string>
+    <string name="female">FEMALE</string>
+    <string name="weight">weight</string>
+    <string name="height">height</string>
+    <string name="age">age</string>
+    <string name="google_logo">google_logo</string>
+
 </resources>
