@@ -189,13 +189,7 @@ class OsmPOIActivity : AppCompatActivity() {
                                         val nearestNodeNonIsolated = findClosestNonIsolatedNode(cityGraph, nearestNode, 0.0)!!
                                         val dijkstra = DijkstraShortestPath(cityGraph)
                                         if (importantPOIs != null) {
-
-                                            val nin0 = findClosestNonIsolatedNode(cityGraph, importantPOIs[0], 0.0)
-                                            val nin1 = findClosestNonIsolatedNode(cityGraph, importantPOIs[1], 0.0)
-                                            println("path between nin0 and nin1 exists?")
-                                            println(dijkstra.getPath(nin0, nin1) != null)
-
-                                            /*for (poi in importantPOIs) {
+                                            for (poi in importantPOIs) {
 
                                                 // HTTP kéréses verzió:
                                                 val closestNonIsolatedNode = findClosestNonIsolatedNode(cityGraph, poi, 0.0)
@@ -206,32 +200,17 @@ class OsmPOIActivity : AppCompatActivity() {
                                                 //val closestNonIsolatedNode = findClosestNonIsolatedNode(cityGraph, poi, 0.0)
 
                                                 println(poi.id.toString() + " -> " + closestNonIsolatedNode!!.id)
-                                                println(dijkstra.getPath(nearestNode, closestNonIsolatedNode) != null)
+                                                println(dijkstra.getPath(nearestNodeNonIsolated, closestNonIsolatedNode) != null)
                                                 poiToClosestNonIsolatedNode[poi] = closestNonIsolatedNode!!
-                                            }*/
-                                        }
-
-                                        println("nearest node id: " + nearestNode.id)
-                                        println("city graph vertices: " + cityGraph.vertexSet().size)
-                                        for (edge in cityGraph.edgeSet()) {
-                                            val sourceNode = cityGraph.getEdgeSource(edge)
-                                            val targetNode = cityGraph.getEdgeTarget(edge)
-                                            //println("city graph edges: " + cityGraph.edgeSet().size)
-                                            //val sourceNode = graphData.elements.find { it. == source }
-                                            //val targetNode = graphData.elements.find { it.id == target }
-                                            if (sourceNode != null && targetNode != null) {
-                                                //drawLine(sourceNode.lat, sourceNode.lon, targetNode.lat, targetNode.lon)
                                             }
+
+                                            for (poi in importantPOIs) {
+                                                println(poi.id)
+                                            }
+                                            println()
+
+                                            geneticAlgorithm(cityGraph, importantPOIs, 5, desiredRouteLength, searchArea, nearestNodeNonIsolated, 20, 5, 10)
                                         }
-                                    }
-                                    else{
-                                        println("telephone")
-                                    }
-
-                                    println("llkldy")
-
-                                    if (importantPOIs != null) {
-                                        geneticAlgorithm(cityGraph, importantPOIs, 5, desiredRouteLength, searchArea, nearestNode, 20, 5, 100)
                                     }
                                 }
 
@@ -799,6 +778,7 @@ class OsmPOIActivity : AppCompatActivity() {
 
         val n_children = (populationSize - survivorRate) / survivorRate
 
+        var gen = 0
         repeat(maxGenerations) {
 
             // Calculate fitness scores for each route in the population
@@ -808,7 +788,7 @@ class OsmPOIActivity : AppCompatActivity() {
             // Selection: Choose routes for the next generation based on fitness and survivor rate
             val selectedRoutes = selectNodes(population, fitnessScores, survivorRate)
 
-            println("Best fitness: " + fitnessScores.min())
+            println("Best fitness: " + fitnessScores.min() + "iteration: " + gen++)
 
             // Create a new generation
             val newPopulation = mutableListOf<Route>()
@@ -855,10 +835,7 @@ class OsmPOIActivity : AppCompatActivity() {
         // Return the best path found after the specified number of generations
         val bestRoute = population.minBy { route -> evaluateFitness(userLocation, route, desiredRouteLength, searchArea, graph!!) }
 
-        val mu = calculateRouteLength(bestRoute)
-        // Calculate total interestingness
-        val totalInterestingness = bestRoute.path.sumOf { it.importance }
-        println(mu)
+        println("About to enter drawshortestpath on map")
         // Draw the shortest path on the map
         drawShortestPathOnMap(bestRoute, graph)
 
@@ -937,36 +914,6 @@ class OsmPOIActivity : AppCompatActivity() {
 
         }
     }
-
-    fun findClosestNonIsolatedNode2(
-        graph: Graph<Node, DefaultWeightedEdge>,
-        isolatedNode: Node
-    ): Node? {
-        // If the provided node is not isolated, return it
-        if (graph.degreeOf(isolatedNode) > 0) {
-            return isolatedNode
-        }
-
-        // Use BFS to find non-isolated nodes and their distances
-        var closestNode: Node? = null
-        var minDistance = Double.POSITIVE_INFINITY
-
-        val bfsIterator = BreadthFirstIterator(graph, isolatedNode)
-        while (bfsIterator.hasNext()) {
-            val current = bfsIterator.next()
-            if (graph.degreeOf(current) > 0) {
-                println("in if")
-                val distance = calculateGeodesicDistance(isolatedNode, current)
-                if (distance < minDistance) {
-                    minDistance = distance
-                    closestNode = current
-                }
-            }
-        }
-
-        return closestNode
-    }
-
 
     fun findClosestNonIsolatedNode(
         graph: Graph<Node, DefaultWeightedEdge>,
@@ -1191,17 +1138,14 @@ class OsmPOIActivity : AppCompatActivity() {
 
     fun connectPois(userLocation: Node, pois : Route, graph: Graph<Node, DefaultWeightedEdge>) : Route
     {
-        println("graph null? " + graph == null)
         val dijkstra = DijkstraShortestPath(graph)
         val connectedRoute = Route(mutableListOf())
 
-        println("1")
         connectedRoute.path.addAll(dijkstra.getPath(userLocation, poiToClosestNonIsolatedNode[pois.path.first()]).vertexList)
 
-        println("2")
         for (i in 0 .. pois.path.size - 2) {
-            val current = connectedRoute.path[i]
-            val next = connectedRoute.path[i + 1]
+            val current = pois.path[i]
+            val next = pois.path[i + 1]
 
             val currentNonIsolated = poiToClosestNonIsolatedNode[current]
             val nextNonIsolated = poiToClosestNonIsolatedNode[next]
@@ -1209,7 +1153,6 @@ class OsmPOIActivity : AppCompatActivity() {
             connectedRoute.path.addAll(dijkstra.getPath(currentNonIsolated, nextNonIsolated).vertexList)
         }
 
-        println("3")
         connectedRoute.path.addAll(dijkstra.getPath(poiToClosestNonIsolatedNode[pois.path.last()], userLocation).vertexList)
 
 
