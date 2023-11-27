@@ -66,4 +66,19 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     implementation ("org.jgrapht:jgrapht-core:1.5.0") // Use the appropriate version
 
+    // Firebase
+    implementation (platform("com.google.firebase:firebase-bom:29.0.0"))
+    implementation ("com.google.firebase:firebase-analytics-ktx")
+    implementation ("com.google.firebase:firebase-auth-ktx:22.3.0")
+    implementation ("com.google.firebase:firebase-firestore-ktx")
+    implementation ("com.google.firebase:firebase-storage-ktx")
+
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
+
+
+
+
+
+
+
 }
