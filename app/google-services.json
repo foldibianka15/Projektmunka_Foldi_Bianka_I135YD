@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "545072268503",
+    "project_id": "projektmunka-4de77",
+    "storage_bucket": "projektmunka-4de77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545072268503:android:6528c84d689793c2765c92",
+        "android_client_info": {
+          "package_name": "com.example.projektmunka"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545072268503-k3gadca81gn754jdsjb8ks9qlkhjddr9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.projektmunka",
+            "certificate_hash": "23bedd235b73b068b8d72616d9525e270fe9d7d3"
+          }
+        },
+        {
+          "client_id": "545072268503-4h9rrcd4tdboddm8og3hgrq6jasv3roq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV_XYmgpb5G8ododNUhkHhygtXLtcB3qw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545072268503-4h9rrcd4tdboddm8og3hgrq6jasv3roq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
