@@ -60,5 +60,6 @@
     <string name="height">height</string>
     <string name="age">age</string>
     <string name="google_logo">google_logo</string>
+    <string name="GoogleSignIn">Google Sign In</string>
 
 </resources>
