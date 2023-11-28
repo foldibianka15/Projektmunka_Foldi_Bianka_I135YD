@@ -15,7 +15,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.fitness.Fitness
+import com.google.android.gms.fitness.FitnessOptions
+import com.google.android.gms.fitness.data.DataType
+import com.google.android.gms.fitness.request.DataReadRequest
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
@@ -35,6 +41,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object {
         private const val RC_SIGN_IN = 9001
+        private const val GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1001
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,6 +110,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
                 R.id.btn_google_login -> {
                     signInWithGoogle()
+                    readHeartRateData()
                 }
 
                 R.id.tv_register -> {
@@ -134,10 +142,57 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun createRequest() {
         // Configure Google Sign In
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("336702136386-3lk56lce4b8v4k9ct33kis4r252gajvt.apps.googleusercontent.com")
+            .requestIdToken("545072268503-4h9rrcd4tdboddm8og3hgrq6jasv3roq.apps.googleusercontent.com")
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso);
+    }
+
+    // Function to read heart rate data from Google Fit
+    private fun readHeartRateData() {
+        // Set the start time to 7 days ago
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -7)
+        val startTimeMillis = calendar.timeInMillis
+
+        // Set the end time to the current time
+        val endTimeMillis = System.currentTimeMillis()
+
+
+        val fitnessOptions = FitnessOptions.builder()
+            .addDataType(DataType.TYPE_HEART_RATE_BPM, FitnessOptions.ACCESS_READ)
+            .build()
+
+        val account = GoogleSignIn.getAccountForExtension(this, fitnessOptions)
+
+        if (!GoogleSignIn.hasPermissions(account, fitnessOptions)) {
+            GoogleSignIn.requestPermissions(
+                this,
+                GOOGLE_FIT_PERMISSIONS_REQUEST_CODE,
+                account,
+                fitnessOptions
+            )
+        } else {
+            // The app has the necessary permissions. Retrieve heart rate data.
+            val heartRateRequest = DataReadRequest.Builder()
+                .read(DataType.TYPE_HEART_RATE_BPM)
+                .setTimeRange(startTimeMillis, endTimeMillis, TimeUnit.MILLISECONDS)
+                .build()
+
+            Fitness.getHistoryClient(this, account)
+                .readData(heartRateRequest)
+                .addOnSuccessListener { dataReadResponse ->
+                    // Process the dataReadResponse to get heart rate data
+                    // ...
+
+                    // Display or use the heart rate data as needed
+                    Toast.makeText(this, "Heart rate data retrieved successfully", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    // Handle failure
+                    Toast.makeText(this, "Error retrieving heart rate data: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        }
     }
 
     // Start the Google Sign-In process
