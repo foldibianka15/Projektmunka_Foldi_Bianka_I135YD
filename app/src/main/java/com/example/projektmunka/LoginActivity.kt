@@ -124,20 +124,73 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     // Handle the result of Google Sign-In
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            val exception=task.exception
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)!!
-                loginViewModel.signInWithGoogle(account)
-            } catch (e: ApiException) {
-                // Handle Google Sign-In failure
-                // You can show an error message or take appropriate action.
-                Toast.makeText(this, "Google Sign-In failed", Toast.LENGTH_SHORT).show()
+
+        when (requestCode) {
+            RC_SIGN_IN -> {
+                // Handle Google Sign-In result
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+                val exception = task.exception
+                try {
+                    // Google Sign In was successful, authenticate with Firebase
+                    val account = task.getResult(ApiException::class.java)!!
+                    loginViewModel.signInWithGoogle(account)
+
+                    // Request fitness API permission
+                    requestFitnessApiPermission()
+                } catch (e: ApiException) {
+                    // Handle Google Sign-In failure
+                    // You can show an error message or take appropriate action.
+                    Toast.makeText(this, "Google Sign-In failed", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
+    private fun requestFitnessApiPermission() {
+        val fitnessOptions = FitnessOptions.builder()
+            .addDataType(DataType.TYPE_HEART_RATE_BPM, FitnessOptions.ACCESS_READ)
+            .build()
+
+        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
+            GoogleSignIn.requestPermissions(
+                this,
+                GOOGLE_FIT_PERMISSIONS_REQUEST_CODE,
+                GoogleSignIn.getLastSignedInAccount(this),
+                fitnessOptions
+            )
+        } else {
+            // Permission already granted, you can now read heart rate data
+            readHeartRateData()
+        }
+    }
+
+    private fun readHeartRateData() {
+        // Build a request for the user's heart rate between now and the past 5 minutes
+        val endTime = System.currentTimeMillis()
+        val startTime = endTime - TimeUnit.MINUTES.toMillis(5)
+
+        val readRequest = DataReadRequest.Builder()
+            .read(DataType.TYPE_HEART_RATE_BPM)
+            .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
+            .build()
+
+        // Get the Fitness API client and submit the read request
+        val fitnessOptions = FitnessOptions.builder()
+            .addDataType(DataType.TYPE_HEART_RATE_BPM, FitnessOptions.ACCESS_READ)
+            .build()
+
+        val account = GoogleSignIn.getAccountForExtension(this, fitnessOptions)
+        Fitness.getHistoryClient(this, account)
+            .readData(readRequest)
+            .addOnSuccessListener { dataReadResponse ->
+                // Process the heart rate data
+                // dataReadResponse contains the heart rate data
+            }
+            .addOnFailureListener { e ->
+                // Handle failure
+                Toast.makeText(this, "Failed to read heart rate data", Toast.LENGTH_SHORT).show()
+            }
+    }
+
 
     private fun createRequest() {
         // Configure Google Sign In
@@ -146,53 +199,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso);
-    }
-
-    // Function to read heart rate data from Google Fit
-    private fun readHeartRateData() {
-        // Set the start time to 7 days ago
-        val calendar = Calendar.getInstance()
-        calendar.add(Calendar.DAY_OF_YEAR, -7)
-        val startTimeMillis = calendar.timeInMillis
-
-        // Set the end time to the current time
-        val endTimeMillis = System.currentTimeMillis()
-
-
-        val fitnessOptions = FitnessOptions.builder()
-            .addDataType(DataType.TYPE_HEART_RATE_BPM, FitnessOptions.ACCESS_READ)
-            .build()
-
-        val account = GoogleSignIn.getAccountForExtension(this, fitnessOptions)
-
-        if (!GoogleSignIn.hasPermissions(account, fitnessOptions)) {
-            GoogleSignIn.requestPermissions(
-                this,
-                GOOGLE_FIT_PERMISSIONS_REQUEST_CODE,
-                account,
-                fitnessOptions
-            )
-        } else {
-            // The app has the necessary permissions. Retrieve heart rate data.
-            val heartRateRequest = DataReadRequest.Builder()
-                .read(DataType.TYPE_HEART_RATE_BPM)
-                .setTimeRange(startTimeMillis, endTimeMillis, TimeUnit.MILLISECONDS)
-                .build()
-
-            Fitness.getHistoryClient(this, account)
-                .readData(heartRateRequest)
-                .addOnSuccessListener { dataReadResponse ->
-                    // Process the dataReadResponse to get heart rate data
-                    // ...
-
-                    // Display or use the heart rate data as needed
-                    Toast.makeText(this, "Heart rate data retrieved successfully", Toast.LENGTH_SHORT).show()
-                }
-                .addOnFailureListener { e ->
-                    // Handle failure
-                    Toast.makeText(this, "Error retrieving heart rate data: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-        }
     }
 
     // Start the Google Sign-In process
