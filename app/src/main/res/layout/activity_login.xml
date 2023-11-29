@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.example.projektmunka.viewModel.LoginViewModel" />
@@ -116,7 +115,7 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <ImageButton
+                    <!--<ImageButton
                         android:id="@+id/btn_google_login"
                         android:layout_width="148dp"
                         android:layout_height="50dp"
@@ -126,21 +125,34 @@
                         android:src="@drawable/google_logo"
                         android:background="@null"
                         android:contentDescription="@string/google_logo" />
-                    <!--android:onClick="@{() -> viewModel.signInWithGoogle()}"-->
+                        android:onClick="@{() -> viewModel.signInWithGoogle()}"-->
 
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_login"
-                        android:layout_width="148dp"
+                        android:layout_width="135dp"
                         android:layout_height="50dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="250dp"
+                        android:clickable="true"
                         android:background="@drawable/button_bg"
                         android:text="@string/login"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:textSize="17dp" />
-                    <!--android:onClick="@{() -> viewModel.loginRegisteredUser()}"-->
+                        android:textSize="17dp"
+                        android:focusable="true" />
+
+                    <ImageButton
+                        android:id="@+id/btn_google_login"
+                        android:layout_width="135dp"
+                        android:layout_height="39dp"
+                        android:layout_marginLeft="160dp"
+                        android:layout_marginTop="250dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/google_btn"
+                        android:background="@null"
+                        android:contentDescription="@string/google_logo" />
+                    <!--android:onClick="@{() -> viewModel.signInWithGoogle()}"-->
 
 
                 </androidx.cardview.widget.CardView>
@@ -153,6 +165,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:src="@drawable/ic_add"
+                    android:background="@drawable/float_btn"
                     app:backgroundTint="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.852"
