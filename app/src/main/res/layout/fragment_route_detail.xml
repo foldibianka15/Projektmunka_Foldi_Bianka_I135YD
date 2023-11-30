@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/tourImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/default_image"
+        android:id="@+id/tourImageDetail"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"/>
 
     <TextView
-        android:id="@+id/tourName"
+        android:id="@+id/tourNameDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tour Name"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginTop="8dp"/>
+        android:layout_below="@+id/tourImageDetail"
+        android:layout_marginTop="16dp"/>
 
     <TextView
-        android:id="@+id/tourDescription"
+        android:id="@+id/tourDescriptionDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tour Description"
-        android:layout_marginTop="4dp"/>
-</LinearLayout>
+        android:layout_below="@+id/tourNameDetail"
+        android:layout_marginTop="8dp"/>
+</RelativeLayout>

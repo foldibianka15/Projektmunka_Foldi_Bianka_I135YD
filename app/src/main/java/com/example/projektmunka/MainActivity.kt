@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_route -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, RouteFragment())
+                        .replace(R.id.fragment_container, RouteListFragment())
                         .commit()
                 }
                 R.id.nav_reports -> {
