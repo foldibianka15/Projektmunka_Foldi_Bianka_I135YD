@@ -61,5 +61,8 @@
     <string name="age">age</string>
     <string name="google_logo">google_logo</string>
     <string name="GoogleSignIn">Google Sign In</string>
+    <string name="transition_tour_image">tourImageTransition</string>
+    <string name="tour_name">Tour Name</string>
+    <string name="tour_description">Tour Description</string>
 
 </resources>

@@ -19,8 +19,8 @@ class TourAdapter(context: Context, private val tourList: ArrayList<TourItem>) :
 
         // Set data to the views using ViewBinding
         binding.tourPic.setImageResource(currentTourItem.imageId)
-        binding.name.text = currentTourItem.name
-        binding.description.text = currentTourItem.description
+        binding.tourName.text = currentTourItem.name
+        binding.tourDescription.text = currentTourItem.description
 
         return binding.root
     }

@@ -1,26 +1,32 @@
 package com.example.projektmunka
 
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import com.example.projektmunka.databinding.FragmentRouteDetailBinding
+import com.example.projektmunka.uiData.TourItem
 
 class RouteDetailFragment : Fragment() {
     private lateinit var binding: FragmentRouteDetailBinding
 
     companion object {
         private const val ARG_POSITION = "position"
+        private const val ARG_TOUR_LIST = "tourList"
 
-        fun newInstance(position: Int): RouteDetailFragment {
+        fun newInstance(position: Int, tourList: ArrayList<TourItem>): RouteDetailFragment {
             val fragment = RouteDetailFragment()
             val args = Bundle()
             args.putInt(ARG_POSITION, position)
+            args.putParcelableArrayList(ARG_TOUR_LIST, tourList as ArrayList<Parcelable>)
             fragment.arguments = args
             return fragment
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,12 +38,20 @@ class RouteDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val position = arguments?.getInt(ARG_POSITION) ?: 0
-        val currentTourItem = (requireActivity() as RouteListFragment).tourList[position]
+        println("alma")
 
-        // Set data to the views using ViewBinding
-        binding.tourImageDetail.setImageResource(currentTourItem.imageId)
-        binding.tourNameDetail.text = currentTourItem.name
-        binding.tourDescriptionDetail.text = currentTourItem.description
+        val position = arguments?.getInt(ARG_POSITION) ?: 0
+        val tourList = arguments?.getParcelableArrayList<TourItem>(ARG_TOUR_LIST) ?: arrayListOf()
+
+        if (position < tourList.size) {
+            val currentTourItem = tourList[position]
+
+            // Set data to the views using ViewBinding
+            binding.tourImageDetail.setImageResource(currentTourItem.imageId)
+            binding.tourNameDetail.text = currentTourItem.name
+            binding.tourDescriptionDetail.text = currentTourItem.description
+
+            ViewCompat.setTransitionName(binding.tourImageDetail, getString(R.string.transition_tour_image))
+        }
     }
 }
