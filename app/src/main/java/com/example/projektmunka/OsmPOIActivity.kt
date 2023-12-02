@@ -16,11 +16,24 @@ import com.example.projektmunka.data.Node
 import com.example.projektmunka.data.OverpassResponse
 import com.example.projektmunka.data.Route
 import com.example.projektmunka.databinding.ActivityOsmPoiactivityBinding
+import com.example.projektmunka.utils.addMarker
+import com.example.projektmunka.utils.calculateGeodesicDistance
+import com.example.projektmunka.utils.calculateRouteArea
+import com.example.projektmunka.utils.calculateRouteLength
+import com.example.projektmunka.utils.calculateSearchArea
+import com.example.projektmunka.utils.countSelfIntersections
+import com.example.projektmunka.utils.displayCircularRoute
+import com.example.projektmunka.utils.drawRoute
+import com.example.projektmunka.utils.fetchCityGraph
+import com.example.projektmunka.utils.fetchNodes
+import com.example.projektmunka.utils.findNearestOSMNode
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
@@ -84,7 +97,7 @@ class OsmPOIActivity : AppCompatActivity() {
         controller.setZoom(15.0)
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-// Check for location permissions
+        // Check for location permissions
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -115,14 +128,86 @@ class OsmPOIActivity : AppCompatActivity() {
 
         //val bbox = "47.506,19.036,47.510,19.042"  //"47.497,19.035,47.4972,19.0352"
 
-        lifecycleScope.launch {
-            fetchLastLocation()
-        }
+
+        awaitUpdateCurrentLocation()
     }
 
     private val locationListener = LocationListener { location -> // Update the map center to the new location
         val newLocation = GeoPoint(location.latitude, location.longitude)
         mMap.controller.setCenter(newLocation)
+    }
+
+    fun awaitUpdateCurrentLocation() {
+        return runBlocking {
+            async(Dispatchers.IO) {
+                updateCurrentLocation()
+            }.await()
+            println("awaited updateCurrentLocation")
+        }
+    }
+
+    suspend fun updateCurrentLocation() = withContext(Dispatchers.IO) {
+        if (ContextCompat.checkSelfPermission(
+                this@OsmPOIActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this@OsmPOIActivity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
+        } else {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    location?.let {
+                        // Handle the location update here
+                        currentLocation = it
+                        run()
+                    }
+                }
+        }
+    }
+
+    private fun run() {
+        println("In run")
+        val maxWalkingTime = 2.00
+        val desiredRouteLength = maxWalkingTime * 4
+        val rOpt = calculateROpt(1.1, 2)
+        val searchArea = calculateSearchArea(rOpt)
+
+        GlobalScope.launch(Dispatchers.IO) {
+            // Use the findNearestOSMNode function to get the nearest node
+            val nearestNode = findNearestOSMNode(currentLocation!!, 300.0) ?: return@launch
+
+            val nodes = fetchNodes(nearestNode.lat, nearestNode.lon, 800.0) ?: return@launch
+            val evaluatedNodes = nodes.let { evaluateNodes(it) }
+
+            val importantPOIs = evaluatedNodes.let { selectImportantPOIs(it, 0.1) }
+
+            //generateInitialPopulation(importantPOIs, 5, 5, nearestNode)
+
+            val cityGraph = fetchCityGraph(nearestNode.lat, nearestNode.lon, 800.0) ?: return@launch
+
+            val nearestNodeNonIsolated = findClosestNonIsolatedNode(cityGraph, nearestNode, 0.0)!!
+
+            for (poi in importantPOIs) {
+
+                // HTTP kéréses verzió:
+                val closestNonIsolatedNode = findClosestNonIsolatedNode(cityGraph, poi, 0.0)
+
+                // Gráfban keresős verzió:
+                // Ez is jó, de ez addig iterál, amig nem talál elég közeli nem izolált node-ot
+                // nagy cityGraph-nál ez lassabb lehet, mint a HTTP kéréses, de le kéne mérni
+                //val closestNonIsolatedNode = findClosestNonIsolatedNode(cityGraph, poi, 0.0)
+
+                poiToClosestNonIsolatedNode[poi] = closestNonIsolatedNode!!
+            }
+
+            val bestRoute = geneticAlgorithm(cityGraph, importantPOIs, 5, desiredRouteLength, searchArea, nearestNodeNonIsolated, 20, 5, 10)
+            val connectedRoute = connectPois(nearestNodeNonIsolated, bestRoute, cityGraph)
+            displayCircularRoute(mMap, bestRoute, connectedRoute, nearestNodeNonIsolated)
+        }
     }
 
     suspend fun fetchLastLocation() = withContext(Dispatchers.IO) {
@@ -204,12 +289,9 @@ class OsmPOIActivity : AppCompatActivity() {
                                                 poiToClosestNonIsolatedNode[poi] = closestNonIsolatedNode!!
                                             }
 
-                                            for (poi in importantPOIs) {
-                                                println(poi.id)
-                                            }
-                                            println()
-
-                                            geneticAlgorithm(cityGraph, importantPOIs, 5, desiredRouteLength, searchArea, nearestNodeNonIsolated, 20, 5, 10)
+                                            val bestRoute = geneticAlgorithm(cityGraph, importantPOIs, 5, desiredRouteLength, searchArea, nearestNodeNonIsolated, 20, 5, 10)
+                                            val connectedRoute = connectPois(nearestNodeNonIsolated, bestRoute, cityGraph)
+                                            displayCircularRoute(mMap, bestRoute, connectedRoute, nearestNodeNonIsolated)
                                         }
                                     }
                                 }
@@ -221,415 +303,6 @@ class OsmPOIActivity : AppCompatActivity() {
         }
     }
 
-    suspend fun findNearestNonIsolatedNode(poi : Node, radius: Double,
-                                           userLocation: Node, graph: Graph<Node, DefaultWeightedEdge>): Node? =
-        withContext(Dispatchers.IO) {
-
-            val client = OkHttpClient.Builder().build()
-
-            // Formulate an Overpass query to find the nearest node
-            val query = "[out:json];" +
-                    "node(around:${radius},${poi.lat},${poi.lon});" +
-                    "out;"
-
-            val encodedQuery = URLEncoder.encode(query, "UTF-8")
-            val url = "https://overpass-api.de/api/interpreter?data=$encodedQuery"
-            val request = Request.Builder()
-                .url(url)
-                .build()
-
-            try {
-                val response = client.newCall(request).execute()
-                if (!response.isSuccessful) {
-                    println("Failed to fetch data: ${response.code}")
-                }
-
-                val osmData = response.body?.string() ?: ""
-                val osmJson = JSONObject(osmData)
-
-                val elements = osmJson.getJSONArray("elements")
-                println("elements size: " + elements.length())
-
-                if (elements.length() > 0) {
-                    val nodes = mutableListOf<Node>()
-
-                    for (i in 0 until elements.length()) {
-                        val element = elements.getJSONObject(i)
-
-                        if (element.getString("type") == "node") {
-                            val nodeId = element.getLong("id")
-                            val nodeLat = element.getDouble("lat")
-                            val nodeLon = element.getDouble("lon")
-                            val nodeTags = element.optJSONObject("tags") ?: JSONObject()
-
-                            val tagsMap = mutableMapOf<String, String>()
-                            val tagKeys = nodeTags.keys()
-
-                            for (key in tagKeys) {
-                                tagsMap[key] = nodeTags.getString(key)
-                            }
-
-                            // Create a Node object with the retrieved data
-                            val node = Node(
-                                id = nodeId,
-                                lat = nodeLat,
-                                lon = nodeLon,
-                                tags = tagsMap,
-                                importance = 0
-                            )
-
-                            if (!isIsolatedNode(node, userLocation, graph))
-                            {
-                                nodes.add(node)
-                            }
-                        }
-                    }
-
-                    return@withContext nodes.minByOrNull { calculateGeodesicDistance(it, poi)  }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            return@withContext null
-        }
-
-    fun isIsolatedNode(node : Node, userLocation: Node, graph: Graph<Node, DefaultWeightedEdge>) : Boolean {
-        if (graph.containsVertex(node)) {
-            val dijkstra = DijkstraShortestPath(graph)
-            return dijkstra.getPath(userLocation, node) == null
-        }
-        return true
-    }
-
-    fun drawLine(sourceLat: Double, sourceLon: Double, targetLat: Double, targetLon: Double) {
-        val line = Polyline()
-        line.addPoint(GeoPoint(sourceLat, sourceLon))
-        line.addPoint(GeoPoint(targetLat, targetLon))
-        mMap.overlays.add(line)
-    }
-
-    suspend fun fetchNodes(lat: Double, lon: Double, rOpt: Double): List<Node>? =
-        withContext(Dispatchers.IO) {
-
-            val client = OkHttpClient.Builder().build()
-            //val rOpt = calculateROpt(1.1, 1)
-
-            // Define the Overpass query to select nodes within a radius from a point
-            val query = "[out:json];" +
-                    "node(around:${rOpt},${lat},${lon});" +
-                    "out;"
-
-            // "[out:json];node(around:1000.0,47.506,19.036);out;"
-
-            val encodedQuery = URLEncoder.encode(query, "UTF-8")
-            val url = "https://overpass-api.de/api/interpreter?data=$encodedQuery"
-            println("Generated URL: $url")
-            val request = Request.Builder()
-                .url(url)
-                .build()
-
-            try {
-                val response = client.newCall(request).execute()
-
-                if (!response.isSuccessful) {
-                    println("Failed to fetch data: ${response.code}")
-                    return@withContext emptyList()
-                }
-
-                val osmData = response.body?.string() ?: ""
-                val osmJson = JSONObject(osmData)
-                val elements = osmJson.getJSONArray("elements")
-
-                val nodes = mutableListOf<Node>()
-
-                for (i in 0 until elements.length()) {
-                    val element = elements.getJSONObject(i)
-                    if (element.has("tags")) {
-                        val tagsObject = element.getJSONObject("tags")
-                        val tagsMap = mutableMapOf<String, String>()
-
-                        // Convert tags to a Map<String, String>
-                        val tagKeys = tagsObject.keys()
-                        for (key in tagKeys) {
-                            tagsMap[key] = tagsObject.getString(key)
-                        }
-
-                        val node = Node(
-                            id = element.getLong("id"),
-                            lat = element.getDouble("lat"),
-                            lon = element.getDouble("lon"),
-                            tags = tagsMap
-                        )
-                        nodes.add(node)
-                    }
-                }
-
-                return@withContext nodes
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                return@withContext emptyList()
-            }
-        }
-
-    fun parseOverpassResponse(response: String): OverpassResponse {
-        val json = Json { ignoreUnknownKeys = true }
-        return json.decodeFromString(OverpassResponse.serializer(), response)
-    }
-
-    suspend fun fetchCityGraph(
-        lat: Double,
-        lon: Double,
-        rOpt: Double
-    ): Graph<Node, DefaultWeightedEdge>? = withContext(Dispatchers.IO) {
-
-        val client = OkHttpClient.Builder().build()
-
-        // Calculate the bounding box
-        val bbox = calculateBoundingBox(lat, lon, rOpt)
-
-        /*val bbox = "47.497,19.035,47.500,19.038"
-
-        val url = "https://overpass-api.de/api/interpreter?data=" +
-                "[out:json];" +
-                "way($bbox)[highway];" +
-                "(._;>;);" +
-                "out;"*/
-
-        /*val query = "[out:json];" +
-                "node(around:${rOpt},${lat},${lon});" +
-                "out;"*/
-
-        /* val query = "[out:json];" +
-                 "way($bbox)[highway];" +
-                 "(._;>;);" +
-                 "out;"*/
-
-        val query = "[out:json];" +
-                "(" +
-                "  node(around:${rOpt},${lat},${lon});" +
-                "  way(around:${rOpt},${lat},${lon})[highway];" +
-                ");" +
-                "out;"
-
-        val encodedQuery = URLEncoder.encode(query, "UTF-8")
-        val url = "https://overpass-api.de/api/interpreter?data=$encodedQuery"
-        println("Generated URL: $url")
-        val request = Request.Builder()
-            .url(url)
-            .build()
-
-        return@withContext runCatching {
-            val response = client.newCall(request).execute()
-
-            if (!response.isSuccessful) {
-                println("Failed to fetch data: ${response.code}")
-                throw IOException("Failed to fetch data: ${response.code}")
-            }
-
-            val responseBody = response.body?.string()
-            if (responseBody != null) {
-                val graphData = parseOverpassResponse(responseBody)
-
-                if (graphData.elements != null) {
-                    return@runCatching createCityGraph(graphData)
-                }
-            }
-
-            throw IOException("Failed to parse Overpass response")
-        }.onFailure {
-            it.printStackTrace()
-            // Handle the exception or log it as needed
-            // Use a logger to log the exception
-            val logger = Logger.getLogger("YourLoggerName")
-            logger.log(Level.SEVERE, "Exception during fetchCityGraph", it)
-            // Print the exception details to the console
-            println("Exception during fetchCityGraph: ${it.message}")
-        }.getOrNull()
-
-        /* try{
-
-             val response = client.newCall(request).execute()
-
-             if (!response.isSuccessful) {
-                 println("Failed to fetch data: ${response.code}")
-                 throw IOException("Failed to fetch data: ${response.code}")
-             }
-
-             val responseBody = response.body?.string()
-             if (responseBody != null) {
-                 val graphData = parseOverpassResponse(responseBody)
-
-                 if (graphData.elements != null) {
-                     return@withContext createCityGraph(graphData)
-                 }
-             }
-
-         } catch (e: Exception) {
-             e.printStackTrace()
-         }
-         return@withContext null
-
-         return@withContext runCatching {
-             val response = client.newCall(request).execute()
-
-             if (!response.isSuccessful) {
-                 println("Failed to fetch data: ${response.code}")
-                 throw IOException("Failed to fetch data: ${response.code}")
-             }
-
-             val responseBody = response.body?.string()
-             if (responseBody != null) {
-                 val graphData = parseOverpassResponse(responseBody)
-
-                 if (graphData.elements != null) {
-                     return@withContext createCityGraph(graphData)
-                 }
-             }
-
-             throw IOException("Failed to parse Overpass response")
-         }.onFailure {
-             it.printStackTrace()
-             // Handle the exception or log it as needed
-         }.getOrNull()*/
-    }
-
-    fun calculateBoundingBox(lat: Double, lon: Double, radius: Double): String {
-        val earthRadius = 6371.0 // Earth radius in kilometers
-
-        // Convert radius from meters to kilometers
-        val radiusKm = radius / 1000.0
-
-        // Calculate the bounding box
-        val latMin = lat - Math.toDegrees(radiusKm / earthRadius)
-        val latMax = lat + Math.toDegrees(radiusKm / earthRadius)
-        val lonMin = lon - Math.toDegrees(radiusKm / earthRadius / Math.cos(Math.toRadians(lat)))
-        val lonMax = lon + Math.toDegrees(radiusKm / earthRadius / Math.cos(Math.toRadians(lat)))
-
-        return "$latMin,$lonMin,$latMax,$lonMax"
-    }
-
-
-    fun createCityGraph(data: OverpassResponse): Graph<Node, DefaultWeightedEdge>? {
-        val graph =
-            DefaultUndirectedWeightedGraph<Node, DefaultWeightedEdge>(DefaultWeightedEdge::class.java)
-
-        // Add nodes to the graph
-        data.elements?.filter { it.type == "node" && it.lat != null && it.lon != null }
-            ?.forEach { node ->
-                graph.addVertex(Node(node.id, node.lat, node.lon))
-            }
-
-        val nodes = graph.vertexSet().toMutableList()
-
-
-        // Add edges to the graph based on ways
-        data.elements?.filter { it.type == "way" }
-            ?.forEach { way ->
-                for (i in 0 until (way.nodes?.size ?: 0) - 1) {
-                    val source = nodes.find { it.id == way.nodes?.getOrNull(i) }
-                    val target = nodes.find { it.id == way.nodes?.getOrNull(i + 1) }
-
-                    if (source != null && target != null && source != target) {
-                        val edge = graph.addEdge(source, target)
-
-                        if (edge != null) {
-                            val edgeWeight = calculateGeodesicDistance(source, target)
-                            graph.setEdgeWeight(edge, edgeWeight)
-                        } else {
-                            // Print additional information to identify the cause of failure
-                            println("Failed to add edge between $source and $target")
-                            println("Nodes in graph: ${graph.vertexSet().size}")
-                            println("Nodes in data: ${data.elements?.filter { it.type == "node" }?.size}")
-                            println("Coordinates: $source -> $target")
-                        }
-                    }
-                }
-            }
-
-        println("graph$graph")
-        return graph
-    }
-
-
-    // Function to retrieve the nearest OSM node based on user's location
-    suspend fun findNearestOSMNode(userLocation: Location, radius: Double): Node? =
-        withContext(Dispatchers.IO) {
-
-            val client = OkHttpClient.Builder().build()
-
-            val userLatitude = userLocation.latitude
-            val userLongitude = userLocation.longitude
-
-            // Formulate an Overpass query to find the nearest node
-            val query = "[out:json];" +
-                    "node(around:${radius},${userLatitude},${userLongitude});" +
-                    "out;"
-
-            val encodedQuery = URLEncoder.encode(query, "UTF-8")
-            val url = "https://overpass-api.de/api/interpreter?data=$encodedQuery"
-            val request = Request.Builder()
-                .url(url)
-                .build()
-
-            try {
-                val response = client.newCall(request).execute()
-
-                if (!response.isSuccessful) {
-                    println("Failed to fetch data: ${response.code}")
-                }
-
-                val osmData = response.body?.string() ?: ""
-                val osmJson = JSONObject(osmData)
-
-                val elements = osmJson.getJSONArray("elements")
-
-                if (elements.length() > 0) {
-                    val nodes = mutableListOf<Node>()
-
-                    for (i in 0 until elements.length()) {
-                        val element = elements.getJSONObject(i)
-
-                        if (element.getString("type") == "node") {
-                            val nodeId = element.getLong("id")
-                            val nodeLat = element.getDouble("lat")
-                            val nodeLon = element.getDouble("lon")
-                            val nodeTags = element.optJSONObject("tags") ?: JSONObject()
-
-                            val tagsMap = mutableMapOf<String, String>()
-                            val tagKeys = nodeTags.keys()
-
-                            for (key in tagKeys) {
-                                tagsMap[key] = nodeTags.getString(key)
-                            }
-
-                            // Create a Node object with the retrieved data
-                            val node = Node(
-                                id = nodeId,
-                                lat = nodeLat,
-                                lon = nodeLon,
-                                tags = tagsMap,
-                                importance = 0
-                            )
-
-                            // Evaluate the importance of the node
-                            val importance = ImportanceEvaluator.evaluate(node)
-                            node.importance = importance
-
-                            nodes.add(node)
-                        }
-                    }
-
-                    nodes.sortBy { calculateGeodesicDistance(it, userLocation) }
-                    return@withContext nodes.getOrNull(0)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            return@withContext null
-        }
-
-
     fun calculateROpt(pedestrianSpeed: Double, maxWalkingTime: Int): Double {
         val maxWalkingTimeInSeconds = maxWalkingTime * 3600
         val rMax = (pedestrianSpeed * maxWalkingTimeInSeconds) / 2
@@ -637,16 +310,7 @@ class OsmPOIActivity : AppCompatActivity() {
         return (1.0 / 3.0) * 2 * rMax
     }
 
-    fun calculateSearchArea(rOptInMeters: Double): Double {
-        // Convert rOpt from meters to kilometers
-        val rOptInKilometers = rOptInMeters / 1000.0
-
-        val pi = 3.14159265
-        val area = pi * rOptInKilometers * rOptInKilometers
-        return area
-    }
-
-    fun evaluateNodes(nodes: List<Node>): List<Node>? {
+    fun evaluateNodes(nodes: List<Node>): List<Node> {
         val evaluatedNodes = nodes.map { node ->
             val importance = ImportanceEvaluator.evaluate(node)
             node.copy(importance = importance)
@@ -694,74 +358,8 @@ class OsmPOIActivity : AppCompatActivity() {
         return selectedPOIs
     }
 
-    fun calculateGeodesicDistance(node1: Node, node2: Node): Double {
-        val radius = 6371.0 // Earth's radius in kilometers
-
-        val lat1Rad = Math.toRadians(node1.lat)
-        val lon1Rad = Math.toRadians(node1.lon)
-        val lat2Rad = Math.toRadians(node2.lat)
-        val lon2Rad = Math.toRadians(node2.lon)
-
-        val dLat = lat2Rad - lat1Rad
-        val dLon = lon2Rad - lon1Rad
-
-        val a = sin(dLat / 2).pow(2) + cos(lat1Rad) * cos(lat2Rad) * sin(dLon / 2).pow(2)
-        val c = 2 * atan2(sqrt(a), sqrt(1 - a))
-
-        return radius * c
-    }
-
-    fun calculateGeodesicDistance(node: Node, location: Location): Double {
-        val radius = 6371.0 // Earth's radius in kilometers
-
-        val lat1Rad = Math.toRadians(node.lat)
-        val lon1Rad = Math.toRadians(node.lon)
-        val lat2Rad = Math.toRadians(location.latitude)
-        val lon2Rad = Math.toRadians(location.longitude)
-
-        val dLat = lat2Rad - lat1Rad
-        val dLon = lon2Rad - lon1Rad
-
-        val a = sin(dLat / 2).pow(2) + cos(lat1Rad) * cos(lat2Rad) * sin(dLon / 2).pow(2)
-        val c = 2 * atan2(sqrt(a), sqrt(1 - a))
-
-        return radius * c
-    }
-
-    fun calculateRouteLength(route: Route): Double {
-        var totalLength = 0.0
-
-        for (i in 0 until route.path.size - 1) {
-            val node1 = route.path[i]
-            val node2 = route.path[i + 1]
-            val distance = calculateGeodesicDistance(node1, node2)
-            totalLength += distance
-        }
-
-        return totalLength
-    }
-
-    fun calculateRouteLengthInTime(route: Route): Double {
-        val averagePedestrianSpeed = 1.4 // meters per second
-        val touristWalkSpeed = 0.8 * averagePedestrianSpeed // 20% slower
-
-        var totalTime = 0.0
-
-        for (i in 0 until route.path.size - 1) {
-            val node1 = route.path[i]
-            val node2 = route.path[i + 1]
-            val distance = calculateGeodesicDistance(node1, node2)
-
-            // Calculate time based on the adjusted speed during tourist walk
-            val time = distance * 1000 / touristWalkSpeed
-            totalTime += time
-        }
-
-        return totalTime / 3600.0 // Convert seconds to hours
-    }
-
     fun geneticAlgorithm(
-        graph: Graph<Node, DefaultWeightedEdge>?,
+        graph: Graph<Node, DefaultWeightedEdge>,
         keyPois: List<Node>,
         numKeyPois: Int,
         desiredRouteLength: Double,
@@ -778,17 +376,15 @@ class OsmPOIActivity : AppCompatActivity() {
 
         val n_children = (populationSize - survivorRate) / survivorRate
 
-        var gen = 0
         repeat(maxGenerations) {
 
             // Calculate fitness scores for each route in the population
             val fitnessScores =
-                population.map { route -> evaluateFitness(userLocation, route, desiredRouteLength, searchArea, graph!!) }
+                population.map { route -> evaluateFitness(userLocation, route, desiredRouteLength, searchArea, graph) }
+            println("Best fitness: " + fitnessScores.max())
 
             // Selection: Choose routes for the next generation based on fitness and survivor rate
             val selectedRoutes = selectNodes(population, fitnessScores, survivorRate)
-
-            println("Best fitness: " + fitnessScores.min() + "iteration: " + gen++)
 
             // Create a new generation
             val newPopulation = mutableListOf<Route>()
@@ -833,163 +429,31 @@ class OsmPOIActivity : AppCompatActivity() {
         }
 
         // Return the best path found after the specified number of generations
-        val bestRoute = population.minBy { route -> evaluateFitness(userLocation, route, desiredRouteLength, searchArea, graph!!) }
-
-        println("About to enter drawshortestpath on map")
-        // Draw the shortest path on the map
-        drawShortestPathOnMap(bestRoute, graph)
-
-        bestRoute.path.add(0, userLocation)
-        bestRoute.path.add(bestRoute.path.size - 1, userLocation)
+        val bestRoute = population.minBy{ route -> evaluateFitness(userLocation, route, desiredRouteLength, searchArea, graph) }
 
         return bestRoute
     }
 
+    fun generateInitialPopulation(
+        keyPois: List<Node>,
+        numKeyPois: Int,
+        populationSize: Int,
+        userLocation: Node
+    ): List<Route> {
+        val initialPopulation = mutableListOf<Route>()
+        val random = Random()
 
-    private fun drawShortestPathOnMap(route: Route, cityGraph: Graph<Node, DefaultWeightedEdge>?) {
-        val nodes = route.path
-
-        for (i in 0 until nodes.size - 1) {
-            val sourceNode = nodes[i]
-            val targetNode = nodes[i + 1]
-
-            if (cityGraph != null) {
-                println("citygraph not null")
-            }
-            else{
-                println("citygraph is null")
-            }
-            val dijkstra = DijkstraShortestPath(cityGraph)
-
-            addMarker(nodes[0].lat, nodes[0].lon)
-            // Attempt to find a direct path
-            val directPath = dijkstra.getPath(sourceNode, targetNode)
-            if (directPath != null) {
-                println("halál")
-                drawPathOnMap(directPath)
-            } else {
-                // Find the nearest node to the source with outgoing edges
-                println("tej")
-                val nearestSourceNode = cityGraph?.let { findClosestNonIsolatedNode(it, sourceNode, 0.1) }
-                if(i == 0) {
-                    println("id sn$sourceNode.id")
-                    println("id$sourceNode.lat")
-                    println("id$sourceNode.lon")
-
-                    println("id nSn$nearestSourceNode.id")
-                    println("id$nearestSourceNode.lat")
-                    println("id$nearestSourceNode.lon")
-                }
-
-                // Find the nearest node to the target with outgoing edges
-                val nearestTargetNode = cityGraph?.let { findClosestNonIsolatedNode(it, targetNode , 0.1) }
-
-                if (nearestSourceNode != null) {
-                    addMarker(nearestSourceNode.lat, nearestSourceNode.lon)
-                }
-
-                if (nearestSourceNode != null && nearestTargetNode != null) {
-                    val dijkstra = DijkstraShortestPath(cityGraph)
-                    val shortestPath = dijkstra.getPath(nearestSourceNode, nearestTargetNode)
-
-                    if (shortestPath != null) {
-                        // Draw the path on the map
-                        drawPathOnMap(shortestPath)
-
-                        // There is a path between the nearest nodes, connect them or perform any other actions
-                        println("Connecting ${nearestSourceNode} and ${nearestTargetNode}")
-                    } else {
-                        // There is no path between the nearest nodes
-                        println("No path between nearest nodes")
-                    }
-                } else {
-                    // Nearest nodes not found for one or both of the isolated nodes
-                    println("Nearest nodes not found for one or both of the isolated nodes")
-                }
-            }
-
-            //addMarker(sourceNode.lat, sourceNode.lon)
-
-            println("edges: " + cityGraph!!.outgoingEdgesOf(sourceNode).size)
-
+        repeat(populationSize) {
+            // Shuffle the key POIs, remove the userLocation if it exists, and select the first numKeyPois
+            val shuffledKeyPois = keyPois.shuffled(random)
+            val route: MutableList<Node> = shuffledKeyPois.filter { it != userLocation }.take(numKeyPois).toMutableList()
+            // Add the userLocation at both the start and end of the route
+            //initialPopulation.add(Route2(listOf(userLocation) + route + listOf(userLocation)))
+            initialPopulation.add(Route(route))
         }
+        return initialPopulation
     }
 
-    fun findClosestNonIsolatedNode(
-        graph: Graph<Node, DefaultWeightedEdge>,
-        isolatedNode: Node,
-        exitDistance : Double
-    ): Node? {
-        // If the provided node is not isolated, return it
-        if (graph.degreeOf(isolatedNode) > 0) {
-            return isolatedNode
-        }
-
-        // Use BFS to find non-isolated nodes and their distances
-        var closestNode: Node? = null
-        var minDistance = Double.POSITIVE_INFINITY
-
-        for (current in graph.vertexSet()) {
-            if (graph.degreeOf(current) > 0) {
-                val distance = calculateGeodesicDistance(isolatedNode, current)
-                if (distance < minDistance) {
-                    minDistance = distance
-                    closestNode = current
-
-                    if (minDistance <= exitDistance) {
-                        return closestNode
-                    }
-                }
-            }
-        }
-
-        return closestNode
-    }
-
-    /*  private fun findNearestNodeWithEdges(cityGraph: Graph<Node, DefaultWeightedEdge>?, node: Node): Node? {
-          val dijkstra = DijkstraShortestPath(cityGraph)
-
-          // Get all nodes in the graph
-          val allNodes = cityGraph?.vertexSet() ?: emptySet()
-
-          // Filter out the current node
-          val potentialNeighbors = allNodes.filter { it != node }
-
-          // Find the nearest node with outgoing edges
-          val nearestNode = potentialNeighbors.minByOrNull { potentialNeighbor ->
-              val outgoingEdges = cityGraph?.outgoingEdgesOf(potentialNeighbor) ?: emptySet()
-              val shortestPathLength: Double? = outgoingEdges
-                  .mapNotNull { edge ->
-                      val target = cityGraph?.getEdgeTarget(edge)
-                      val shortestPath = dijkstra.getPath(node, target)
-                      shortestPath?.length?.toDouble() // Ensure the length is explicitly cast to Double
-                  }
-                  .minOrNull()
-
-              shortestPathLength ?: Double.POSITIVE_INFINITY
-          }
-
-          return nearestNode
-      }*/
-
-
-    private fun drawPathOnMap(path: GraphPath<Node, DefaultWeightedEdge>?) {
-        if (path != null) {
-            val pathNodes = path.vertexList
-            for (j in 0 until pathNodes.size - 1) {
-                val pathSource = pathNodes[j]
-                val pathTarget = pathNodes[j + 1]
-
-                drawLine(pathSource.lat, pathSource.lon, pathTarget.lat, pathTarget.lon)
-            }
-        }
-    }
-
-    private fun addMarker(lat: Double, lon: Double) {
-        val marker = Marker(mMap)
-        marker.position = GeoPoint(lat, lon)
-        mMap.overlays.add(marker)
-    }
 
     fun selectNodes(
         population: List<Route>,
@@ -1001,50 +465,33 @@ class OsmPOIActivity : AppCompatActivity() {
         return rankedNodes.take(survivorRate).map { it.first }
     }
 
+    fun evaluateFitness(userLocation: Node, route : Route, desiredRouteLength: Double, searchArea: Double,
+                        graph: Graph<Node, DefaultWeightedEdge>): Double {
 
-    fun PMXCrossover2(parent1: List<Int>, parent2: List<Int>, cutPoints: Pair<Int, Int>): Pair<List<Int>, List<Int>> {
-        val size = parent1.size
-        val offspring1 = MutableList(size) { 0 }
-        val offspring2 = MutableList(size) { 0 }
+        // Calculate total interestingness
+        val totalInterestingness = route.path.sumOf { it.importance }
 
-        val (startIdx, endIdx) = cutPoints
+        val connectedRoute = connectPois(userLocation, route, graph)
 
+        // Calculate routh length
+        val routeLength = calculateRouteLength(connectedRoute)
 
-        // Copy the segment between startIdx and endIdx from parent1 to offspring1 and from parent2 to offspring2
-        for (i in startIdx..endIdx) {
-            offspring1[i] = parent2[i]
-            offspring2[i] = parent1[i]
-        }
+        // Calculate the number of self-intersections
+        val selfIntersections = countSelfIntersections(connectedRoute.path)
 
-        for (i in 0 until size) {
-            if (i < startIdx || i > endIdx) {
-                var value1 = parent1[i]
-                var value2 = parent2[i]
+        // Calculate the area of the polygon outlined by the route
+        val routeArea = calculateRouteArea(route)
 
-                while (offspring1.contains(value1)) {
-                    val index = parent2.indexOf(value1)
-                    value1 = parent1[index]
-                }
+        val a = (1 - routeLength / desiredRouteLength)
+        val b = (1.0 / (1.0 + selfIntersections))
+        val c = (routeArea / searchArea)
+        val fitness = (totalInterestingness) * (1 - routeLength / desiredRouteLength).pow(2) * (1.0 / (1.0 + selfIntersections)) * (routeArea / searchArea)
 
-                while (offspring2.contains(value2)) {
-                    val index = parent1.indexOf(value2)
-                    value2 = parent2[index]
-                }
-
-                // After the while loop, make sure value1 is not already in offspring1
-                if (!offspring1.contains(value1)) {
-                    offspring1[i] = value1
-                }
-
-                if (!offspring2.contains(value2)) {
-                    offspring2[i] = value2
-                }
-            }
-        }
-
-        return Pair(offspring1, offspring2)
+        // Calculate fitness based in the formula
+        //return (totalInterestingness) * (1  / abs(desiredRouteLength - routeLength)).pow(2) * (1.0 / (1.0 + selfIntersections * 100)) * (routeArea / searchArea)
+        return  (-totalInterestingness) + (1  / abs(desiredRouteLength - routeLength)).pow(2) + (selfIntersections * 100.0) + (routeArea / searchArea)
+        //return fitness
     }
-
 
     fun PMXCrossover(parent1: Route, parent2: Route, cutPoints: Pair<Int, Int>): Pair<Route, Route> {
         val size = parent1.path.size
@@ -1110,30 +557,35 @@ class OsmPOIActivity : AppCompatActivity() {
         return Route(mutatedRoute)
     }
 
-    fun evaluateFitness(userLocation: Node, route : Route, desiredRouteLength: Double, searchArea: Double,
-                        graph: Graph<Node, DefaultWeightedEdge>): Double {
+    fun findClosestNonIsolatedNode(
+        graph: Graph<Node, DefaultWeightedEdge>,
+        isolatedNode: Node,
+        exitDistance : Double
+    ): Node? {
+        // If the provided node is not isolated, return it
+        if (graph.degreeOf(isolatedNode) > 0) {
+            return isolatedNode
+        }
 
-        // Calculate total interestingness
-        val totalInterestingness = route.path.sumOf { it.importance }
+        // Use BFS to find non-isolated nodes and their distances
+        var closestNode: Node? = null
+        var minDistance = Double.POSITIVE_INFINITY
 
-        val connectedRoute = connectPois(userLocation, route, graph)
+        for (current in graph.vertexSet()) {
+            if (graph.degreeOf(current) > 0) {
+                val distance = calculateGeodesicDistance(isolatedNode, current)
+                if (distance < minDistance) {
+                    minDistance = distance
+                    closestNode = current
 
-        // Calculate routh length
-        val routeLength = calculateRouteLength(connectedRoute)
+                    if (minDistance <= exitDistance) {
+                        return closestNode
+                    }
+                }
+            }
+        }
 
-        // Calculate the number of self-intersections
-        val selfIntersections = countSelfIntersections(connectedRoute.path)
-
-        // Calculate the area of the polygon outlined by the route
-        val routeArea = calculateRouteArea(route)
-
-        val a = (1 - routeLength / desiredRouteLength)
-        val b = (1.0 / (1.0 + selfIntersections))
-        val c = (routeArea / searchArea)
-        val fitness = (totalInterestingness) * (1 - routeLength / desiredRouteLength).pow(2) * (1.0 / (1.0 + selfIntersections)) * (routeArea / searchArea)
-
-        // Calculate fitness based in the formula
-        return (totalInterestingness) * (1 - routeLength / desiredRouteLength).pow(2) * (1.0 / (1.0 + selfIntersections)) * (routeArea / searchArea)
+        return closestNode
     }
 
     fun connectPois(userLocation: Node, pois : Route, graph: Graph<Node, DefaultWeightedEdge>) : Route
@@ -1142,7 +594,6 @@ class OsmPOIActivity : AppCompatActivity() {
         val connectedRoute = Route(mutableListOf())
 
         connectedRoute.path.addAll(dijkstra.getPath(userLocation, poiToClosestNonIsolatedNode[pois.path.first()]).vertexList)
-
         for (i in 0 .. pois.path.size - 2) {
             val current = pois.path[i]
             val next = pois.path[i + 1]
@@ -1152,68 +603,8 @@ class OsmPOIActivity : AppCompatActivity() {
 
             connectedRoute.path.addAll(dijkstra.getPath(currentNonIsolated, nextNonIsolated).vertexList)
         }
-
         connectedRoute.path.addAll(dijkstra.getPath(poiToClosestNonIsolatedNode[pois.path.last()], userLocation).vertexList)
 
-
         return connectedRoute
-    }
-
-    fun generateInitialPopulation(
-        keyPois: List<Node>,
-        numKeyPois: Int,
-        populationSize: Int,
-        userLocation: Node
-    ): List<Route> {
-        val initialPopulation = mutableListOf<Route>()
-        val random = Random()
-
-        repeat(populationSize) {
-            // Shuffle the key POIs, remove the userLocation if it exists, and select the first numKeyPois
-            val shuffledKeyPois = keyPois.shuffled(random)
-            val route: MutableList<Node> = shuffledKeyPois.filter { it != userLocation }.take(numKeyPois).toMutableList()
-            // Add the userLocation at both the start and end of the route
-            //initialPopulation.add(Route2(listOf(userLocation) + route + listOf(userLocation)))
-            initialPopulation.add(Route(route))
-        }
-        return initialPopulation
-    }
-
-    fun countSelfIntersections(route: List<Node>): Int {
-        val uniqueNodes = HashSet<Node>()
-        var intersectionCount = 0
-
-        for (node in route) {
-            if (!uniqueNodes.add(node)) {
-                intersectionCount++
-            }
-        }
-        return intersectionCount
-    }
-
-    fun calculateRouteArea(route: Route): Double {
-        if (route.path.size < 3) {
-            return 0.0
-        }
-
-        var area = 0.0
-
-        for (i in 0 until route.path.size) {
-            val currentNode = route.path[i]
-            val nextNode = route.path[(i + 1) % route.path.size] // To close the loop
-
-            // Convert latitude and longitude to radians
-            val currentLatRad = Math.toRadians(currentNode.lat)
-            val currentLonRad = Math.toRadians(currentNode.lon)
-            val nextLatRad = Math.toRadians(nextNode.lat)
-            val nextLonRad = Math.toRadians(nextNode.lon)
-
-            // Use the schoelace formula to calculate the signed area
-            area += (nextLonRad - currentLonRad) * (2 + sin(currentLatRad) + sin(nextLatRad))
-        }
-
-        area *= 6371.0 * 6371.0 / 2.0 // Earth's radius in kilometer
-
-        return abs(area)
     }
 }
