@@ -5,11 +5,11 @@ import com.example.projektmunka.data.Route
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultWeightedEdge
 
-public fun addWaypoints(route: Route, waypointDistance : Double, graph: Graph<Node, DefaultWeightedEdge>)
+public fun addMilestones(route: Route, milestoneDistance : Double, graph: Graph<Node, DefaultWeightedEdge>)
         : MutableList<Node> {
-    val waypointNodes = mutableListOf<Node>()
+    val milestoneNodes = mutableListOf<Node>()
     var distance = 0.0
-    var waypointCount = 1
+    var milestoneCount = 1
 
     for(i in 0 .. route.path.size - 2) {
         val source = route.path[i]
@@ -19,20 +19,20 @@ public fun addWaypoints(route: Route, waypointDistance : Double, graph: Graph<No
             distance += graph.getEdgeWeight(graph.getEdge(source, target))
         }
 
-        if (distance > waypointDistance * waypointCount) {
-            waypointCount++
-            waypointNodes.add(target!!)
+        if (distance > milestoneDistance * milestoneCount) {
+            milestoneCount++
+            milestoneNodes.add(target!!)
         }
     }
 
-    return waypointNodes
+    return milestoneNodes
 }
 
-public fun addWaypoints(route: Route, waypointDistances : MutableList<Double>, graph: Graph<Node, DefaultWeightedEdge>)
+public fun addMilestones(route: Route, milestoneDistances : MutableList<Double>, graph: Graph<Node, DefaultWeightedEdge>)
         : MutableList<Node> {
-    val waypointNodes = mutableListOf<Node>()
+    val milestoneNodes = mutableListOf<Node>()
     var distance = 0.0
-    var waypointIndex = 0
+    var milestoneIndex = 0
     var accumulatedDistance = 0.0
 
     for(i in 0 .. route.path.size - 2) {
@@ -40,13 +40,13 @@ public fun addWaypoints(route: Route, waypointDistances : MutableList<Double>, g
         val target = route.path[i + 1]
         distance += graph.getEdgeWeight(graph.getEdge(source, target))
 
-        if (waypointIndex < waypointDistances.size && distance > waypointDistances[waypointIndex] + accumulatedDistance) {
-            waypointNodes.add(target!!)
+        if (milestoneIndex < milestoneDistances.size && distance > milestoneDistances[milestoneIndex] + accumulatedDistance) {
+            milestoneNodes.add(target!!)
             println(distance)
             accumulatedDistance += distance // waypointDistances[waypointIndex]
-            waypointIndex++
+            milestoneIndex++
         }
     }
 
-    return waypointNodes
+    return milestoneNodes
 }

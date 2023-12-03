@@ -10,22 +10,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import com.example.projektmunka.data.ImportanceEvaluator
 import com.example.projektmunka.data.Node
-import com.example.projektmunka.data.OverpassResponse
 import com.example.projektmunka.data.Route
 import com.example.projektmunka.databinding.ActivityOsmPoiactivityBinding
-import com.example.projektmunka.utils.addMarker
-import com.example.projektmunka.utils.addMarkers
-import com.example.projektmunka.utils.addWaypoints
 import com.example.projektmunka.utils.calculateGeodesicDistance
 import com.example.projektmunka.utils.calculateRouteArea
 import com.example.projektmunka.utils.calculateRouteLength
 import com.example.projektmunka.utils.calculateSearchArea
 import com.example.projektmunka.utils.countSelfIntersections
 import com.example.projektmunka.utils.displayCircularRoute
-import com.example.projektmunka.utils.drawRoute
 import com.example.projektmunka.utils.fetchCityGraph
 import com.example.projektmunka.utils.fetchNodes
 import com.example.projektmunka.utils.findNearestOSMNode
@@ -37,36 +31,21 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import org.jgrapht.Graph
-import org.jgrapht.graph.DefaultUndirectedWeightedGraph
 import org.jgrapht.graph.DefaultWeightedEdge
-import org.json.JSONObject
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-import java.io.IOException
-import java.net.URLEncoder
-import org.jgrapht.GraphPath
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath
-import org.jgrapht.traverse.BreadthFirstIterator
 import org.osmdroid.util.GeoPoint
-import org.osmdroid.views.overlay.Marker
-import org.osmdroid.views.overlay.Polyline
 import java.util.*
-import java.util.logging.Level
-import java.util.logging.Logger
 import kotlin.math.*
 
 class OsmPOIActivity : AppCompatActivity() {
 
     lateinit var mMap: MapView
     lateinit var controller: IMapController
-    lateinit var mMyLocationOverlay: MyLocationNewOverlay
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var currentLocation: Location? = null
     private lateinit var locationManager: LocationManager
@@ -172,8 +151,10 @@ class OsmPOIActivity : AppCompatActivity() {
     }
 
     private fun run() {
-        val maxWalkingTime = 2.00
-        val desiredRouteLength = maxWalkingTime * 4
+        val maxWalkingTime = 2.00 // órában megadva
+        val desiredRouteLength = maxWalkingTime * 4   // 1. In fitness function we use distance measure in meters. Ld is the desired distance
+                                                        // caclulated as desired route time (provided by user, and this is M) multiplied by
+                                                        // average walking speed of 4 km per hour.
         val rOpt = calculateROpt(1.1, 2)
         val searchArea = calculateSearchArea(rOpt)
 
@@ -211,99 +192,6 @@ class OsmPOIActivity : AppCompatActivity() {
             displayCircularRoute(mMap, bestRoute, connectedRoute, nearestNodeNonIsolated)
             //val waypoints = addWaypoints(connectedRoute, 0.2, cityGraph)
             //addMarkers(mMap, waypoints)
-        }
-    }
-
-    suspend fun fetchLastLocation() = withContext(Dispatchers.IO) {
-
-        val maxWalkingTime = 2.00
-        val desiredRouteLength = maxWalkingTime * 4
-        val rOpt = calculateROpt(1.1, 2)
-        val searchArea = calculateSearchArea(rOpt)
-
-        if (ContextCompat.checkSelfPermission(
-                this@OsmPOIActivity,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this@OsmPOIActivity,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                1
-            )
-        }
-
-        else {
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location: Location? ->
-                    location?.let {
-                        // Handle the location update here
-                        currentLocation = it
-                        val location = currentLocation
-                        if (location != null) {
-                            GlobalScope.launch(Dispatchers.IO) {
-                                // Use the findNearestOSMNode function to get the nearest node
-                                val nearestNode = findNearestOSMNode(location, 300.0)
-                                println("Nearest node$nearestNode")
-
-
-                                nearestNode?.let {
-
-                                    val nodes = fetchNodes(nearestNode.lat, nearestNode.lon, 800.0)
-                                    val evaluatedNodes = nodes?.let { it1 -> evaluateNodes(it1) }
-
-                                    val importantPOIs = evaluatedNodes?.let { it1 ->
-                                        selectImportantPOIs(
-                                            it1, 0.1)
-                                    }
-
-
-
-                                    // Call generateInitialPopulation with all required parameters
-                                    if (importantPOIs != null) {
-                                        generateInitialPopulation(
-                                            importantPOIs,
-                                            5,
-                                            5,
-                                            nearestNode
-                                        )
-                                    }
-
-
-                                    val cityGraph = fetchCityGraph(nearestNode.lat, nearestNode.lon, 800.0)
-
-
-                                    // Iterate through the graph and draw lines for edges
-                                    if (cityGraph != null) {
-                                        val nearestNodeNonIsolated = findClosestNonIsolatedNode(cityGraph, nearestNode, 0.0)!!
-                                        val dijkstra = DijkstraShortestPath(cityGraph)
-                                        if (importantPOIs != null) {
-                                            for (poi in importantPOIs) {
-
-                                                // HTTP kéréses verzió:
-                                                val closestNonIsolatedNode = findClosestNonIsolatedNode(cityGraph, poi, 0.0)
-
-                                                // Gráfban keresős verzió:
-                                                // Ez is jó, de ez addig iterál, amig nem talál elég közeli nem izolált node-ot
-                                                // nagy cityGraph-nál ez lassabb lehet, mint a HTTP kéréses, de le kéne mérni
-                                                //val closestNonIsolatedNode = findClosestNonIsolatedNode(cityGraph, poi, 0.0)
-
-                                                println(poi.id.toString() + " -> " + closestNonIsolatedNode!!.id)
-                                                println(dijkstra.getPath(nearestNodeNonIsolated, closestNonIsolatedNode) != null)
-                                                poiToClosestNonIsolatedNode[poi] = closestNonIsolatedNode!!
-                                            }
-
-                                            val bestRoute = geneticAlgorithm(cityGraph, importantPOIs, 5, desiredRouteLength, searchArea, nearestNodeNonIsolated, 20, 5, 10)
-                                            val connectedRoute = connectPois(nearestNodeNonIsolated, bestRoute, cityGraph)
-                                            displayCircularRoute(mMap, bestRoute, connectedRoute, nearestNodeNonIsolated)
-                                        }
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                }
         }
     }
 
@@ -433,7 +321,7 @@ class OsmPOIActivity : AppCompatActivity() {
         }
 
         // Return the best path found after the specified number of generations
-        val bestRoute = population.minBy{ route -> evaluateFitness(userLocation, route, desiredRouteLength, searchArea, graph) }
+        val bestRoute = population.maxBy{ route -> evaluateFitness(userLocation, route, desiredRouteLength, searchArea, graph) }
 
         return bestRoute
     }
@@ -465,17 +353,18 @@ class OsmPOIActivity : AppCompatActivity() {
         survivorRate: Int
     ): List<Route> {
 
-        val rankedNodes = population.zip(fitnessScore).sortedBy { it.second }
+        val rankedNodes = population.zip(fitnessScore).sortedByDescending { it.second }
         return rankedNodes.take(survivorRate).map { it.first }
     }
 
     fun evaluateFitness(userLocation: Node, route : Route, desiredRouteLength: Double, searchArea: Double,
                         graph: Graph<Node, DefaultWeightedEdge>): Double {
 
-        // Calculate total interestingness
-        val totalInterestingness = route.path.sumOf { it.importance }
 
         val connectedRoute = connectPois(userLocation, route, graph)
+
+        // Calculate total interestingness
+        val beauty = route.path.sumOf { it.importance }
 
         // Calculate routh length
         val routeLength = calculateRouteLength(connectedRoute)
@@ -486,15 +375,15 @@ class OsmPOIActivity : AppCompatActivity() {
         // Calculate the area of the polygon outlined by the route
         val routeArea = calculateRouteArea(route)
 
-        val a = (1 - routeLength / desiredRouteLength)
-        val b = (1.0 / (1.0 + selfIntersections))
-        val c = (routeArea / searchArea)
-        val fitness = (totalInterestingness) * (1 - routeLength / desiredRouteLength).pow(2) * (1.0 / (1.0 + selfIntersections)) * (routeArea / searchArea)
+        val areaMultiplier = routeArea / searchArea
 
-        // Calculate fitness based in the formula
-        //return (totalInterestingness) * (1  / abs(desiredRouteLength - routeLength)).pow(2) * (1.0 / (1.0 + selfIntersections * 100)) * (routeArea / searchArea)
-        return  (-totalInterestingness) + (1  / abs(desiredRouteLength - routeLength)).pow(2) + (selfIntersections * 100.0) + (routeArea / searchArea)
-        //return fitness
+        val distanceDelta = abs(routeLength - desiredRouteLength)
+        val lengthMultiplier = (1 - min(0.9, distanceDelta - desiredRouteLength)).pow(2)
+
+        val selfIntersectionMultiplier = 1.0 / (1 + selfIntersections)
+
+        return beauty * lengthMultiplier * areaMultiplier * selfIntersectionMultiplier
+
     }
 
     fun PMXCrossover(parent1: Route, parent2: Route, cutPoints: Pair<Int, Int>): Pair<Route, Route> {
