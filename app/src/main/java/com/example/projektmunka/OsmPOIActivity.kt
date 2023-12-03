@@ -17,6 +17,8 @@ import com.example.projektmunka.data.OverpassResponse
 import com.example.projektmunka.data.Route
 import com.example.projektmunka.databinding.ActivityOsmPoiactivityBinding
 import com.example.projektmunka.utils.addMarker
+import com.example.projektmunka.utils.addMarkers
+import com.example.projektmunka.utils.addWaypoints
 import com.example.projektmunka.utils.calculateGeodesicDistance
 import com.example.projektmunka.utils.calculateRouteArea
 import com.example.projektmunka.utils.calculateRouteLength
@@ -170,7 +172,6 @@ class OsmPOIActivity : AppCompatActivity() {
     }
 
     private fun run() {
-        println("In run")
         val maxWalkingTime = 2.00
         val desiredRouteLength = maxWalkingTime * 4
         val rOpt = calculateROpt(1.1, 2)
@@ -206,7 +207,10 @@ class OsmPOIActivity : AppCompatActivity() {
 
             val bestRoute = geneticAlgorithm(cityGraph, importantPOIs, 5, desiredRouteLength, searchArea, nearestNodeNonIsolated, 20, 5, 10)
             val connectedRoute = connectPois(nearestNodeNonIsolated, bestRoute, cityGraph)
+            println()
             displayCircularRoute(mMap, bestRoute, connectedRoute, nearestNodeNonIsolated)
+            //val waypoints = addWaypoints(connectedRoute, 0.2, cityGraph)
+            //addMarkers(mMap, waypoints)
         }
     }
 

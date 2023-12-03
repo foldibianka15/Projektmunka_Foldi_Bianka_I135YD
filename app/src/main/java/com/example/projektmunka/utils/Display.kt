@@ -39,10 +39,27 @@ fun drawRoute(mMap : MapView, route: Route) {
     }
 }
 
+fun drawRoute2(mMap : MapView, route: Route) {
+    for (j in 0 until route.path.size - 1) {
+        val pathSource = route.path[j]
+        val pathTarget = route.path[j + 1]
+
+        drawLine(mMap, pathSource.lat, pathSource.lon, pathTarget.lat, pathTarget.lon)
+    }
+}
+
 fun addMarker(mMap : MapView, lat: Double, lon: Double) {
     val marker = Marker(mMap)
     marker.position = GeoPoint(lat, lon)
     mMap.overlays.add(marker)
+}
+
+fun addMarkers(mMap : MapView, locations : MutableList<Node>) {
+    for (location in locations) {
+        val marker = Marker(mMap)
+        marker.position = GeoPoint(location.lat, location.lon)
+        mMap.overlays.add(marker)
+    }
 }
 
 fun displayCircularRoute(mMap: MapView, pois : Route, connectedRoute : Route, userLocation : Node) {
@@ -55,7 +72,7 @@ fun displayCircularRoute(mMap: MapView, pois : Route, connectedRoute : Route, us
     addMarker(mMap, userLocation.lat, userLocation.lon)
 
     // Draw the route
-    drawRoute(mMap, connectedRoute)
+    drawRoute2(mMap, connectedRoute)
 }
 
 /*
