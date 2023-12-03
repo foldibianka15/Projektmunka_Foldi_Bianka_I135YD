@@ -6,9 +6,11 @@ import android.os.Parcelable
 data class TourItem(
     val name: String,
     val description: String,
+    val detailedDescription: String,
     val imageId: Int
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readInt()

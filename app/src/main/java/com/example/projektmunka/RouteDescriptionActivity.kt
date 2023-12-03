@@ -26,9 +26,9 @@ class RouteDescriptionActivity : AppCompatActivity(), RouteListFragment.OnItemSe
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.fragment_container,
-                detailFragment
-            )
-            .commitNow()
+                detailFragment)
+            .addToBackStack(null)  // Add to back stack
+            .commit()
 
         Log.d("RouteDescriptionActivity", "Replacing fragment with RouteDetailFragment")
     }

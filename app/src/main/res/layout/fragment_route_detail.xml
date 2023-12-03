@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,24 +6,50 @@
         android:id="@+id/tourImageDetail"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/tourNameDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tour Name"
-        android:fontFamily="@font/valencia"
-        android:textSize="50sp"
-        android:textStyle="bold"
         android:layout_below="@+id/tourImageDetail"
-        android:layout_marginTop="16dp"/>
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="45dp"
+        android:fontFamily="@font/valencia"
+        android:text="Tour Name"
+        android:textSize="50sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tourDescriptionDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tour Description"
+        android:textSize="16sp"
         android:layout_below="@+id/tourNameDetail"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="55dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:lineSpacingExtra="8dp"
+        android:layout_centerHorizontal="true"/>
+
+
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:layout_below="@+id/tourDescriptionDetail"
+        android:layout_marginTop="60dp"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        />
+
 </RelativeLayout>

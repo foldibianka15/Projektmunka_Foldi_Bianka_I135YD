@@ -53,9 +53,15 @@ class RouteDetailFragment : Fragment() {
             // Set data to the views using ViewBinding
             binding.tourImageDetail.setImageResource(currentTourItem.imageId)
             binding.tourNameDetail.text = currentTourItem.name
-            binding.tourDescriptionDetail.text = currentTourItem.description
+            binding.tourDescriptionDetail.text = currentTourItem.detailedDescription
 
             ViewCompat.setTransitionName(binding.tourImageDetail, getString(R.string.transition_tour_image))
+        }
+
+        binding.backButton.setOnClickListener {
+            Log.d("RouteDetailFragment", "Back button clicked")
+            // Navigate back to RouteListFragment
+            requireActivity().supportFragmentManager.popBackStack()
         }
     }
 }
