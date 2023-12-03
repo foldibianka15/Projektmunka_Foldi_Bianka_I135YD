@@ -151,11 +151,11 @@ class OsmPOIActivity : AppCompatActivity() {
     }
 
     private fun run() {
-        val maxWalkingTime = 2.00 // órában megadva
-        val desiredRouteLength = maxWalkingTime * 4   // 1. In fitness function we use distance measure in meters. Ld is the desired distance
+        val maxWalkingTimeInHours = 0.5 // órában megadva
+        val desiredRouteLength = maxWalkingTimeInHours * 4   // 1. In fitness function we use distance measure in meters. Ld is the desired distance
                                                         // caclulated as desired route time (provided by user, and this is M) multiplied by
                                                         // average walking speed of 4 km per hour.
-        val rOpt = calculateROpt(1.1, 2)
+        val rOpt = calculateROpt(1.1, maxWalkingTimeInHours)
         val searchArea = calculateSearchArea(rOpt)
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -186,17 +186,18 @@ class OsmPOIActivity : AppCompatActivity() {
                 poiToClosestNonIsolatedNode[poi] = closestNonIsolatedNode!!
             }
 
-            val bestRoute = geneticAlgorithm(cityGraph, importantPOIs, 5, desiredRouteLength, searchArea, nearestNodeNonIsolated, 20, 5, 10)
+            val bestRoute = geneticAlgorithm(cityGraph, importantPOIs, 7, desiredRouteLength, searchArea, nearestNodeNonIsolated, 20, 5, 50)
             val connectedRoute = connectPois(nearestNodeNonIsolated, bestRoute, cityGraph)
-            println()
+            println("best route's length in km: " + calculateRouteLength(bestRoute))
+            println("desired route length in km: " + desiredRouteLength)
             displayCircularRoute(mMap, bestRoute, connectedRoute, nearestNodeNonIsolated)
             //val waypoints = addWaypoints(connectedRoute, 0.2, cityGraph)
             //addMarkers(mMap, waypoints)
         }
     }
 
-    fun calculateROpt(pedestrianSpeed: Double, maxWalkingTime: Int): Double {
-        val maxWalkingTimeInSeconds = maxWalkingTime * 3600
+    fun calculateROpt(pedestrianSpeed: Double, maxWalkingTimeInHours: Double): Double {
+        val maxWalkingTimeInSeconds = maxWalkingTimeInHours * 3600
         val rMax = (pedestrianSpeed * maxWalkingTimeInSeconds) / 2
 
         return (1.0 / 3.0) * 2 * rMax
@@ -382,8 +383,8 @@ class OsmPOIActivity : AppCompatActivity() {
 
         val selfIntersectionMultiplier = 1.0 / (1 + selfIntersections)
 
-        return beauty * lengthMultiplier * areaMultiplier * selfIntersectionMultiplier
-
+        return lengthMultiplier
+        //return beauty * lengthMultiplier * areaMultiplier * selfIntersectionMultiplier
     }
 
     fun PMXCrossover(parent1: Route, parent2: Route, cutPoints: Pair<Int, Int>): Pair<Route, Route> {
