@@ -17,6 +17,7 @@ import java.lang.ClassCastException
 class RouteListFragment : Fragment() {
     interface OnItemSelectedListener {
         fun onItemSelected(position: Int, transitionBundle: Bundle?)
+
     }
 
     private var listener: OnItemSelectedListener? = null

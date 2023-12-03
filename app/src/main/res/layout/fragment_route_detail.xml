@@ -15,7 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tour Name"
-        android:textSize="24sp"
+        android:fontFamily="@font/valencia"
+        android:textSize="50sp"
         android:textStyle="bold"
         android:layout_below="@+id/tourImageDetail"
         android:layout_marginTop="16dp"/>

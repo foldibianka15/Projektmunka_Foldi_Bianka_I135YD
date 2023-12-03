@@ -2,6 +2,7 @@ package com.example.projektmunka
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,7 @@ class RouteDetailFragment : Fragment() {
             val fragment = RouteDetailFragment()
             val args = Bundle()
             args.putInt(ARG_POSITION, position)
-            args.putParcelableArrayList(ARG_TOUR_LIST, tourList as ArrayList<Parcelable>)
+            args.putParcelableArrayList(ARG_TOUR_LIST, tourList)
             fragment.arguments = args
             return fragment
         }
@@ -37,11 +38,14 @@ class RouteDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("RouteDetailFragment", "onViewCreated called")
 
         println("alma")
 
         val position = arguments?.getInt(ARG_POSITION) ?: 0
         val tourList = arguments?.getParcelableArrayList<TourItem>(ARG_TOUR_LIST) ?: arrayListOf()
+
+        Log.d("RouteDetailFragment", "Position: $position, TourList size: ${tourList.size}")
 
         if (position < tourList.size) {
             val currentTourItem = tourList[position]
