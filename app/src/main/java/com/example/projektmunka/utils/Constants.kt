@@ -9,6 +9,7 @@ import android.webkit.MimeTypeMap
 object Constants {
     const val USERS: String = "users"
     const val USER_ROUTES: String = "userRoutes"
+    const val USER_ROUTE_TRACKERS = "userRouteTrackers"
     const val MILESTONES: String = "milestones"
     const val USER_LOCATIONS: String = "userLocations"
     const val MILESTONES_LIST: String = "milestones_list"
