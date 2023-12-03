@@ -1,8 +1,10 @@
 package com.example.projektmunka
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -71,8 +73,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                             this@LoginActivity, "You are logged in successfully",
                             Toast.LENGTH_LONG
                         ).show()
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        startActivity(intent)
+                       // val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                       // startActivity(intent)
 
                     }
                     else{
@@ -141,11 +143,15 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     // Handle Google Sign-In failure
                     // You can show an error message or take appropriate action.
                     Toast.makeText(this, "Google Sign-In failed", Toast.LENGTH_SHORT).show()
+
+                    // Print or log the exception details
+
                 }
             }
+
         }
     }
-    private fun requestFitnessApiPermission() {
+    /*private fun requestFitnessApiPermission() {
         val fitnessOptions = FitnessOptions.builder()
             .addDataType(DataType.TYPE_HEART_RATE_BPM, FitnessOptions.ACCESS_READ)
             .build()
@@ -161,9 +167,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             // Permission already granted, you can now read heart rate data
             readHeartRateData()
         }
-    }
+    }*/
 
-    private fun readHeartRateData() {
+   /* private fun readHeartRateData() {
         // Build a request for the user's heart rate between now and the past 5 minutes
         val endTime = System.currentTimeMillis()
         val startTime = endTime - TimeUnit.MINUTES.toMillis(5)
@@ -189,6 +195,61 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 // Handle failure
                 Toast.makeText(this, "Failed to read heart rate data", Toast.LENGTH_SHORT).show()
             }
+    }*/
+
+
+    private fun requestFitnessApiPermission() {
+        val fitnessOptions = FitnessOptions.builder()
+            .addDataType(DataType.TYPE_HEART_RATE_BPM, FitnessOptions.ACCESS_READ)
+            .build()
+
+        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
+            GoogleSignIn.requestPermissions(
+                this,
+                GOOGLE_FIT_PERMISSIONS_REQUEST_CODE,
+                GoogleSignIn.getLastSignedInAccount(this),
+                fitnessOptions
+            )
+        } else {
+            // Permission already granted, you can now read heart rate data
+            readHeartRateData()
+        }
+    }
+
+    private fun readHeartRateData() {
+        // Set the start time to November 28, 2023, 8:00 AM
+        val calStart = Calendar.getInstance()
+        calStart.set(2023, Calendar.NOVEMBER, 28, 17, 45, 0)
+        val startTime = calStart.timeInMillis
+
+// Set the end time to November 28, 2023, 17:50
+        val calEnd = Calendar.getInstance()
+        calEnd.set(2023, Calendar.NOVEMBER, 28, 17, 50, 0)
+        val endTime = calEnd.timeInMillis
+
+        val readRequest = DataReadRequest.Builder()
+            .read(DataType.TYPE_HEART_RATE_BPM)
+            .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
+            .build()
+
+        // Get the Fitness API client and submit the read request
+        val fitnessOptions = FitnessOptions.builder()
+            .addDataType(DataType.TYPE_HEART_RATE_BPM, FitnessOptions.ACCESS_READ)
+            .build()
+
+        val account = GoogleSignIn.getAccountForExtension(this, fitnessOptions)
+        Fitness.getHistoryClient(this, account)
+            .readData(readRequest)
+            .addOnSuccessListener { dataReadResponse ->
+                // Process the heart rate data
+                // dataReadResponse contains the heart rate data
+            }
+            .addOnFailureListener { e ->
+                // Handle failure
+                Log.e("FitnessAPI", "Failed to read heart rate data", e)
+                println(e)
+                Toast.makeText(this, "Failed to read heart rate data", Toast.LENGTH_SHORT).show()
+            }
     }
 
 
@@ -197,6 +258,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("545072268503-4h9rrcd4tdboddm8og3hgrq6jasv3roq.apps.googleusercontent.com")
             .requestEmail()
+            .requestScopes(Fitness.SCOPE_ACTIVITY_READ, Fitness.SCOPE_BODY_READ_WRITE)
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso);
     }
