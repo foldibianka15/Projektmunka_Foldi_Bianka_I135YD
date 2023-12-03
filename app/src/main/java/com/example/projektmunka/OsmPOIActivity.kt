@@ -14,15 +14,15 @@ import com.example.projektmunka.data.ImportanceEvaluator
 import com.example.projektmunka.data.Node
 import com.example.projektmunka.data.Route
 import com.example.projektmunka.databinding.ActivityOsmPoiactivityBinding
-import com.example.projektmunka.utils.calculateGeodesicDistance
-import com.example.projektmunka.utils.calculateRouteArea
-import com.example.projektmunka.utils.calculateRouteLength
-import com.example.projektmunka.utils.calculateSearchArea
-import com.example.projektmunka.utils.countSelfIntersections
-import com.example.projektmunka.utils.displayCircularRoute
-import com.example.projektmunka.utils.fetchCityGraph
-import com.example.projektmunka.utils.fetchNodes
-import com.example.projektmunka.utils.findNearestOSMNode
+import com.example.projektmunka.RouteUtils.calculateGeodesicDistance
+import com.example.projektmunka.RouteUtils.calculateRouteArea
+import com.example.projektmunka.RouteUtils.calculateRouteLength
+import com.example.projektmunka.RouteUtils.calculateSearchArea
+import com.example.projektmunka.RouteUtils.countSelfIntersections
+import com.example.projektmunka.RouteUtils.displayCircularRoute
+import com.example.projektmunka.RouteUtils.fetchCityGraph
+import com.example.projektmunka.RouteUtils.fetchNodes
+import com.example.projektmunka.RouteUtils.findNearestOSMNode
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.Dispatchers
@@ -162,34 +162,22 @@ class OsmPOIActivity : AppCompatActivity() {
             // Use the findNearestOSMNode function to get the nearest node
             val nearestNode = findNearestOSMNode(currentLocation!!, 300.0) ?: return@launch
 
-            val nodes = fetchNodes(nearestNode.lat, nearestNode.lon, 800.0) ?: return@launch
+            val nodes = fetchNodes(nearestNode.lat, nearestNode.lon, rOpt) ?: return@launch
             val evaluatedNodes = nodes.let { evaluateNodes(it) }
 
             val importantPOIs = evaluatedNodes.let { selectImportantPOIs(it, 0.1) }
 
-            //generateInitialPopulation(importantPOIs, 5, 5, nearestNode)
-
-            val cityGraph = fetchCityGraph(nearestNode.lat, nearestNode.lon, 800.0) ?: return@launch
+            val cityGraph = fetchCityGraph(nearestNode.lat, nearestNode.lon, rOpt) ?: return@launch
 
             val nearestNodeNonIsolated = findClosestNonIsolatedNode(cityGraph, nearestNode, 0.0)!!
 
             for (poi in importantPOIs) {
-
-                // HTTP kéréses verzió:
                 val closestNonIsolatedNode = findClosestNonIsolatedNode(cityGraph, poi, 0.0)
-
-                // Gráfban keresős verzió:
-                // Ez is jó, de ez addig iterál, amig nem talál elég közeli nem izolált node-ot
-                // nagy cityGraph-nál ez lassabb lehet, mint a HTTP kéréses, de le kéne mérni
-                //val closestNonIsolatedNode = findClosestNonIsolatedNode(cityGraph, poi, 0.0)
-
                 poiToClosestNonIsolatedNode[poi] = closestNonIsolatedNode!!
             }
 
             val bestRoute = geneticAlgorithm(cityGraph, importantPOIs, 7, desiredRouteLength, searchArea, nearestNodeNonIsolated, 20, 5, 50)
             val connectedRoute = connectPois(nearestNodeNonIsolated, bestRoute, cityGraph)
-            println("best route's length in km: " + calculateRouteLength(bestRoute))
-            println("desired route length in km: " + desiredRouteLength)
             displayCircularRoute(mMap, bestRoute, connectedRoute, nearestNodeNonIsolated)
             //val waypoints = addWaypoints(connectedRoute, 0.2, cityGraph)
             //addMarkers(mMap, waypoints)
@@ -277,7 +265,7 @@ class OsmPOIActivity : AppCompatActivity() {
             println("Best fitness: " + fitnessScores.max())
 
             // Selection: Choose routes for the next generation based on fitness and survivor rate
-            val selectedRoutes = selectNodes(population, fitnessScores, survivorRate)
+            val selectedRoutes = selectNodes(population, fitnessScores, survivorRate).distinct()
 
             // Create a new generation
             val newPopulation = mutableListOf<Route>()
@@ -299,8 +287,7 @@ class OsmPOIActivity : AppCompatActivity() {
                     // Select random partner for crossover (ensuring they haven't been matched before)
                     do {
                         partner = selectedRoutes.random()
-                    } while (partner == parent)
-
+                    } while (partner == parent && selectedRoutes.size > 1)
                     // Add the current pair to the set of matched pairs
                     matchedPairs.add(Pair(parent, partner))
 
@@ -383,8 +370,8 @@ class OsmPOIActivity : AppCompatActivity() {
 
         val selfIntersectionMultiplier = 1.0 / (1 + selfIntersections)
 
-        return lengthMultiplier
-        //return beauty * lengthMultiplier * areaMultiplier * selfIntersectionMultiplier
+        //return lengthMultiplier
+        return beauty * lengthMultiplier * areaMultiplier * selfIntersectionMultiplier
     }
 
     fun PMXCrossover(parent1: Route, parent2: Route, cutPoints: Pair<Int, Int>): Pair<Route, Route> {

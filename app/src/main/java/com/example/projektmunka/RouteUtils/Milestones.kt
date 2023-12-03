@@ -1,4 +1,4 @@
-package com.example.projektmunka.utils
+package com.example.projektmunka.RouteUtils
 
 import com.example.projektmunka.data.Node
 import com.example.projektmunka.data.Route

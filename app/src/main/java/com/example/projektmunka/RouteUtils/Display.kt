@@ -1,10 +1,8 @@
-package com.example.projektmunka.utils
+package com.example.projektmunka.RouteUtils
 
 import com.example.projektmunka.data.Node
 import com.example.projektmunka.data.Route
-import org.jgrapht.Graph
 import org.jgrapht.GraphPath
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.jgrapht.graph.DefaultWeightedEdge
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView

@@ -1,4 +1,4 @@
-package com.example.projektmunka.utils
+package com.example.projektmunka.RouteUtils
 
 import android.location.Location
 import com.example.projektmunka.data.ImportanceEvaluator
