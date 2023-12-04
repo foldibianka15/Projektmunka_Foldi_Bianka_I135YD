@@ -1,4 +1,4 @@
-package com.example.projektmunka
+package com.example.projektmunka.utils
 
 import android.os.AsyncTask
 import android.util.Log

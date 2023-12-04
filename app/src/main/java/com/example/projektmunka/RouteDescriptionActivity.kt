@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.projektmunka.fragment.RouteDetailFragment
+import com.example.projektmunka.fragment.RouteListFragment
 
 class RouteDescriptionActivity : AppCompatActivity(), RouteListFragment.OnRouteListItemSelectedListener,
                                                     RouteDetailFragment.OnStartButtonClickListener{

@@ -1,4 +1,4 @@
-package com.example.projektmunka
+package com.example.projektmunka.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import androidx.core.app.ActivityOptionsCompat
+import com.example.projektmunka.R
 import com.example.projektmunka.adapter.TourAdapter
 import com.example.projektmunka.databinding.FragmentRouteListBinding
 import com.example.projektmunka.uiData.TourItem

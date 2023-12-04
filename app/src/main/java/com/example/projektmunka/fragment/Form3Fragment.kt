@@ -1,4 +1,4 @@
-package com.example.projektmunka
+package com.example.projektmunka.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -7,29 +7,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import com.example.projektmunka.R
-import com.example.projektmunka.databinding.FragmentForm1Binding
+import com.example.projektmunka.databinding.FragmentForm3Binding
+import com.example.projektmunka.utils.NominatimReverseGeocoding
 
-class Form1Fragment : Fragment() {
+class Form3Fragment : Fragment() {
 
-    private lateinit var binding: FragmentForm1Binding
+    private lateinit var binding: FragmentForm3Binding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentForm1Binding.inflate(inflater, container, false)
+        binding = FragmentForm3Binding.inflate(inflater, container, false)
         val rootView = binding.root
 
         val editTextAddress = binding.editTextAddress
         val radioGroupLocation = binding.radioGroupLocation
         val btnSetActualAddress = binding.btnSetActualAddress
         val btnCreateRoute = binding.btnCreateRoute
+        val editTextTime = binding.editTextTime  // Add the new EditText for time input
 
         btnSetActualAddress.setOnClickListener {
             // Handle the "Set my actual address" button click here
-            // You might want to implement a separate logic for this button
-            //setActualLocationMethod()
+            // setActualLocationMethod()
         }
 
         btnCreateRoute.setOnClickListener {
@@ -37,18 +37,20 @@ class Form1Fragment : Fragment() {
             val selectedRadioButtonId = radioGroupLocation.checkedRadioButtonId
             val selectedRadioButton = rootView.findViewById<RadioButton>(selectedRadioButtonId)
 
-            // Get the address from the EditText
+            // Get the address and time from the EditText fields
             val address = editTextAddress.text.toString()
+            val time = editTextTime.text.toString()
 
             // Check which radio button is selected
             if (selectedRadioButton != null) {
                 val selectedOptionText = selectedRadioButton.text.toString()
 
                 if (selectedOptionText == "Choose Address") {
-                    performReverseGeocoding(address,
+                    performReverseGeocoding(
+                        address,
                         { latitude, longitude ->
                             // Handle the result (latitude and longitude) here
-                            Log.d("YourActivity", "Received result. Latitude: $latitude, Longitude: $longitude")
+                            Log.d("YourActivity", "Received result. Latitude: $latitude, Longitude: $longitude, Time: $time")
                         },
                         {
                             // Handle the case where no location was found or an error occurred
@@ -58,11 +60,9 @@ class Form1Fragment : Fragment() {
 
                 } else if (selectedOptionText == "Set Actual Location") {
                     // Call another method for setting actual location
-
                 }
             }
         }
-
         return rootView
     }
 
@@ -85,7 +85,6 @@ class Form1Fragment : Fragment() {
                 errorCallback()
             }
         }
-
         reverseGeocodingTask.execute(address)
     }
 }

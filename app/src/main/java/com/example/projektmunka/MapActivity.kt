@@ -15,6 +15,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.projektmunka.databinding.ActivityMapBinding
+import com.example.projektmunka.fragment.Form1Fragment
+import com.example.projektmunka.fragment.Form2Fragment
+import com.example.projektmunka.fragment.Form3Fragment
+import com.example.projektmunka.fragment.Form4Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
