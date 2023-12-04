@@ -1,12 +1,11 @@
 import androidx.appcompat.app.AppCompatActivity
-import com.example.firstapp.utils.ShenandoahsHikingDifficulty
-import com.example.firstapp.utils.calculateWalkingtime
-import com.example.firstapp.utils.displayRoute
+import com.example.projektmunka.RouteUtils.ShenandoahsHikingDifficulty
+import com.example.projektmunka.RouteUtils.calculateWalkingtime
+import com.example.projektmunka.RouteUtils.callOverpass
+import com.example.projektmunka.RouteUtils.findNearestNode
+import com.example.projektmunka.RouteUtils.getElevationData
 import com.example.projektmunka.data.Node
 import com.example.projektmunka.data.Route
-import com.example.projektmunka.utils.callOverpass
-import com.example.projektmunka.utils.findNearestNode
-import com.example.projektmunka.utils.getElevationData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
@@ -14,8 +13,6 @@ import org.jgrapht.Graph
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.jgrapht.graph.DefaultWeightedEdge
 import kotlin.random.Random
-
-typealias RouteMetric = (Graph<Node, DefaultWeightedEdge>, Route) -> Double
 
 private fun Test(start: Pair<Double, Double>, end: Pair<Double, Double>) {
 

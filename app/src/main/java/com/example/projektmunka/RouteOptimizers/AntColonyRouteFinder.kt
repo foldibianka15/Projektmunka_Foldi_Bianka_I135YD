@@ -1,5 +1,6 @@
-package com.example.projektmunka.RouteOptmizers
+package com.example.projektmunka.RouteOptimizers
 
+import RouteMetric
 import com.example.projektmunka.data.Node
 import com.example.projektmunka.data.Route
 import org.jgrapht.Graph
@@ -11,8 +12,6 @@ import kotlin.math.pow
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.random.Random
-
-typealias RouteMetric = (Graph<Node, DefaultWeightedEdge>, Route) -> Double
 
 class AntColonyRouteFinder(
     private val graph: Graph<Node, DefaultWeightedEdge>,
