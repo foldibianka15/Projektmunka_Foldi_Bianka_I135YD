@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="22dp">
 
     <!-- Address input -->
     <EditText
@@ -19,6 +19,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Set my actual address"/>
+
+    <!-- Choose address or set actual location -->
+    <RadioGroup
+        android:id="@+id/radioGroupLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioChooseAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Address"/>
+
+        <RadioButton
+            android:id="@+id/radioSetActualLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Actual Location"/>
+    </RadioGroup>
 
     <!-- Create route button -->
     <Button
