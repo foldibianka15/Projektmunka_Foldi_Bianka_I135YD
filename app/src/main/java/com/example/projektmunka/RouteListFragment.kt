@@ -15,20 +15,31 @@ import com.example.projektmunka.uiData.TourItem
 import java.lang.ClassCastException
 
 class RouteListFragment : Fragment() {
-    interface OnItemSelectedListener {
-        fun onItemSelected(position: Int, transitionBundle: Bundle?)
+
+    interface OnMapItemSelectedListener {
+        fun onMapItemSelected(selectedPosition: Int)
     }
 
-    private var listener: OnItemSelectedListener? = null
+    interface OnRouteListItemSelectedListener {
+        fun onRouteListItemSelected(selectedPosition: Int, transitionBundle: Bundle?)
+    }
+
+   /* interface OnItemSelectedListener {
+        fun onItemSelected(position: Int, transitionBundle: Bundle?)
+    }*/
+
+    private var routeListener: OnRouteListItemSelectedListener? = null
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context as? OnItemSelectedListener
-        if (listener == null) {
+        routeListener = context as? OnRouteListItemSelectedListener
+        if (routeListener == null) {
             throw ClassCastException("$context must implement OnItemSelectedListener")
         }
-        Log.d("RouteListFragment", "onAttach called. Listener: $listener")
+        Log.d("RouteListFragment", "onAttach called. Listener: $routeListener")
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,7 +69,7 @@ class RouteListFragment : Fragment() {
                 transitionName
             )
 
-            listener?.onItemSelected(position, options.toBundle())
+            routeListener?.onRouteListItemSelected(position, options.toBundle())
         }
         return view
     }
