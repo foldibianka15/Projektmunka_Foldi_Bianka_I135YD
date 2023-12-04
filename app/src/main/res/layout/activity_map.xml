@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapActivity">
+
+    <!-- Your other layout components -->
+
+    <!-- MapView -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/mMap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"/>
+
+    <!-- Bottom Sheet -->
+    <FrameLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        android:background="@drawable/rounded_btm_sheet">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_remove_24"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center|top"/>
+        <!-- Other views or content for the bottom sheet -->
+
+    </FrameLayout>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

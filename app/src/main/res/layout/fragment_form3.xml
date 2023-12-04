@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="22dp">
+
+    <!-- Address input -->
+    <EditText
+        android:id="@+id/editTextAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter address"/>
+
+    <!-- Set my actual address button -->
+    <Button
+        android:id="@+id/btnSetActualAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set my actual address"/>
+
+    <!-- Choose address or set actual location -->
+    <RadioGroup
+        android:id="@+id/radioGroupLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioChooseAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Address"/>
+
+        <RadioButton
+            android:id="@+id/radioSetActualLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Actual Location"/>
+    </RadioGroup>
+
+    <!-- Time input -->
+    <EditText
+        android:id="@+id/editTextTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter time in hours"/>
+
+    <!-- Create route button -->
+    <Button
+        android:id="@+id/btnCreateRoute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Route"/>
+</LinearLayout>
