@@ -32,7 +32,7 @@ class MapActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_map)
+        setContentView(binding.root)
 
         displayMap()
 

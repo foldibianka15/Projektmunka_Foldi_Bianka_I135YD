@@ -88,6 +88,4 @@ class Form1Fragment : Fragment() {
 
         reverseGeocodingTask.execute(address)
     }
-
-
 }
