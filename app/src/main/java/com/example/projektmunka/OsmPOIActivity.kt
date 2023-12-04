@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.firstapp.data.models.remote.services.FireStoreService
 import com.example.projektmunka.data.ImportanceEvaluator
 import com.example.projektmunka.data.Node
 import com.example.projektmunka.data.OverpassResponse
@@ -122,9 +123,22 @@ class OsmPOIActivity : AppCompatActivity() {
 
         //val bbox = "47.506,19.036,47.510,19.042"  //"47.497,19.035,47.4972,19.0352"
 
-        lifecycleScope.launch {
-            fetchLastLocation()
+        println("test2")
+        val fss  = FireStoreService()
+        println("Test1")
+        GlobalScope.launch(Dispatchers.Main) {
+            // Call your suspend function here
+            fss.getUserRouteData("vuyztQQwnRJeLgopspUL")
+
+            fss.currentUserRouteData.collect {
+                it?.let { route ->
+                    println(route.startDate)
+                    fss.updateUserRouteField("userId", "abc", "vuyztQQwnRJeLgopspUL")
+                }
+            }
         }
+
+        println("Test")
     }
 
     private val locationListener = object : LocationListener {
