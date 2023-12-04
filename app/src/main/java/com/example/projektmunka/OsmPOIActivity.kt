@@ -63,6 +63,7 @@ class OsmPOIActivity : AppCompatActivity() {
     private var poiToClosestNonIsolatedNode: MutableMap<Node, Node> = mutableMapOf()
 
 
+    //mu
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_osm_poiactivity)
