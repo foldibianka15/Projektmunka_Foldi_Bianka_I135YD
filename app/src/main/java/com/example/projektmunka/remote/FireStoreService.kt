@@ -143,7 +143,6 @@ class FireStoreService {
             .await()
     }
 
-
     suspend fun uploadImageCloudStorage(bitmap: Bitmap, id: String){
         val storage: FirebaseStorage = FirebaseStorage.getInstance()
 
@@ -151,10 +150,10 @@ class FireStoreService {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data: ByteArray = baos.toByteArray()
 
-        //TODO
-    /*   val uploadTask = storage.reference.child(id+".jpg")
+
+        val uploadTask = storage.reference.child(id+".jpg")
            .putBytes(data).await()
-           updateUserField("image", uploadTask.metadata!!.reference!!.downloadUrl.await().toString(), id)*/
+           updateUserField("image", uploadTask.metadata!!.reference!!.downloadUrl.await().toString(), id)
 
         _uploadPhotoResult.emit("Upload success")
     }

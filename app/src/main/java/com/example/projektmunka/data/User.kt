@@ -12,12 +12,9 @@ data class User (
     val lastName: String = "",
     val email: String = "",
     val age: String = "",
-    val activityLevel: Int = 0,
-    val height: String = "",
     val weight: String = "",
     val image: String = "",
     val gender: String = "",
-    val goal: String = "",
     val friends: List<User> = emptyList(),
     val profileCompleted: Int = 0): Parcelable
 
