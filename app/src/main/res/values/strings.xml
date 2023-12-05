@@ -64,5 +64,7 @@
     <string name="transition_tour_image">tourImageTransition</string>
     <string name="tour_name">Tour Name</string>
     <string name="tour_description">Tour Description</string>
+    <string name="profile_image_description">description\n</string>
+    <string name="default_username">username\n</string>
 
 </resources>
