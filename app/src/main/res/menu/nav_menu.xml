@@ -6,16 +6,19 @@
     <group
         android:checkableBehavior="single">
 
-        <item
-            android:id="@+id/nav_reports"
-            android:icon="@drawable/outline_timeline_24"
-            android:title="Reports"/>
 
         <item
             android:id="@+id/nav_routes"
             android:icon="@drawable/baseline_directions_walk_24"
             android:title="Routes"/>
-
+        <item
+            android:id="@+id/nav_reports"
+            android:icon="@drawable/outline_timeline_24"
+            android:title="Reports"/>
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/baseline_person_24"
+            android:title="Profile"/>
         <item
             android:id="@+id/nav_friends"
             android:icon="@drawable/outline_diversity_3_24"

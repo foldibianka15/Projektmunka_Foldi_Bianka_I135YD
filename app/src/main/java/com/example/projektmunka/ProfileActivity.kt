@@ -5,11 +5,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.View
-import android.widget.AdapterView
+import com.example.projektmunka.utils.Constants.USER_PROFILE_IMAGE
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import com.example.projektmunka.databinding.ActivityLoginBinding
 import com.example.projektmunka.databinding.ActivityProfileBinding
 import com.example.projektmunka.viewModel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,16 +18,17 @@ import java.io.IOException
 @AndroidEntryPoint
 class ProfileActivity : AppCompatActivity() {
 
-    private val userProfileViewModel: ProfileViewModel by viewModels()
-
     private lateinit var binding: ActivityProfileBinding
+
+    private val userProfileViewModel: ProfileViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
         binding.viewModel = userProfileViewModel
         binding.lifecycleOwner = this
         setContentView(binding.root)
+
         binding.ivUserPhoto.setOnClickListener{
             selectImage()
         }

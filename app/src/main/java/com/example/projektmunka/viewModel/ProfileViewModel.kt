@@ -1,6 +1,8 @@
 package com.example.projektmunka.viewModel
 
 import android.graphics.Bitmap
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.firstapp.repository.FireStoreRepository
 import com.example.projektmunka.data.User
@@ -11,22 +13,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(
-    val authRepository: AuthRepository,
-    val fireStoreRepository: FireStoreRepository
-) : BaseViewModel() {
+class ProfileViewModel @Inject constructor(private val authRepository: AuthRepository, private val fireStoreRepository: FireStoreRepository) : BaseViewModel() {
 
-    var bitmap: Bitmap? = null
-    var email = ""
-    var password = ""
-    var lastName = ""
-    var firstName = ""
-    var gender = ""
-    var weight = "0.00"
-    var age = ""
+    val loginResult = authRepository.lastResult
+    val uploadPhotoResult = fireStoreRepository.uploadPhotoResult
+
 
     init {
+        println()
         viewModelScope.launch(coroutineContext) {
+            fireStoreRepository.getUserProfileData("S5JW1kV39xZLtykvDiOJq67xh3w1")
             fireStoreRepository.currentUserData.collect {
                 it?.let { user ->
                     email = user.email
@@ -39,6 +35,17 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+
+    var bitmap: Bitmap? = null
+    var email = ""
+    var password = ""
+    var lastName = ""
+    var firstName = ""
+    var gender = ""
+    var weight = "0.00"
+    var age = ""
+
+
 
     fun updateUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -63,6 +70,7 @@ class ProfileViewModel @Inject constructor(
                 fireStoreRepository.uploadPhoto(
                     it,
                     authRepository.currentUser.value!!.uid
+
                 )
             }
         }

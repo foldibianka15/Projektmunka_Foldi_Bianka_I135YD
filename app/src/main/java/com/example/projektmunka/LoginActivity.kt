@@ -73,8 +73,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                             this@LoginActivity, "You are logged in successfully",
                             Toast.LENGTH_LONG
                         ).show()
-                       // val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                       // startActivity(intent)
+                        val intent = Intent(this@LoginActivity, ProfileActivity::class.java)
+                        startActivity(intent)
+                        finish()
 
                     }
                     else{

@@ -16,5 +16,6 @@ data class User (
     val image: String = "",
     val gender: String = "",
     val friends: List<User> = emptyList(),
+    val friendRequests: MutableList<User> = emptyList(),
     val profileCompleted: Int = 0): Parcelable
 

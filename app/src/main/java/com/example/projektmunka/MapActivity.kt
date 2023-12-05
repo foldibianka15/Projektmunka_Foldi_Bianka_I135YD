@@ -2,6 +2,7 @@ package com.example.projektmunka
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -9,28 +10,35 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.projektmunka.databinding.ActivityMapBinding
 import com.example.projektmunka.fragment.Form1Fragment
 import com.example.projektmunka.fragment.Form2Fragment
 import com.example.projektmunka.fragment.Form3Fragment
 import com.example.projektmunka.fragment.Form4Fragment
+import com.example.projektmunka.viewModel.ProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.navigation.NavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 
-class MapActivity : AppCompatActivity() {
+class MapActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
     private lateinit var binding: ActivityMapBinding
@@ -38,10 +46,20 @@ class MapActivity : AppCompatActivity() {
     lateinit var controller: IMapController
     private lateinit var locationManager: LocationManager
     private lateinit var drawerLayout: DrawerLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        /*val userProfileViewModel: ProfileViewModel by viewModels()
+
+        // Observe changes in the userProfileViewModel.bitmap property
+        userProfileViewModel.bitmap?.let { bitmap ->
+            // Update the user profile picture in the navigation drawer
+            // Assuming userProfilePictureImageView is an ImageView in your navigation drawer
+            findViewById<ImageView>(R.id.imageViewUserProfile)?.setImageBitmap(bitmap)
+        }*/
 
         drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
 
@@ -54,10 +72,6 @@ class MapActivity : AppCompatActivity() {
         val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
-        if(savedInstanceState == null) {
-
-        }
 
 
         // Set up the bottom sheet
@@ -72,6 +86,28 @@ class MapActivity : AppCompatActivity() {
         onMapItemSelected(data)
 
         displayMap()
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        // Handle navigation view item clicks here
+        when (item.itemId) {
+            R.id.nav_reports -> {
+                // Handle the click on menu item 1
+                //startActivity(Intent(this, AnotherActivity::class.java))
+            }
+            R.id.nav_routes -> {
+
+            }
+            R.id.nav_friends -> {
+
+            }
+
+
+        }
+
+        // Close the drawer after handling the click
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
     }
 
     fun displayMap() {
