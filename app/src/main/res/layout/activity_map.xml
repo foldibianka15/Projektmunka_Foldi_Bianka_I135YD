@@ -1,40 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MapActivity">
 
-    <!-- Your other layout components -->
-
-    <!-- MapView -->
-    <org.osmdroid.views.MapView
-        android:id="@+id/mMap"
+    <!-- CoordinatorLayout with MapView -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- MapView -->
+        <org.osmdroid.views.MapView
+            android:id="@+id/mMap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"/>
+
+        <!-- Toolbar with centered TextView -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/black"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <TextView
+                android:id="@+id/toolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Explore the city"
+                android:textColor="@color/white"
+                android:textSize="40sp"
+                android:fontFamily="@font/valencia"/>
+        </androidx.appcompat.widget.Toolbar>
+
+        <!-- Bottom Sheet -->
+        <FrameLayout
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            android:background="@drawable/rounded_btm_sheet">
+
+            <!-- Content of the bottom sheet -->
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_remove_24"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center|top"/>
+        </FrameLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <!-- NavigationView -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"/>
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_menu"/>
 
-    <!-- Bottom Sheet -->
-    <FrameLayout
-        android:id="@+id/bottom_sheet"
-        android:layout_width="match_parent"
-        android:layout_height="320dp"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        android:background="@drawable/rounded_btm_sheet">
-
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_remove_24"
-            android:scaleType="centerCrop"
-            android:layout_gravity="center|top"/>
-        <!-- Other views or content for the bottom sheet -->
-
-    </FrameLayout>
-
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

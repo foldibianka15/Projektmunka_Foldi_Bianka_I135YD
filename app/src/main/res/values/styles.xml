@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="YourButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/lilac</item>
+    </style>
+    <style name="CustomRadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="colorControlActivated">@color/lilac</item>
+    </style>
+</resources>

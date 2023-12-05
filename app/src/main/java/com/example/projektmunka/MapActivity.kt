@@ -11,8 +11,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.projektmunka.databinding.ActivityMapBinding
 import com.example.projektmunka.fragment.Form1Fragment
@@ -20,6 +23,7 @@ import com.example.projektmunka.fragment.Form2Fragment
 import com.example.projektmunka.fragment.Form3Fragment
 import com.example.projektmunka.fragment.Form4Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.navigation.NavigationView
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -33,12 +37,28 @@ class MapActivity : AppCompatActivity() {
     private lateinit var mMap: MapView
     lateinit var controller: IMapController
     private lateinit var locationManager: LocationManager
+    private lateinit var drawerLayout: DrawerLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        displayMap()
+        drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        val navigationView = findViewById<NavigationView>(R.id.navigation_view)
+        //navigationView.setNavigationItemSelectedListener(this)
+
+        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        if(savedInstanceState == null) {
+
+        }
+
 
         // Set up the bottom sheet
         val bottomSheet: FrameLayout = findViewById(R.id.bottom_sheet)
@@ -50,6 +70,8 @@ class MapActivity : AppCompatActivity() {
 
         val data: Int = intent.getIntExtra("key", 0)
         onMapItemSelected(data)
+
+        displayMap()
     }
 
     fun displayMap() {

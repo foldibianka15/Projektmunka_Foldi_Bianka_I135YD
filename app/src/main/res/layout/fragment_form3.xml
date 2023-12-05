@@ -4,20 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="22dp">
+    android:padding="40dp">
 
     <!-- Address input -->
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editTextAddress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter address"/>
+        android:layout_height="35dp"
+        android:textSize="15dp"
+        android:background="@drawable/edit_text_bg"
+        android:hint="Enter address" />
 
     <!-- Set my actual address button -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSetActualAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="147dp"
+        android:layout_height="35dp"
+        android:background="@drawable/button2_bg"
+        android:layout_marginTop="10dp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="12dp"
         android:text="Set my actual address"/>
 
     <!-- Choose address or set actual location -->
@@ -41,16 +48,23 @@
     </RadioGroup>
 
     <!-- Time input -->
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editTextTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="190dp"
+        android:background="@drawable/edit_text_bg"
+        android:layout_height="35dp"
+        android:textSize="15sp"
         android:hint="Enter time in hours"/>
 
     <!-- Create route button -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCreateRoute"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create Route"/>
+        android:layout_height="40dp"
+        android:background="@drawable/button2_bg"
+        android:text="Create Route"
+        android:layout_marginTop="10dp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="12dp" />
 </LinearLayout>

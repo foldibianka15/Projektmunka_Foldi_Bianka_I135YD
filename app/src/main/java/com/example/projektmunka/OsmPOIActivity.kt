@@ -106,14 +106,9 @@ class OsmPOIActivity : AppCompatActivity() {
                 locationListener
             )
         }
-
-        //val bbox = "47.506,19.036,47.510,19.042"  //"47.497,19.035,47.4972,19.0352"
-
-
-        awaitUpdateCurrentLocation()
     }
 
-    private val locationListener = LocationListener { location -> // Update the map center to the new location
+    private val locationListener = LocationListener { location -> // Update the map ceter to the new location
         val newLocation = GeoPoint(location.latitude, location.longitude)
         mMap.controller.setCenter(newLocation)
     }
@@ -381,7 +376,6 @@ class OsmPOIActivity : AppCompatActivity() {
 
         val (startIdx, endIdx) = cutPoints
 
-
         // Copy the segment between startIdx and endIdx from parent1 to offspring1 and from parent2 to offspring2
         for (i in startIdx..endIdx) {
             offspring1[i] = parent2.path[i]
@@ -413,10 +407,8 @@ class OsmPOIActivity : AppCompatActivity() {
                 }
             }
         }
-
         return Pair(Route(offspring1.toList() as MutableList<Node>), Route(offspring2.toList() as MutableList<Node>))
     }
-
 
     fun exchangeMutation(route: Route): Route {
         val random = Random()

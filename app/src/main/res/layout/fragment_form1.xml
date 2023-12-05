@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="22dp">
+    android:padding="40dp">
 
     <!-- Address input -->
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editTextAddress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter address"/>
+        android:layout_height="35dp"
+        android:textSize="15dp"
+        android:background="@drawable/edit_text_bg"
+        android:hint="Enter address" />
 
     <!-- Set my actual address button -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSetActualAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Set my actual address"/>
+        android:layout_width="147dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button2_bg"
+        android:text="Set my actual address"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="12dp" />
 
     <!-- Choose address or set actual location -->
     <RadioGroup
@@ -31,19 +37,25 @@
             android:id="@+id/radioChooseAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose Address"/>
+            android:buttonTint="@color/lilac"
+            android:text="Choose Address" />
 
         <RadioButton
             android:id="@+id/radioSetActualLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Set Actual Location"/>
+            android:buttonTint="@color/lilac"
+            android:text="Set Actual Location" />
     </RadioGroup>
 
     <!-- Create route button -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCreateRoute"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create Route"/>
+        android:layout_height="35dp"
+        android:background="@drawable/button2_bg"
+        android:text="Create Route"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="12dp" />
 </LinearLayout>
