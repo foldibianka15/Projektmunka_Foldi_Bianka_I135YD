@@ -43,9 +43,6 @@ class FireStoreRepository(val fireStoreService: FireStoreService) {
     }
 
     suspend fun checkForExistingUser(googleId: String, email: String): User? {
-        // Replace this with actual code to query your database
-        // You might use Firebase Firestore, Room, or another database system
-        // Here's an example using Firebase Firestore as you are using it in your app
 
         val firestore = FirebaseFirestore.getInstance()
         val usersCollection = firestore.collection("users")

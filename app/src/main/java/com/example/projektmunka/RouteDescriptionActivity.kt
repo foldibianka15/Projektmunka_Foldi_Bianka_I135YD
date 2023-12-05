@@ -19,8 +19,6 @@ class RouteDescriptionActivity : AppCompatActivity(), RouteListFragment.OnRouteL
                 .replace(R.id.fragment_container, RouteListFragment())
                 .commit()
         }
-
-
     }
 
 

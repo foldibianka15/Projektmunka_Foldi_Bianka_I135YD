@@ -24,8 +24,6 @@ class AuthService {
     private val _resetPasswordSendResult = MutableSharedFlow<Void>()
     val resetPasswordSendResult = _resetPasswordSendResult.asSharedFlow()
 
-    // Property to configure Google Sign-In
-    // Initialize GoogleSignInClient using application context
     private val googleSignInClient: GoogleSignInClient? = null
 
     suspend fun signInWithGoogle(account: GoogleSignInAccount) {
