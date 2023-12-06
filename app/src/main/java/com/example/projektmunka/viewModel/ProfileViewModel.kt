@@ -1,6 +1,7 @@
 package com.example.projektmunka.viewModel
 
 import android.graphics.Bitmap
+import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,9 @@ import com.example.projektmunka.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import androidx.databinding.BaseObservable
+import com.example.projektmunka.BR
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,49 +21,71 @@ class ProfileViewModel @Inject constructor(private val authRepository: AuthRepos
 
     val loginResult = authRepository.lastResult
     val uploadPhotoResult = fireStoreRepository.uploadPhotoResult
+    val currentUserData = fireStoreRepository.currentUserData
 
+
+    var bitmap: Bitmap? = null
+
+    var firstName = MutableLiveData<String>()
+    var lastName = MutableLiveData<String>()
+    var email = MutableLiveData<String>()
+    var age = MutableLiveData<String>()
+    var gender = MutableLiveData<String>()
+    var weight = MutableLiveData<String>()
+    var password = MutableLiveData<String>()
 
     init {
-        println()
+        getUserData()
+        observeUserData()
+    }
+
+    fun observeUserData() {
         viewModelScope.launch(coroutineContext) {
-            fireStoreRepository.getUserProfileData("S5JW1kV39xZLtykvDiOJq67xh3w1")
             fireStoreRepository.currentUserData.collect {
                 it?.let { user ->
-                    email = user.email
-                    firstName = user.firstName
-                    lastName = user.lastName
-                    weight = user.weight
-                    age = user.age
-                    gender = user.gender
+                    withContext(Dispatchers.Main) {
+                        email.value = user.email
+                        firstName.value = user.firstName
+                        lastName.value = user.lastName
+                        weight.value = user.weight
+                        age.value = user.age
+                        gender.value = user.gender
+                    }
                 }
             }
         }
     }
 
-    var bitmap: Bitmap? = null
-    var email = ""
-    var password = ""
-    var lastName = ""
-    var firstName = ""
-    var gender = ""
-    var weight = "0.00"
-    var age = ""
 
+    fun getUserData() {
+
+        println("21")
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepository.currentUser.collect {
+                if (it != null) {
+                    println("29")
+                    fireStoreRepository.getUserProfileData(it.uid)
+                }
+            }
+        }
+    }
 
 
     fun updateUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             authRepository.currentUser.value?.let { fireBaseUser ->
-                val user = User(
-                    id = fireBaseUser.uid,
-                    lastName = lastName,
-                    firstName = firstName,
-                    email = fireBaseUser.email!!,
-                    weight = weight,
-                    age = age,
-                    gender = gender,
-                )
-                fireStoreRepository.updateUser(user)
+                withContext(Dispatchers.Main) {
+                    val user = User(
+                        id = fireBaseUser.uid,
+                        lastName = lastName.value ?: "",
+                        firstName = firstName.value ?: "",
+                        email = fireBaseUser.email!!,
+                        weight = weight.value ?: "",
+                        age = age.value ?: "",
+                        gender = gender.value ?: "",
+                    )
+                    fireStoreRepository.updateUser(user)
+                }
             }
         }
     }

@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.TextView
 import com.example.projektmunka.utils.Constants.USER_PROFILE_IMAGE
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -28,6 +29,12 @@ class ProfileActivity : AppCompatActivity() {
         binding.viewModel = userProfileViewModel
         binding.lifecycleOwner = this
         setContentView(binding.root)
+
+      userProfileViewModel.email.observe(this) { newEmail ->
+            // Update UI with the newEmail
+            // For example, set it to a TextView
+            findViewById<TextView>(R.id.editTextEmail)
+        }
 
         binding.ivUserPhoto.setOnClickListener{
             selectImage()
