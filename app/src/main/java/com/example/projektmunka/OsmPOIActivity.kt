@@ -10,12 +10,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.projektmunka.RouteOptimizers.CircularDifficultRouteGenerator
+import com.example.projektmunka.RouteOptimizers.CircularRouteGenerator
+import com.example.projektmunka.RouteUtils.ShenandoahsHikingDifficulty
 import com.example.projektmunka.data.ImportanceEvaluator
 import com.example.projektmunka.data.Node
 import com.example.projektmunka.data.Route
 import com.example.projektmunka.databinding.ActivityOsmPoiactivityBinding
 import com.example.projektmunka.RouteUtils.calculateGeodesicDistance
 import com.example.projektmunka.RouteUtils.calculateRouteArea
+import com.example.projektmunka.RouteUtils.calculateRouteAscent
 import com.example.projektmunka.RouteUtils.calculateRouteLength
 import com.example.projektmunka.RouteUtils.calculateSearchArea
 import com.example.projektmunka.RouteUtils.countSelfIntersections
@@ -23,6 +27,7 @@ import com.example.projektmunka.RouteUtils.displayCircularRoute
 import com.example.projektmunka.RouteUtils.fetchCityGraph
 import com.example.projektmunka.RouteUtils.fetchNodes
 import com.example.projektmunka.RouteUtils.findNearestOSMNode
+import com.example.projektmunka.RouteUtils.getElevationData
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.Dispatchers
@@ -106,6 +111,8 @@ class OsmPOIActivity : AppCompatActivity() {
                 locationListener
             )
         }
+
+        awaitUpdateCurrentLocation()
     }
 
     private val locationListener = LocationListener { location -> // Update the map ceter to the new location
@@ -118,7 +125,6 @@ class OsmPOIActivity : AppCompatActivity() {
             async(Dispatchers.IO) {
                 updateCurrentLocation()
             }.await()
-            println("awaited updateCurrentLocation")
         }
     }
 
@@ -164,6 +170,8 @@ class OsmPOIActivity : AppCompatActivity() {
 
             val cityGraph = fetchCityGraph(nearestNode.lat, nearestNode.lon, rOpt) ?: return@launch
 
+            runBlocking { async { getElevationData(cityGraph)} }.await()
+
             val nearestNodeNonIsolated = findClosestNonIsolatedNode(cityGraph, nearestNode, 0.0)!!
 
             for (poi in importantPOIs) {
@@ -171,7 +179,8 @@ class OsmPOIActivity : AppCompatActivity() {
                 poiToClosestNonIsolatedNode[poi] = closestNonIsolatedNode!!
             }
 
-            val bestRoute = geneticAlgorithm(cityGraph, importantPOIs, 7, desiredRouteLength, searchArea, nearestNodeNonIsolated, 20, 5, 50)
+            val generator = CircularRouteGenerator(cityGraph, poiToClosestNonIsolatedNode, importantPOIs, 5, desiredRouteLength, searchArea, 20, 5, 50)
+            val bestRoute = generator.runGeneticAlgorithm(nearestNodeNonIsolated)
             val connectedRoute = connectPois(nearestNodeNonIsolated, bestRoute, cityGraph)
             displayCircularRoute(mMap, bestRoute, connectedRoute, nearestNodeNonIsolated)
             //val waypoints = addWaypoints(connectedRoute, 0.2, cityGraph)
@@ -239,6 +248,7 @@ class OsmPOIActivity : AppCompatActivity() {
         keyPois: List<Node>,
         numKeyPois: Int,
         desiredRouteLength: Double,
+        targetRouteAscent: Double,
         searchArea: Double,
         userLocation: Node,
         populationSize: Int,
@@ -256,7 +266,7 @@ class OsmPOIActivity : AppCompatActivity() {
 
             // Calculate fitness scores for each route in the population
             val fitnessScores =
-                population.map { route -> evaluateFitness(userLocation, route, desiredRouteLength, searchArea, graph) }
+                population.map { route -> evaluateFitness(userLocation, route, desiredRouteLength, targetRouteAscent, searchArea, graph) }
             println("Best fitness: " + fitnessScores.max())
 
             // Selection: Choose routes for the next generation based on fitness and survivor rate
@@ -304,7 +314,7 @@ class OsmPOIActivity : AppCompatActivity() {
         }
 
         // Return the best path found after the specified number of generations
-        val bestRoute = population.maxBy{ route -> evaluateFitness(userLocation, route, desiredRouteLength, searchArea, graph) }
+        val bestRoute = population.maxBy{ route -> evaluateFitness(userLocation, route, desiredRouteLength, targetRouteAscent, searchArea, graph) }
 
         return bestRoute
     }
@@ -340,8 +350,8 @@ class OsmPOIActivity : AppCompatActivity() {
         return rankedNodes.take(survivorRate).map { it.first }
     }
 
-    fun evaluateFitness(userLocation: Node, route : Route, desiredRouteLength: Double, searchArea: Double,
-                        graph: Graph<Node, DefaultWeightedEdge>): Double {
+    fun evaluateFitness(userLocation: Node, route : Route, desiredRouteLength: Double, targetRouteAscent: Double,
+                        searchArea: Double, graph: Graph<Node, DefaultWeightedEdge>): Double {
 
 
         val connectedRoute = connectPois(userLocation, route, graph)
@@ -355,6 +365,10 @@ class OsmPOIActivity : AppCompatActivity() {
         // Calculate the number of self-intersections
         val selfIntersections = countSelfIntersections(connectedRoute.path)
 
+        val routeAscent = calculateRouteAscent(connectedRoute)
+        val ascentDelta = abs(routeAscent - targetRouteAscent)
+        val ascentMultiplier = (1 - min(0.9, ascentDelta - routeAscent))
+
         // Calculate the area of the polygon outlined by the route
         val routeArea = calculateRouteArea(route)
 
@@ -366,7 +380,7 @@ class OsmPOIActivity : AppCompatActivity() {
         val selfIntersectionMultiplier = 1.0 / (1 + selfIntersections)
 
         //return lengthMultiplier
-        return beauty * lengthMultiplier * areaMultiplier * selfIntersectionMultiplier
+        return beauty * lengthMultiplier * areaMultiplier * selfIntersectionMultiplier * ascentMultiplier
     }
 
     fun PMXCrossover(parent1: Route, parent2: Route, cutPoints: Pair<Int, Int>): Pair<Route, Route> {
