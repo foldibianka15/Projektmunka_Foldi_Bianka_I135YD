@@ -101,8 +101,6 @@ class MapActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
             R.id.nav_friends -> {
 
             }
-
-
         }
 
         // Close the drawer after handling the click

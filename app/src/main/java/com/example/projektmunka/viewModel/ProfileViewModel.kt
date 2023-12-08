@@ -35,7 +35,6 @@ class ProfileViewModel @Inject constructor(private val authRepository: AuthRepos
     var password = MutableLiveData<String>()
 
     init {
-        getUserData()
         observeUserData()
     }
 
@@ -55,21 +54,6 @@ class ProfileViewModel @Inject constructor(private val authRepository: AuthRepos
             }
         }
     }
-
-
-    fun getUserData() {
-
-        println("21")
-        viewModelScope.launch(Dispatchers.IO) {
-            authRepository.currentUser.collect {
-                if (it != null) {
-                    println("29")
-                    fireStoreRepository.getUserProfileData(it.uid)
-                }
-            }
-        }
-    }
-
 
     fun updateUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
