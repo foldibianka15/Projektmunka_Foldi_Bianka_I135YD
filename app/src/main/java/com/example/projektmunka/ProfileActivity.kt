@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import com.example.projektmunka.databinding.ActivityProfileBinding
+import com.example.projektmunka.utils.Constants.USER_PROFILE_IMAGE
 import com.example.projektmunka.viewModel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException

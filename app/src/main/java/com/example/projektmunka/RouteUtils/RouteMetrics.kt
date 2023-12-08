@@ -173,7 +173,10 @@ fun calculateRouteLength(graph: Graph<Node, DefaultWeightedEdge>, route: Route):
     for (i in 0 until route.path.size - 1) {
         val source = route.path[i]
         val target = route.path[i + 1]
-        length += graph.getEdgeWeight(graph.getEdge(source, target))
+
+        if (source != target) {
+            length += graph.getEdgeWeight(graph.getEdge(source, target))
+        }
     }
     return length
 }
