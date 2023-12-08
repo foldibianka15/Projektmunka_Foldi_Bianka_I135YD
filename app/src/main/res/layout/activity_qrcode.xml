@@ -9,10 +9,66 @@
             type="com.example.projektmunka.viewModel.QRCodeViewModel" />
     </data>
 
-    <ImageView
-        android:id="@+id/qrCodeImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:context=".QRCodeActivity">
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#DDDDDD"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/qrCodeImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside" />
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/btnGenerateQRCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Generate QR Code"
+            android:layout_below="@id/frameLayout"
+            android:layout_marginTop="16dp"/>
+
+        <Button
+            android:id="@+id/btnReadQRCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Read QR Code"
+            android:layout_below="@id/btnGenerateQRCode"
+            android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id="@+id/btnAddFriend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Friend"
+            android:layout_below="@id/btnReadQRCode"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/tvCountdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnAddFriend"
+            android:layout_marginTop="16dp"
+            android:text="Time Remaining: 07:00"
+            android:textSize="18sp"
+            android:textColor="#000000"/>
+
+    </RelativeLayout>
 
 </layout>
+
+    <!-- res/layout/activity_qrcode.xml -->
