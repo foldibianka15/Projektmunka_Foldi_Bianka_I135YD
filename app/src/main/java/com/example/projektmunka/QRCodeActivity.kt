@@ -21,7 +21,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.projektmunka.data.LocationInfo
 import com.example.projektmunka.databinding.ActivityQrcodeBinding
-import com.example.projektmunka.viewModel.QRCodeViewModel
+import com.example.projektmunka.viewModel.UserDataViewModel
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
@@ -50,7 +50,7 @@ class QRCodeActivity : AppCompatActivity() {
     private val validTimeRangeMillis = 7 * 60 * 1000L // 7 minutes in milliseconds
     private lateinit var countdownTimer: CountDownTimer
 
-    private val qrCodeViewModel: QRCodeViewModel by viewModels()
+    private val qrCodeViewModel: UserDataViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qrcode)

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.projektmunka.viewModel.QRCodeViewModel" />
+            type="com.example.projektmunka.viewModel.UserDataViewModel" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
