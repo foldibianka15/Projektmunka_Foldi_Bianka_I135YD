@@ -73,7 +73,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                             this@LoginActivity, "You are logged in successfully",
                             Toast.LENGTH_LONG
                         ).show()
-                        val intent = Intent(this@LoginActivity, ProfileActivity::class.java)
+                        val intent = Intent(this@LoginActivity, RouteDescriptionActivity::class.java)
                         startActivity(intent)
                         finish()
 
