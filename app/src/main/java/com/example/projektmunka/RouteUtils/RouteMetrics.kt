@@ -6,6 +6,7 @@ import com.example.projektmunka.data.Route
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultWeightedEdge
 import android.location.Location
+import com.google.firebase.firestore.GeoPoint
 import java.util.HashSet
 import kotlin.math.abs
 import kotlin.math.atan2
@@ -68,6 +69,23 @@ fun calculateGeodesicDistance(node1: Node, node2: Node): Double {
     val c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
     return radius * c
+}
+
+fun calculateGeodesicDistanceInMeters(point1: GeoPoint, point2: GeoPoint): Double {
+    val radius = 6371.0 // Earth's radius in kilometers
+
+    val lat1Rad = Math.toRadians(point1.latitude)
+    val lon1Rad = Math.toRadians(point1.longitude)
+    val lat2Rad = Math.toRadians(point2.latitude)
+    val lon2Rad = Math.toRadians(point2.longitude)
+
+    val dLat = lat2Rad - lat1Rad
+    val dLon = lon2Rad - lon1Rad
+
+    val a = sin(dLat / 2).pow(2) + cos(lat1Rad) * cos(lat2Rad) * sin(dLon / 2).pow(2)
+    val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+    return radius * c * 1000
 }
 
 fun calculateGeodesicDistance(node: Node, location: Location): Double {
