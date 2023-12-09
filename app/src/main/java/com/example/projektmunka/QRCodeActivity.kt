@@ -50,13 +50,13 @@ class QRCodeActivity : AppCompatActivity() {
     private val validTimeRangeMillis = 7 * 60 * 1000L // 7 minutes in milliseconds
     private lateinit var countdownTimer: CountDownTimer
 
-    private val qrCodeViewModel: UserDataViewModel by viewModels()
+    private val userDataViewModel: UserDataViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qrcode)
 
         binding = ActivityQrcodeBinding.inflate(layoutInflater)
-        binding.viewModel = qrCodeViewModel
+        binding.viewModel = userDataViewModel
         binding.lifecycleOwner = this
         setContentView(binding.root)
 
@@ -85,7 +85,7 @@ class QRCodeActivity : AppCompatActivity() {
     private fun generateAndDisplayQRCode() {
         lifecycleScope.launchWhenCreated {
             val location = getCurrentLocation()
-            qrCodeViewModel.currentUserData.collect {
+            userDataViewModel.currentUserData.collect {
                 it?.let {
                     val timestamp =
                         SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())

@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.projektmunka.databinding.ActivityMapBinding
@@ -19,6 +20,7 @@ import com.example.projektmunka.fragment.Form1Fragment
 import com.example.projektmunka.fragment.Form2Fragment
 import com.example.projektmunka.fragment.Form3Fragment
 import com.example.projektmunka.fragment.Form4Fragment
+import com.example.projektmunka.viewModel.UserDataViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
@@ -34,9 +36,12 @@ class MapActivity : BaseActivity() {
     lateinit var controller: IMapController
     private lateinit var locationManager: LocationManager
 
+    private val userDataViewModel: UserDataViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapBinding.inflate(layoutInflater)
+        binding.viewModel = userDataViewModel
         setContentView(binding.root)
 
         /*val userProfileViewModel: ProfileViewModel by viewModels()
