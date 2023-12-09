@@ -47,12 +47,22 @@
             android:text="Set Actual Location"/>
     </RadioGroup>
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/editTextTargetLocation"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:textSize="15dp"
+        android:background="@drawable/edit_text_bg"
+        android:hint="Enter target location" />
+
     <!-- Time input -->
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editTextTime"
         android:layout_width="190dp"
         android:background="@drawable/edit_text_bg"
         android:layout_height="35dp"
+        android:layout_marginTop="10dp"
         android:textSize="15sp"
         android:hint="Enter time in hours"/>
 

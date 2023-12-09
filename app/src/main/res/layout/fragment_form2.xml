@@ -47,6 +47,16 @@
             android:text="Set Actual Location"/>
     </RadioGroup>
 
+    <!-- Target location input -->
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/editTextTargetLocation"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:textSize="15dp"
+        android:background="@drawable/edit_text_bg"
+        android:hint="Enter target location" />
+
     <!-- Create route button -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCreateRoute"
@@ -54,6 +64,7 @@
         android:layout_height="35dp"
         android:background="@drawable/button2_bg"
         android:text="Create Route"
+        android:layout_marginTop="10dp"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="12dp" />

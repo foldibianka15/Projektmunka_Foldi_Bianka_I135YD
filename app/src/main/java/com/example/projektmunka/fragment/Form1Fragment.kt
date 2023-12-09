@@ -2,11 +2,11 @@ package com.example.projektmunka.fragment
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import androidx.fragment.app.Fragment
 import com.example.projektmunka.databinding.FragmentForm1Binding
 import com.example.projektmunka.utils.NominatimReverseGeocoding
 
@@ -22,6 +22,7 @@ class Form1Fragment : Fragment() {
         val rootView = binding.root
 
         val editTextAddress = binding.editTextAddress
+        val editTextTargetLocation = binding.editTextTargetLocation
         val radioGroupLocation = binding.radioGroupLocation
         val btnSetActualAddress = binding.btnSetActualAddress
         val btnCreateRoute = binding.btnCreateRoute
@@ -48,7 +49,10 @@ class Form1Fragment : Fragment() {
                     performReverseGeocoding(address,
                         { latitude, longitude ->
                             // Handle the result (latitude and longitude) here
-                            Log.d("YourActivity", "Received result. Latitude: $latitude, Longitude: $longitude")
+                            Log.d(
+                                "YourActivity",
+                                "Received result. Latitude: $latitude, Longitude: $longitude"
+                            )
                         },
                         {
                             // Handle the case where no location was found or an error occurred
@@ -61,6 +65,22 @@ class Form1Fragment : Fragment() {
 
                 }
             }
+
+            val targetLocation = editTextTargetLocation.text.toString()
+
+            performReverseGeocoding(
+                targetLocation,
+                { latitude, longitude ->
+                    Log.d(
+                        "YourActivity",
+                        "Received result. Latitude: $latitude, Longitude: $longitude"
+                    )
+                },
+                {
+                    // Handle the case where no location was found or an error occurred
+                    Log.e("YourActivity", "Error or no location found.")
+                })
+
         }
 
         return rootView

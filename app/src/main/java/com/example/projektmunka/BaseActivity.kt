@@ -15,6 +15,7 @@ import com.example.projektmunka.databinding.ActivityBaseBinding
 import com.example.projektmunka.databinding.ActivityQrcodeBinding
 import com.example.projektmunka.viewModel.UserDataViewModel
 import com.google.android.material.navigation.NavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
 abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 

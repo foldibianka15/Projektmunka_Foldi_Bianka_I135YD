@@ -23,6 +23,7 @@ class Form2Fragment : Fragment() {
 
         val editTextAddress = binding.editTextAddress
         val radioGroupLocation = binding.radioGroupLocation
+        val editTextTargetLocation = binding.editTextTargetLocation
         val btnSetActualAddress = binding.btnSetActualAddress
         val btnCreateRoute = binding.btnCreateRoute
 
@@ -60,6 +61,21 @@ class Form2Fragment : Fragment() {
                     // Call another method for setting actual location
                 }
             }
+
+            val targetLocation = editTextTargetLocation.text.toString()
+
+            performReverseGeocoding(
+                targetLocation,
+                { latitude, longitude ->
+                    Log.d(
+                        "YourActivity",
+                        "Received result. Latitude: $latitude, Longitude: $longitude"
+                    )
+                },
+                {
+                    // Handle the case where no location was found or an error occurred
+                    Log.e("YourActivity", "Error or no location found.")
+                })
         }
         return rootView
     }
