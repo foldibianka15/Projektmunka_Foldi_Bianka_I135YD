@@ -10,28 +10,16 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
-import androidx.activity.viewModels
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.projektmunka.databinding.ActivityMapBinding
 import com.example.projektmunka.fragment.Form1Fragment
 import com.example.projektmunka.fragment.Form2Fragment
 import com.example.projektmunka.fragment.Form3Fragment
 import com.example.projektmunka.fragment.Form4Fragment
-import com.example.projektmunka.viewModel.ProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.navigation.NavigationView
-import dagger.hilt.android.AndroidEntryPoint
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -45,7 +33,6 @@ class MapActivity : BaseActivity() {
     private lateinit var mMap: MapView
     lateinit var controller: IMapController
     private lateinit var locationManager: LocationManager
-    private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

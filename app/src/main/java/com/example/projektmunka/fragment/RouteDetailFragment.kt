@@ -75,12 +75,6 @@ class RouteDetailFragment : Fragment() {
             ViewCompat.setTransitionName(binding.tourImageDetail, getString(R.string.transition_tour_image))
         }
 
-        binding.backButton.setOnClickListener {
-            Log.d("RouteDetailFragment", "Back button clicked")
-            // Navigate back to RouteListFragment
-            requireActivity().supportFragmentManager.popBackStack()
-        }
-
         binding.startButton.setOnClickListener {
             // Handle the "Start" button click
             // Notify the activity through the listener

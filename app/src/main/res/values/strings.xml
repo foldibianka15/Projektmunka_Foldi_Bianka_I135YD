@@ -66,5 +66,7 @@
     <string name="tour_description">Tour Description</string>
     <string name="profile_image_description">description\n</string>
     <string name="default_username">username\n</string>
+    <string name="username">username\n</string>
+    <string name="gender">Gender\n</string>
 
 </resources>
