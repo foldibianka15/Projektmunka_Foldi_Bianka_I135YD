@@ -38,7 +38,7 @@
 
     <!-- Round Button -->
     <ImageButton
-        android:id="@+id/roundButton"
+        android:id="@+id/nearbyUserButton"
         android:layout_width="53dp"
         android:layout_height="53dp"
         android:layout_gravity="top|end"
@@ -48,5 +48,4 @@
         android:src="@drawable/outline_person_add_alt_1_24"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 </layout>

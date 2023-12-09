@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -55,6 +56,13 @@ class MapActivity : BaseActivity() {
             findViewById<ImageView>(R.id.imageViewUserProfile)?.setImageBitmap(bitmap)
         }*/
 
+        val nearbyUserButton: ImageButton = findViewById(R.id.nearbyUserButton)
+        nearbyUserButton.setOnClickListener {
+            val intent = Intent(this@MapActivity, NearbyUserActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
 
         // Set up the bottom sheet
         val bottomSheet: FrameLayout = findViewById(R.id.bottom_sheet)
@@ -69,6 +77,7 @@ class MapActivity : BaseActivity() {
 
         displayMap()
     }
+
 
     override fun getLayoutResourceId(): Int {
         TODO("Not yet implemented")
