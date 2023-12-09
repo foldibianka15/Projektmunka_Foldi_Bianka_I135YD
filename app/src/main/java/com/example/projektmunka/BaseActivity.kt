@@ -12,15 +12,16 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.projektmunka.databinding.ActivityBaseBinding
+import com.example.projektmunka.databinding.ActivityQrcodeBinding
 import com.example.projektmunka.viewModel.UserDataViewModel
 import com.google.android.material.navigation.NavigationView
 
 abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var drawerLayout: DrawerLayout
-    private val qrCodeViewModel: UserDataViewModel by viewModels()
 
     override fun setContentView(view: View?) {
+
         drawerLayout = layoutInflater.inflate(R.layout.activity_base, null).findViewById(R.id.drawer_layout)
         val container = drawerLayout.findViewById<FrameLayout>(R.id.activityContainer)
         container.addView(view)

@@ -22,12 +22,14 @@ import com.example.projektmunka.fragment.Form3Fragment
 import com.example.projektmunka.fragment.Form4Fragment
 import com.example.projektmunka.viewModel.UserDataViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dagger.hilt.android.AndroidEntryPoint
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 
+@AndroidEntryPoint
 class MapActivity : BaseActivity() {
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
