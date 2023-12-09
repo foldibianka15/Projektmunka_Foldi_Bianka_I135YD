@@ -69,6 +69,21 @@ class FireStoreService {
             .await()
     }
 
+    suspend fun getAllUsers(): MutableList<User> {
+        val users = mutableListOf<User>()
+
+        val result = fireStore.collection(Constants.USERS).get().await()
+
+        for (document in result.documents) {
+            val user = document.toObject(User::class.java)
+            if (user != null) {
+                users.add(user)
+            }
+        }
+
+        return users
+    }
+
     suspend fun getUserRouteData(id: String) {
         val result = fireStore.collection(Constants.USER_ROUTES)
             .document(id)
@@ -91,6 +106,22 @@ class FireStoreService {
             .await()
     }
 
+
+    suspend fun getAllUserRoutes(): MutableList<UserRoute> {
+        val userRoutes = mutableListOf<UserRoute>()
+
+        val result = fireStore.collection(Constants.USER_ROUTES).get().await()
+
+        for (document in result.documents) {
+            val userRoute = document.toObject(UserRoute::class.java)
+            if (userRoute != null) {
+                userRoutes.add(userRoute)
+            }
+        }
+
+        return userRoutes
+    }
+
     suspend fun getUserRouteTrackerData(id: String) {
         val result = fireStore.collection(Constants.USER_ROUTE_TRACKERS)
             .document(id)
@@ -111,6 +142,22 @@ class FireStoreService {
             .document(id)
             .update(key, value)
             .await()
+    }
+
+
+    suspend fun getAllUserRouteTrackers(): MutableList<UserRouteTracker> {
+        val userRouteTrackers = mutableListOf<UserRouteTracker>()
+
+        val result = fireStore.collection(Constants.USER_ROUTE_TRACKERS).get().await()
+
+        for (document in result.documents) {
+            val userRouteTracker = document.toObject(UserRouteTracker::class.java)
+            if (userRouteTracker != null) {
+                userRouteTrackers.add(userRouteTracker)
+            }
+        }
+
+        return userRouteTrackers
     }
 
     suspend fun getUserLocationData(id: String) {
@@ -143,6 +190,22 @@ class FireStoreService {
             .await()
     }
 
+
+    suspend fun getAllUseLocations(): MutableList<UserLocation> {
+        val userLocations = mutableListOf<UserLocation>()
+
+        val result = fireStore.collection(Constants.USER_LOCATIONS).get().await()
+
+        for (document in result.documents) {
+            val userlocation = document.toObject(UserLocation::class.java)
+            if (userlocation != null) {
+                userLocations.add(userlocation)
+            }
+        }
+
+        return userLocations
+    }
+
     suspend fun uploadImageCloudStorage(bitmap: Bitmap, id: String){
         val storage: FirebaseStorage = FirebaseStorage.getInstance()
 
@@ -152,8 +215,8 @@ class FireStoreService {
 
 
         val uploadTask = storage.reference.child(id+".jpg")
-           .putBytes(data).await()
-           updateUserField("image", uploadTask.metadata!!.reference!!.downloadUrl.await().toString(), id)
+            .putBytes(data).await()
+        updateUserField("image", uploadTask.metadata!!.reference!!.downloadUrl.await().toString(), id)
 
         _uploadPhotoResult.emit("Upload success")
     }

@@ -8,6 +8,7 @@ import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.projektmunka.R
+import com.example.projektmunka.RouteUtils.calculateGeodesicDistanceInMeters
 import com.example.projektmunka.adapter.NearbyUsersAdapter
 import com.example.projektmunka.data.User
 import com.example.projektmunka.viewModel.UserDataViewModel
@@ -17,6 +18,17 @@ class NearbyUsersFragment : Fragment() {
 
     private val listViewNearbyUsers: ListView? = null
     private lateinit var nearbyUsersAdapter: NearbyUsersAdapter
+
+    private lateinit var userDataViewModel: UserDataViewModel
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        // Access the activity's ViewModel
+        userDataViewModel = ViewModelProvider(requireActivity()).get(UserDataViewModel::class.java)
+
+        // Now you can use mapViewModel in your fragment
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,14 +47,31 @@ class NearbyUsersFragment : Fragment() {
         observeUserData()
     }
 
+    private fun getNearbyUsers(friendZone : Double) : MutableList<User> {
+        val currentUser = userDataViewModel.currentUserData.value ?: return mutableListOf()
+        val currentUserLocation = userDataViewModel.getUserLocation(currentUser)
+        val allUsers = userDataViewModel.getAllUsers()
+        val nearbyUsers = mutableListOf<User>()
+
+        for (user in allUsers) {
+            val userLocation = userDataViewModel.getUserLocation(user)
+            val distanceBetweenUsers = calculateGeodesicDistanceInMeters(currentUserLocation?.geoPoint!!, userLocation?.geoPoint!!)
+            if (distanceBetweenUsers <= friendZone && !currentUser.friends.contains(user)) {
+                nearbyUsers.add(user)
+            }
+        }
+
+        return nearbyUsers
+    }
+
     private fun observeUserData() {
 
-            val nearbyUsersList: List<User> = mutableListOf() // Replace with actual logic
+        val nearbyUsersList: List<User> = mutableListOf() // Replace with actual logic
 
-            // Update the adapter with the nearby users
-            nearbyUsersAdapter.clear()
-            nearbyUsersAdapter.addAll(nearbyUsersList)
-            nearbyUsersAdapter.notifyDataSetChanged()
-        }
+        // Update the adapter with the nearby users
+        nearbyUsersAdapter.clear()
+        nearbyUsersAdapter.addAll(nearbyUsersList)
+        nearbyUsersAdapter.notifyDataSetChanged()
+    }
 
 }

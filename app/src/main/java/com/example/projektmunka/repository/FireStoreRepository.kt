@@ -3,6 +3,7 @@ package com.example.firstapp.repository
 import android.graphics.Bitmap
 import com.example.firstapp.data.models.remote.services.FireStoreService
 import com.example.projektmunka.data.User
+import com.example.projektmunka.data.UserLocation
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -68,5 +69,13 @@ class FireStoreRepository(val fireStoreService: FireStoreService) {
 
     suspend fun uploadPhoto(bitmap: Bitmap, id: String){
         fireStoreService.uploadImageCloudStorage(bitmap, id)
+    }
+
+    suspend fun getAllUsers() : MutableList<User> {
+        return fireStoreService.getAllUsers()
+    }
+
+    suspend fun getAllUserLocations(user: User) : MutableList<UserLocation> {
+        return fireStoreService.getAllUseLocations()
     }
 }
