@@ -26,7 +26,7 @@ object Constants {
 
     const val MOBILE: String = "mobile"
     const val GENDER: String = "gender"
-    var USER_PROFILE_IMAGE:Int = 5
+    const val USER_PROFILE_IMAGE:Int = 5
     const val TIMER_INTERVAL: Int = 1
     const val IMAGE: String = "image"
     const val COMPLETE_PROFILE: String = "profileCompleted"
