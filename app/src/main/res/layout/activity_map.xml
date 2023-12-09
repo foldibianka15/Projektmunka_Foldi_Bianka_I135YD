@@ -20,24 +20,6 @@
             android:layout_height="match_parent"
             android:background="@android:color/white"/>
 
-        <!-- Toolbar with centered TextView -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/black"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-            <TextView
-                android:id="@+id/toolbarTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Explore the city"
-                android:textColor="@color/white"
-                android:textSize="40sp"
-                android:fontFamily="@font/valencia"/>
-        </androidx.appcompat.widget.Toolbar>
 
         <!-- Bottom Sheet -->
         <FrameLayout

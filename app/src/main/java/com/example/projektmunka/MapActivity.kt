@@ -38,7 +38,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 
-class MapActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+class MapActivity : BaseActivity() {
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
     private lateinit var binding: ActivityMapBinding
@@ -61,18 +61,6 @@ class MapActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
             findViewById<ImageView>(R.id.imageViewUserProfile)?.setImageBitmap(bitmap)
         }*/
 
-        drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
-
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        val navigationView = findViewById<NavigationView>(R.id.navigation_view)
-        //navigationView.setNavigationItemSelectedListener(this)
-
-        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
 
         // Set up the bottom sheet
         val bottomSheet: FrameLayout = findViewById(R.id.bottom_sheet)
@@ -88,25 +76,10 @@ class MapActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
         displayMap()
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here
-        when (item.itemId) {
-            R.id.nav_reports -> {
-                // Handle the click on menu item 1
-                //startActivity(Intent(this, AnotherActivity::class.java))
-            }
-            R.id.nav_routes -> {
-
-            }
-            R.id.nav_friends -> {
-
-            }
-        }
-
-        // Close the drawer after handling the click
-        drawerLayout.closeDrawer(GravityCompat.START)
-        return true
+    override fun getLayoutResourceId(): Int {
+        TODO("Not yet implemented")
     }
+
 
     fun displayMap() {
         //Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
