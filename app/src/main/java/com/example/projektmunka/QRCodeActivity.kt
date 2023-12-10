@@ -10,6 +10,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -31,6 +32,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.journeyapps.barcodescanner.CaptureActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.coroutineScope
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -53,6 +55,7 @@ class QRCodeActivity : AppCompatActivity() {
     private val proximityThresholdMeters = 50.0 // Adjust the threshold as needed
     private val validTimeRangeMillis = 10 * 60 * 1000L // 7 minutes in milliseconds
     private lateinit var countdownTimer: CountDownTimer
+    private var friendUserId : String? = null
 
     private val userDataViewModel: UserDataViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +66,8 @@ class QRCodeActivity : AppCompatActivity() {
         binding.viewModel = userDataViewModel
         binding.lifecycleOwner = this
         setContentView(binding.root)
+
+        friendUserId = intent.getStringExtra("userId")
 
         initializeViews()
         setupClickListeners()
@@ -80,8 +85,13 @@ class QRCodeActivity : AppCompatActivity() {
         }
 
         addFriendButton.setOnClickListener {
-            // Handle the button click to add a friend
-            // Add your logic here
+            if (friendUserId != null) {
+                val friend = userDataViewModel.getUserById(friendUserId!!)
+                userDataViewModel.addFiendToCurrentUser(friend)
+            }
+            else {
+                Log.d("ERROR", "Add friend button is clicked but friend user id is null!")
+            }
         }
     }
 

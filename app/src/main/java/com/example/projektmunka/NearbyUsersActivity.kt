@@ -44,7 +44,7 @@ class NearbyUserActivity : AppCompatActivity() {
 
             // Start QRCodeActivity and pass necessary data
             val intent = Intent(this, QRCodeActivity::class.java)
-            //intent.putExtra("userId", clickedUser?.firstName) // Replace "userId" with the actual key
+            intent.putExtra("userId", clickedUser?.userId)
             startActivity(intent)
         })
     }
@@ -71,6 +71,7 @@ class NearbyUserActivity : AppCompatActivity() {
         val nearbyUsers = getNearbyUsers(friendZone)
         val nearbyUserItems = nearbyUsers.map {
             NearbyUserItem(
+                userId = it.id,
                 firstName = it.firstName,
                 age = it.age.toString(),
                 gender = it.gender,
