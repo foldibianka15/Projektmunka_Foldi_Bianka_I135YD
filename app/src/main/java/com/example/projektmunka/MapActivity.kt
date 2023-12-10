@@ -1,6 +1,7 @@
 package com.example.projektmunka
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,6 +9,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,7 @@ import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.projektmunka.databinding.ActivityMapBinding
 import com.example.projektmunka.fragment.Form1Fragment
 import com.example.projektmunka.fragment.Form2Fragment
@@ -24,6 +27,9 @@ import com.example.projektmunka.fragment.Form3Fragment
 import com.example.projektmunka.fragment.Form4Fragment
 import com.example.projektmunka.viewModel.UserDataViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +44,9 @@ import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MapActivity : BaseActivity() {
@@ -138,6 +147,56 @@ class MapActivity : BaseActivity() {
         controller = mMap.controller
         controller.setZoom(15.0)
     }
+    suspend fun updateCurrentLocation(context: Context): Location? {
+        return withContext(Dispatchers.IO) {
+            val deferredLocation = CompletableDeferred<Location?>()
+
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // Request location permission
+                ActivityCompat.requestPermissions(
+                    context as Activity,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    1
+                )
+            } else {
+                val fusedLocationClient =
+                    LocationServices.getFusedLocationProviderClient(context)
+
+                val locationRequest = LocationRequest.create().apply {
+                    priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+                }
+
+                val locationCallback = object : LocationCallback() {
+                    override fun onLocationResult(locationResult: LocationResult) {
+                        super.onLocationResult(locationResult)
+                        val location = locationResult.lastLocation
+                        deferredLocation.complete(location)
+                        fusedLocationClient.removeLocationUpdates(this)
+                    }
+                }
+
+                fusedLocationClient.requestLocationUpdates(
+                    locationRequest,
+                    locationCallback,
+                    Looper.getMainLooper()
+                )
+
+                // Wait for the result
+                try {
+                    return@withContext deferredLocation.await()
+                } catch (e: CancellationException) {
+                    // Handle cancellation if needed
+                }
+            }
+
+            return@withContext null
+        }
+    }
+
 
     suspend fun updateCurrentLocation() = withContext(Dispatchers.IO) {
         if (ContextCompat.checkSelfPermission(
@@ -227,6 +286,9 @@ class MapActivity : BaseActivity() {
             else -> 1 // Default to the first form
         }
 
+        lifecycleScope.launch {
+            val location: Location? = updateCurrentLocation(this@MapActivity)
+        }
         val currentUser = userDataViewModel.currentUserData.value ?: return
         val currentLocation = runBlocking {async { getCurrentLocation() }.await()}
 
