@@ -1,7 +1,10 @@
 package com.example.projektmunka
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.AdapterView
 import android.widget.ListView
 import androidx.activity.viewModels
 import com.example.projektmunka.RouteUtils.calculateGeodesicDistanceInMeters
@@ -9,6 +12,7 @@ import com.example.projektmunka.adapter.NearbyUsersAdapter
 import com.example.projektmunka.data.User
 import com.example.projektmunka.databinding.ActivityMapBinding
 import com.example.projektmunka.databinding.ActivityNearbyUsersBinding
+import com.example.projektmunka.uiData.NearbyUserItem
 import com.example.projektmunka.viewModel.UserDataViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,18 +23,30 @@ class NearbyUserActivity : AppCompatActivity() {
     private lateinit var nearbyUsersAdapter: NearbyUsersAdapter
     private lateinit var listViewNearbyUsers: ListView
 
+
     private val userDataViewModel: UserDataViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nearby_users)
         binding = ActivityNearbyUsersBinding.inflate(layoutInflater)
         binding.viewModel = userDataViewModel
+        setContentView(binding.root)
 
         listViewNearbyUsers = binding.listViewNearbyUsers
         nearbyUsersAdapter = NearbyUsersAdapter(this, R.layout.nearby_user_list_item, mutableListOf())
         listViewNearbyUsers.adapter = nearbyUsersAdapter
 
-        observeUserData()
+        updateNearbyUsers(500.0)
+
+        listViewNearbyUsers.setOnItemClickListener(AdapterView.OnItemClickListener { _, _, position, _ ->
+            // Handle item click, get the user at the clicked position
+            val clickedUser = nearbyUsersAdapter.getItem(position)
+
+            // Start QRCodeActivity and pass necessary data
+            val intent = Intent(this, QRCodeActivity::class.java)
+            //intent.putExtra("userId", clickedUser?.firstName) // Replace "userId" with the actual key
+            startActivity(intent)
+        })
     }
 
     private fun getNearbyUsers(friendZone: Double): MutableList<User> {
@@ -48,15 +64,27 @@ class NearbyUserActivity : AppCompatActivity() {
                 nearbyUsers.add(user)
             }
         }
-
         return nearbyUsers
     }
 
-    private fun observeUserData() {
-        val nearbyUsersList = getNearbyUsers(1000.0)
-
+    private fun updateNearbyUsers(friendZone: Double) {
+        val nearbyUsers = getNearbyUsers(friendZone)
+        val nearbyUserItems = nearbyUsers.map {
+            NearbyUserItem(
+                firstName = it.firstName,
+                age = it.age.toString(),
+                gender = it.gender,
+                distance = calculateGeodesicDistanceInMeters(
+                userDataViewModel.currentUserData.value?.let { it1 ->
+                    userDataViewModel.getUserLocation(
+                        it1
+                    )?.geoPoint
+                }!!,
+                userDataViewModel.getUserLocation(it)?.geoPoint!!
+            )
+            )
+        }
         nearbyUsersAdapter.clear()
-        nearbyUsersAdapter.addAll(nearbyUsersList)
-        nearbyUsersAdapter.notifyDataSetChanged()
+        nearbyUsersAdapter.addAll(nearbyUserItems)
     }
 }

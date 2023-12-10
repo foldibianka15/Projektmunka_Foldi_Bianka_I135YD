@@ -68,5 +68,6 @@
     <string name="default_username">username\n</string>
     <string name="username">username\n</string>
     <string name="gender">Gender\n</string>
+    <string name="distance">Distance</string>
 
 </resources>

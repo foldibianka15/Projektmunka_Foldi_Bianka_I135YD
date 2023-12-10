@@ -19,6 +19,7 @@ data class TourItem(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
         parcel.writeString(description)
+        parcel.writeString(detailedDescription)
         parcel.writeInt(imageId)
     }
 

@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.projektmunka.data.LocationInfo
 import com.example.projektmunka.databinding.ActivityQrcodeBinding
+import com.example.projektmunka.utils.ViewfinderRectangleView
 import com.example.projektmunka.viewModel.UserDataViewModel
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
@@ -29,11 +30,13 @@ import com.google.zxing.common.BitMatrix
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.journeyapps.barcodescanner.CaptureActivity
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import kotlin.random.Random
 
+@AndroidEntryPoint
 class QRCodeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityQrcodeBinding
@@ -42,12 +45,13 @@ class QRCodeActivity : AppCompatActivity() {
     private lateinit var readQRCodeButton: Button
     private lateinit var addFriendButton: Button
     private lateinit var countdownTextView: TextView
+    private lateinit var viewfinderRectangleView: ViewfinderRectangleView
 
     private var userPoints = 0
     private var content = ""
     private var locationManager: LocationManager? = null
     private val proximityThresholdMeters = 50.0 // Adjust the threshold as needed
-    private val validTimeRangeMillis = 7 * 60 * 1000L // 7 minutes in milliseconds
+    private val validTimeRangeMillis = 10 * 60 * 1000L // 7 minutes in milliseconds
     private lateinit var countdownTimer: CountDownTimer
 
     private val userDataViewModel: UserDataViewModel by viewModels()
@@ -63,7 +67,6 @@ class QRCodeActivity : AppCompatActivity() {
         initializeViews()
         setupClickListeners()
         startCountdownTimer()
-        startQRCodeScanner()
     }
 
     private fun setupClickListeners() {
@@ -99,6 +102,7 @@ class QRCodeActivity : AppCompatActivity() {
                     val bitMatrix = generateQRCode(content)
                     val bitmap = createBitmap(bitMatrix)
                     qrCodeImageView.setImageBitmap(bitmap)
+                   // viewfinderRectangleView.invalidate()
                 }
             }
         }
