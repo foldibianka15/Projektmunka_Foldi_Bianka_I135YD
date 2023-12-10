@@ -180,10 +180,12 @@ class MapActivity : BaseActivity() {
             else -> 1 // Default to the first form
         }
 
+        val currentUser = userDataViewModel.currentUserData.value ?: return
+
         // Determine which fragment is selected based on the form type
         val selectedFragment = when (selectedFormType) {
             1 -> Form1Fragment()
-            2 -> Form2Fragment()
+            2 -> Form2Fragment(currentUser)
             3 -> Form3Fragment()
             4 -> Form4Fragment()
             else -> Form1Fragment()

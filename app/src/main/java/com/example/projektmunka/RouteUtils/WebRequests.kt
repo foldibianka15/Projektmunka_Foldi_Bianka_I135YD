@@ -29,6 +29,26 @@ import java.net.URLEncoder
 import java.util.logging.Level
 import java.util.logging.Logger
 
+public fun getGraph(startNode : Node, endNode : Node) : Graph<Node, DefaultWeightedEdge>? {
+    return runBlocking {
+        val minLat = (if (startNode.lat < endNode.lat) startNode.lat else endNode.lat) - 0.01
+        val minLon = (if (startNode.lon < endNode.lon) startNode.lon else endNode.lon) - 0.01
+        val maxLat = (if (startNode.lat > endNode.lat) startNode.lat else endNode.lat) + 0.01
+        val maxLon = (if (startNode.lon > endNode.lon) startNode.lon else endNode.lon) + 0.01
+        val bbox = "$minLat,$minLon,$maxLat,$maxLon"
+
+        val graph = async(Dispatchers.IO) {
+            callOverpass(bbox)
+        }.await() ?: return@runBlocking null
+
+        val elevations = async(Dispatchers.IO) {
+            getElevationData(graph)
+        }.await()
+
+        return@runBlocking graph
+    }
+}
+
 suspend fun findNearestNonIsolatedNode(poi : Node, radius: Double,
                                        userLocation: Node, graph: Graph<Node, DefaultWeightedEdge>
 ): Node? =
