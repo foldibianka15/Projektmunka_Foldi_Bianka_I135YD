@@ -15,6 +15,7 @@ import android.widget.FrameLayout
 import android.widget.ImageButton
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.projektmunka.databinding.ActivityMapBinding
 import com.example.projektmunka.fragment.Form1Fragment
@@ -22,8 +23,16 @@ import com.example.projektmunka.fragment.Form2Fragment
 import com.example.projektmunka.fragment.Form3Fragment
 import com.example.projektmunka.fragment.Form4Fragment
 import com.example.projektmunka.viewModel.UserDataViewModel
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -37,7 +46,10 @@ class MapActivity : BaseActivity() {
     private lateinit var binding: ActivityMapBinding
     private lateinit var mMap: MapView
     lateinit var controller: IMapController
+
     private lateinit var locationManager: LocationManager
+    private lateinit var currentLocation : GeoPoint
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val userDataViewModel: UserDataViewModel by viewModels()
 
@@ -47,14 +59,37 @@ class MapActivity : BaseActivity() {
         binding.viewModel = userDataViewModel
         setContentView(binding.root)
 
-        /*val userProfileViewModel: ProfileViewModel by viewModels()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        // Check for location permissions
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Request location permissions if not granted
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                1
+            )
+        } else {
+            // Request location updates
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                1000,
+                1f,
+                locationListener
+            )
+        }
 
-        // Observe changes in the userProfileViewModel.bitmap property
-        userProfileViewModel.bitmap?.let { bitmap ->
-            // Update the user profile picture in the navigation drawer
-            // Assuming userProfilePictureImageView is an ImageView in your navigation drawer
-            findViewById<ImageView>(R.id.imageViewUserProfile)?.setImageBitmap(bitmap)
-        }*/
 
         val nearbyUserButton: ImageButton = findViewById(R.id.nearbyUserButton)
         nearbyUserButton.setOnClickListener {
@@ -102,35 +137,46 @@ class MapActivity : BaseActivity() {
 
         controller = mMap.controller
         controller.setZoom(15.0)
+    }
 
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-// Check for location permissions
-        if (ActivityCompat.checkSelfPermission(
-                this,
+    suspend fun updateCurrentLocation() = withContext(Dispatchers.IO) {
+        if (ContextCompat.checkSelfPermission(
+                this@MapActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // Request location permissions if not granted
             ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
+                this@MapActivity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 1
             )
         } else {
-            // Request location updates
-            locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                0,
-                0f,
-                locationListener
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    location?.let {
+                        // Handle the location update here
+                        currentLocation = GeoPoint(it.latitude, it.longitude)
+                    }
+                }
+        }
+    }
+
+    suspend fun getCurrentLocation() : Location {
+        if (ContextCompat.checkSelfPermission(
+                this@MapActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this@MapActivity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1
             )
+        }
+        return withContext(Dispatchers.IO) {
+            // Use async to launch a coroutine and await the result
+            val location = async { fusedLocationClient.lastLocation.await() }
+            location.await()
         }
     }
 
@@ -138,6 +184,7 @@ class MapActivity : BaseActivity() {
         override fun onLocationChanged(location: Location) {
             // Update the map center to the new location
             val newLocation = GeoPoint(location.latitude, location.longitude)
+            currentLocation = newLocation
             mMap.controller.setCenter(newLocation)
         }
     }
@@ -181,11 +228,12 @@ class MapActivity : BaseActivity() {
         }
 
         val currentUser = userDataViewModel.currentUserData.value ?: return
+        val currentLocation = runBlocking {async { getCurrentLocation() }.await()}
 
         // Determine which fragment is selected based on the form type
         val selectedFragment = when (selectedFormType) {
             1 -> Form1Fragment()
-            2 -> Form2Fragment(currentUser)
+            2 -> Form2Fragment(currentUser, currentLocation)
             3 -> Form3Fragment()
             4 -> Form4Fragment()
             else -> Form1Fragment()

@@ -1,6 +1,7 @@
 package com.example.projektmunka.fragment
 
 import GeneratePaths
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,9 +21,10 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
+import org.osmdroid.util.GeoPoint
 import java.util.concurrent.CountDownLatch
 
-class Form2Fragment(user : User) : Fragment() {
+class Form2Fragment(user : User, currentLocation : Location) : Fragment() {
 
     private lateinit var binding: FragmentForm2Binding
 
