@@ -23,12 +23,12 @@
         android:gravity="center"
         android:paddingBottom="16dp"/>
 
-    <Button
+    <!--<Button
         android:id="@+id/popupButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="OK"
         android:background="?attr/colorPrimary"
         android:textColor="@android:color/white"
-        android:gravity="center"/>
+        android:gravity="center"/>-->
 </LinearLayout>

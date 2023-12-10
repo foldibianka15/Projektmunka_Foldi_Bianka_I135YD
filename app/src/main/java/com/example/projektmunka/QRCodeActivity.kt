@@ -31,9 +31,11 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.journeyapps.barcodescanner.CaptureActivity
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
 @AndroidEntryPoint
@@ -175,12 +177,21 @@ class QRCodeActivity : AppCompatActivity() {
         }
     }
 
-    private fun isInTimeRange(timestamp: String): Boolean {
+    private fun isInTimeRange(scannedContent: String): Boolean {
+        val parts = scannedContent.split("_")
+        val dateString = parts[5].split(":")[1] + "_" + parts[6] // parts[5] + "_" + parts[6]
         val sdf = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
-        val qrCodeTime = sdf.parse(timestamp)
-        val currentTime = Date()
-        val diffMinutes = ((currentTime.time - qrCodeTime.time)/ (1000 * 60)).toInt()
-        return diffMinutes in 0..validTimeRangeMillis
+        val dateObj = sdf.parse(dateString)
+
+        return try {
+
+            val currentTime = Date()
+            val diffMinutes = ((currentTime.time - dateObj.time)/ (1000 * 60)).toInt()
+            diffMinutes in 0..validTimeRangeMillis
+        } catch (e: ParseException) {
+            // Handle parsing exception if necessary
+            false
+        }
     }
 
     private fun isInProximity(scannedContent: String): Boolean{
@@ -232,7 +243,7 @@ class QRCodeActivity : AppCompatActivity() {
         dialogBuilder.setView(dialogView)
 
         dialogBuilder.setTitle("QR Code Scanned")
-            .setMessage("Hi, my name is $userName") // Display relevant details
+            .setMessage("Hi, my name is $userName!") // Display relevant details
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
             }
@@ -240,7 +251,7 @@ class QRCodeActivity : AppCompatActivity() {
     }
 
     private fun extractUserName(scannedContent: String): String? {
-        val parts = scannedContent.split("-")
+        val parts = scannedContent.split("_")
         for (part in parts) {
             if (part.startsWith("User:")) {
                 return part.substringAfter("User:")
