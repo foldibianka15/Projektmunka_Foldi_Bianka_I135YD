@@ -52,7 +52,7 @@ class QRCodeActivity : AppCompatActivity() {
     private var userPoints = 0
     private var content = ""
     private var locationManager: LocationManager? = null
-    private val proximityThresholdMeters = 50.0 // Adjust the threshold as needed
+    private val proximityThresholdMeters = 200.0 // Adjust the threshold as needed
     private val validTimeRangeMillis = 10 * 60 * 1000L // 7 minutes in milliseconds
     private lateinit var countdownTimer: CountDownTimer
     private var friendUserId : String? = null
@@ -103,12 +103,8 @@ class QRCodeActivity : AppCompatActivity() {
                     val timestamp =
                         SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
                     content =
-                        "User:${it.firstName}_UserId:${it.id}_Random:${
-                            Random.nextInt(
-                                1000,
-                                9999
-                            )
-                        }_Lat:${location?.latitude}_Long:${location?.longitude}_Timestamp:$timestamp"
+                        "User:${it.firstName}_UserId:${it.id}_Random:${Random.nextInt(1000, 9999)}_Lat:${location?.latitude}_Long:${location?.longitude}_Timestamp:$timestamp"
+                    println("Content$content")
                     val bitMatrix = generateQRCode(content)
                     val bitmap = createBitmap(bitMatrix)
                     qrCodeImageView.setImageBitmap(bitmap)
@@ -215,9 +211,13 @@ class QRCodeActivity : AppCompatActivity() {
 
     private fun extractLocationInfo(scannedContent: String): LocationInfo? {
         val parts = scannedContent.split("_")
-        if(parts.size == 4) {
-            val latitude = parts[2].toDoubleOrNull()
-            val longitude = parts[3].toDoubleOrNull()
+        if (parts.size == 7) {
+            val latitudeString = parts[3].filter { it.isDigit() || it == '.' }
+            val longitudeString = parts[4].filter { it.isDigit() || it == '.' }
+
+            val latitude = latitudeString.toDoubleOrNull()
+            val longitude = longitudeString.toDoubleOrNull()
+
             if (latitude != null && longitude != null) {
                 return LocationInfo(latitude, longitude)
             }
