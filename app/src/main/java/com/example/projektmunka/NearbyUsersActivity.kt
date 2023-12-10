@@ -37,6 +37,7 @@ class NearbyUserActivity : AppCompatActivity() {
         val currentUser = userDataViewModel.currentUserData.value ?: return mutableListOf()
         val currentUserLocation = userDataViewModel.getUserLocation(currentUser)
         val allUsers = userDataViewModel.getAllUsers()
+        allUsers.remove(currentUser)
         val nearbyUsers = mutableListOf<User>()
 
         for (user in allUsers) {

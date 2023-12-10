@@ -7,8 +7,10 @@ import com.example.projektmunka.data.UserLocation
 import com.example.projektmunka.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,16 +33,23 @@ class UserDataViewModel @Inject constructor(private val authRepository: AuthRepo
     }
 
     fun getAllUsers(): MutableList<User> {
-        runBlocking {
-            return@runBlocking fireStoreRepository.getAllUsers()
+        return runBlocking {
+            // Use withContext to switch to a background thread
+            withContext(Dispatchers.IO) {
+                // Call the suspend function within a coroutine
+                fireStoreRepository.getAllUsers()
+            }
         }
-        return mutableListOf()
     }
 
-    fun getUserLocation(user: User) : UserLocation? {
-        runBlocking {
-            return@runBlocking fireStoreRepository.getAllUserLocations(user).first {it.userId == user.id}
+    fun getUserLocation(user: User) : UserLocation {
+
+        return runBlocking {
+            // Use withContext to switch to a background thread
+            withContext(Dispatchers.IO) {
+                // Call the suspend function within a coroutine
+                fireStoreRepository.getAllUserLocations(user).first {it.userId == user.id}
+            }
         }
-        return null
     }
 }
