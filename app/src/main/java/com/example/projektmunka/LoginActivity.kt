@@ -113,7 +113,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
                 R.id.btn_google_login -> {
                     signInWithGoogle()
-                    readHeartRateData()
+                    requestFitnessApiPermission()
+                    //readHeartRateData()
                 }
 
                 R.id.tv_register -> {

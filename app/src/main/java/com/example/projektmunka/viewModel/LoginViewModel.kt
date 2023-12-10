@@ -46,9 +46,9 @@ class LoginViewModel @Inject constructor(val authRepository: AuthRepository, val
             }
         }
 
-        viewModelScope.launch(Dispatchers.IO) {
+       /* viewModelScope.launch(Dispatchers.IO) {
             // After signing in with Google, create a user collection
             fireStoreRepository.registerFromGoogleAccount(account)
-        }
+        }*/
     }
 }
