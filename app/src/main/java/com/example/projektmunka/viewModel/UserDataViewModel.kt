@@ -52,4 +52,18 @@ class UserDataViewModel @Inject constructor(private val authRepository: AuthRepo
             }
         }
     }
+
+    fun getUserById(userId : String) : User {
+        return runBlocking {
+            // Use withContext to switch to a background thread
+            withContext(Dispatchers.IO) {
+                // Call the suspend function within a coroutine
+                fireStoreRepository.getAllUsers().first { it.id == userId }
+            }
+        }
+    }
+
+    fun addFiendToCurrentUser(friend : User) {
+        currentUserData.value?.friends?.add(friend)
+    }
 }
