@@ -48,10 +48,14 @@ class ProfileActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     try {
-                        userProfileViewModel.bitmap = MediaStore.Images.Media.getBitmap(
-                            getContentResolver(), data.data)
+                        // Correctly handle the image selection result
+                        val selectedImageUri = data.data
+                        val bitmap = MediaStore.Images.Media.getBitmap(
+                            contentResolver, selectedImageUri
+                        )
+                        userProfileViewModel.bitmap = bitmap
                         userProfileViewModel.uploadPhoto()
-                        binding.ivUserPhoto.setImageBitmap(userProfileViewModel.bitmap)
+                        binding.ivUserPhoto.setImageBitmap(bitmap)
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
