@@ -28,11 +28,11 @@ class ProfileActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         setContentView(binding.root)
 
-      userProfileViewModel.email.observe(this) { newEmail ->
+      /*userProfileViewModel.email.observe(this) { newEmail ->
             // Update UI with the newEmail
             // For example, set it to a TextView
             findViewById<TextView>(R.id.editTextEmail)
-        }
+        }*/
 
         binding.ivUserPhoto.setOnClickListener{
             selectImage()

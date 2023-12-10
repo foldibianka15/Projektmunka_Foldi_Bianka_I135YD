@@ -33,17 +33,25 @@ class LoginViewModel @Inject constructor(val authRepository: AuthRepository, val
             val googleId = account.id ?: ""
             val email = account.email ?: ""
 
-            // Check if the user with this Google ID or email already exists
-            val existingUser = fireStoreRepository.checkForExistingUser(googleId, email)
 
-            if (existingUser != null){
-                authRepository.signInWithGoogle(account)
+            // Check if the user with this Google ID or email already exists
+           // val existingUser = fireStoreRepository.checkForExistingUser(googleId, email)
+            authRepository.signInWithGoogle(account)
+            //fireStoreRepository.registerFromGoogleAccount(account)
+
+            //println(fireStoreRepository.currentUserData.value?.id)
+            println(authRepository.currentUser.value?.uid)
+
+           /* if (existingUser != null){
+
+                println(fireStoreRepository.currentUserData.value?.id)
+                println(authRepository.currentUser.value?.uid)
             } else {
                 viewModelScope.launch(Dispatchers.IO) {
                     // After signing in with Google, create a user collection
                     fireStoreRepository.registerFromGoogleAccount(account)
                 }
-            }
+            }*/
         }
 
        /* viewModelScope.launch(Dispatchers.IO) {

@@ -5,6 +5,6 @@ import android.bluetooth.BluetoothAdapter
 class HeartRate {
 
     val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
-
+    val bleManager = BleManager(this)
 
 }

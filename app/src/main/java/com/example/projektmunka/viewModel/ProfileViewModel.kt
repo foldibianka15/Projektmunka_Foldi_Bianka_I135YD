@@ -42,23 +42,25 @@ class ProfileViewModel @Inject constructor(private val authRepository: AuthRepos
         viewModelScope.launch(coroutineContext) {
             fireStoreRepository.currentUserData.collect {
                 it?.let { user ->
-                    withContext(Dispatchers.Main) {
+                    println("nyala" + user.id)
                         email.value = user.email
                         firstName.value = user.firstName
                         lastName.value = user.lastName
                         weight.value = user.weight
                         age.value = user.age
                         gender.value = user.gender
+                        println("nyúl: " + user.id)
                     }
                 }
-            }
+
         }
     }
 
     fun updateUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             authRepository.currentUser.value?.let { fireBaseUser ->
-                withContext(Dispatchers.Main) {
+
+                    println("nyal" + fireBaseUser.uid)
                     val user = User(
                         id = fireBaseUser.uid,
                         lastName = lastName.value ?: "",
@@ -70,7 +72,7 @@ class ProfileViewModel @Inject constructor(private val authRepository: AuthRepos
                     )
                     fireStoreRepository.updateUser(user)
                 }
-            }
+
         }
     }
 

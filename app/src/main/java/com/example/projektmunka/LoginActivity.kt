@@ -16,6 +16,8 @@ import com.example.projektmunka.viewModel.LoginViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.fitness.Fitness
 import com.google.android.gms.fitness.FitnessOptions
@@ -219,12 +221,21 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun readHeartRateData() {
+
+        // Check Google Play services availability
+        val availability = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
+        if (availability != ConnectionResult.SUCCESS) {
+            // Google Play services is not available, handle accordingly
+            Log.e("FitnessAPI", "Google Play services not available, status code: $availability")
+            Toast.makeText(this, "Google Play services not available", Toast.LENGTH_SHORT).show()
+            return
+        }
         // Set the start time to November 28, 2023, 8:00 AM
         val calStart = Calendar.getInstance()
         calStart.set(2023, Calendar.NOVEMBER, 28, 17, 45, 0)
         val startTime = calStart.timeInMillis
 
-// Set the end time to November 28, 2023, 17:50
+        // Set the end time to November 28, 2023, 17:50
         val calEnd = Calendar.getInstance()
         calEnd.set(2023, Calendar.NOVEMBER, 28, 17, 50, 0)
         val endTime = calEnd.timeInMillis
@@ -245,12 +256,26 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             .addOnSuccessListener { dataReadResponse ->
                 // Process the heart rate data
                 // dataReadResponse contains the heart rate data
+                println("tészta")
             }
             .addOnFailureListener { e ->
                 // Handle failure
+                println("tészta")
                 Log.e("FitnessAPI", "Failed to read heart rate data", e)
-                println(e)
                 Toast.makeText(this, "Failed to read heart rate data", Toast.LENGTH_SHORT).show()
+
+                // Additional logging to understand the failure
+                Log.e("FitnessAPI", "Failure details:", e)
+                when (e) {
+                    is ApiException -> {
+                        // Check the status code for more details
+                        Log.e("FitnessAPI", "Status Code: ${e.statusCode}")
+                    }
+                    else -> {
+                        // Handle other types of exceptions
+                        Log.e("FitnessAPI", "Unexpected error type: ${e.javaClass.simpleName}")
+                    }
+                }
             }
     }
 
