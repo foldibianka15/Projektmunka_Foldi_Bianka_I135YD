@@ -259,3 +259,12 @@ fun calculateCaloriesBurned(graph: Graph<Node, DefaultWeightedEdge>, route: Rout
     val weightInKg = 57.0
     return (calculateMETValue(calculateWalkingSpeed(graph, route)) * weightInKg * calculateWalkingtime(graph, route)) / 200
 }
+
+fun calculateDifficultyLevelChange(heartrate : Double, age : Int) : Int {
+    val percantage = (heartrate / (220.0 - age)) * 100
+    return when {
+        percantage < 50 -> 1 // növelni kell a terhelést
+        percantage < 85 -> 0 // pont jó terhelés, nem kell változtatni
+        else -> -1 // túl megterhelő, csökkenteni kell a terhelést
+    }
+}
