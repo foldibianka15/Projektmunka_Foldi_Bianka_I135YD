@@ -29,6 +29,30 @@ import java.net.URLEncoder
 import java.util.logging.Level
 import java.util.logging.Logger
 
+public fun getGraph(startNode : Node, endNode : Node) : Graph<Node, DefaultWeightedEdge>? {
+    return runBlocking {
+        val minLat = (if (startNode.lat < endNode.lat) startNode.lat else endNode.lat) - 0.01
+        val minLon = (if (startNode.lon < endNode.lon) startNode.lon else endNode.lon) - 0.01
+        val maxLat = (if (startNode.lat > endNode.lat) startNode.lat else endNode.lat) + 0.01
+        val maxLon = (if (startNode.lon > endNode.lon) startNode.lon else endNode.lon) + 0.01
+        val bbox = "$minLat,$minLon,$maxLat,$maxLon"
+
+        val graph = async(Dispatchers.IO) {
+            callOverpass(bbox)
+        }.await()
+
+        if (graph != null)
+        {
+            val elevations = async(Dispatchers.IO) {
+                getElevationData(graph)
+            }.await()
+
+            return@runBlocking graph
+        }
+        return@runBlocking graph
+    }
+}
+
 suspend fun findNearestNonIsolatedNode(poi : Node, radius: Double,
                                        userLocation: Node, graph: Graph<Node, DefaultWeightedEdge>
 ): Node? =
@@ -234,9 +258,11 @@ suspend fun fetchCityGraph(
 }
 
 fun createCityGraph(data: OverpassResponse): Graph<Node, DefaultWeightedEdge>? {
+    println("1")
     val graph =
         DefaultUndirectedWeightedGraph<Node, DefaultWeightedEdge>(DefaultWeightedEdge::class.java)
 
+    println("2")
     // Add nodes to the graph
     data.elements?.filter { it.type == "node" && it.lat != null && it.lon != null }
         ?.forEach { node ->
@@ -245,7 +271,7 @@ fun createCityGraph(data: OverpassResponse): Graph<Node, DefaultWeightedEdge>? {
 
     val nodes = graph.vertexSet().toMutableList()
 
-
+    println("3")
     // Add edges to the graph based on ways
     data.elements?.filter { it.type == "way" }
         ?.forEach { way ->
@@ -270,6 +296,7 @@ fun createCityGraph(data: OverpassResponse): Graph<Node, DefaultWeightedEdge>? {
             }
         }
 
+    println("4")
     println("graph$graph")
     return graph
 }

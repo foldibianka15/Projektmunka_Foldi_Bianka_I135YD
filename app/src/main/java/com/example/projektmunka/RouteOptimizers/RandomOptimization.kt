@@ -134,7 +134,7 @@ private fun GetRoute(start: Pair<Double, Double>, end: Pair<Double, Double>, max
     }
 }
 
-private fun GeneratePaths(graph: Graph<Node, DefaultWeightedEdge>, start: Node, end: Node, maxIterations : Int, metric: RouteMetric, targetMetric : Double, duplicatePunishment : Double) : Route {
+public fun GeneratePaths(graph: Graph<Node, DefaultWeightedEdge>, start: Node, end: Node, maxIterations : Int, metric: RouteMetric, targetMetric : Double, duplicatePunishment : Double) : Route {
     val vertices = graph.vertexSet()
     var bestFitness = Double.MAX_VALUE
     var bestPath = Route(mutableListOf())

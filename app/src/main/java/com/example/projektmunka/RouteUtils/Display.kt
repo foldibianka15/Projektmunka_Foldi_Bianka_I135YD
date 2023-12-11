@@ -29,7 +29,7 @@ fun drawPathOnMap(mMap : MapView, path: GraphPath<Node, DefaultWeightedEdge>?) {
 }
 
 fun drawRoute(mMap : MapView, route: Route) {
-    for (j in 0 until route.path.size - 2) {
+    for (j in 0 until route.path.size - 1) {
         val pathSource = route.path[j]
         val pathTarget = route.path[j + 1]
 

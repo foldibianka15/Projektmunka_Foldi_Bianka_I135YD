@@ -35,6 +35,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultWeightedEdge
@@ -125,6 +126,23 @@ class OsmPOIActivity : AppCompatActivity() {
             async(Dispatchers.IO) {
                 updateCurrentLocation()
             }.await()
+        }
+    }
+
+    fun getCurrentLocation() : Location {
+        if (ContextCompat.checkSelfPermission(
+                this@OsmPOIActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this@OsmPOIActivity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
+        }
+        return runBlocking {
+            async {fusedLocationClient.lastLocation.await()}.await()
         }
     }
 
