@@ -11,6 +11,9 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import com.example.projektmunka.RouteUtils.ShenandoahsHikingDifficulty
+import com.example.projektmunka.RouteUtils.addMarker
+import com.example.projektmunka.RouteUtils.addMarkers
+import com.example.projektmunka.RouteUtils.addMilestones
 import com.example.projektmunka.RouteUtils.drawRoute
 import com.example.projektmunka.RouteUtils.findNearestNode
 import com.example.projektmunka.RouteUtils.getGraph
@@ -133,8 +136,8 @@ class Form2Fragment(osmMap : MapView, user : User, currentLocation : Location) :
                     editTextTargetLocation.text.toString(),
                     { latitude, longitude ->
                         destination = Pair(latitude, longitude)
-                        val path = generateRoute(source, destination, 25.0)
-                        drawRoute(osmMap, path!!)
+                        val path = generateRoute(source, destination, 30.0)
+
                     },
                     { /* Error handling code here */ }
                 )
@@ -157,10 +160,16 @@ class Form2Fragment(osmMap : MapView, user : User, currentLocation : Location) :
                 println("graph is null")
             }
             else {
-                val bestRoute = GeneratePaths(graph, startNode, endNode, 5, ::ShenandoahsHikingDifficulty, targetDifficulty, 1.5)
+                val bestRoute = GeneratePaths(graph, startNode, endNode, 300, ::ShenandoahsHikingDifficulty, targetDifficulty, 0.0)
+
+                drawRoute(osmMap, bestRoute!!)
+                addMarker(osmMap, source.first, source.second)
+                addMarker(osmMap, destination.first, destination.second)
+
                 return@runBlocking bestRoute
             }
             return@runBlocking null
         }
     }
+
 }

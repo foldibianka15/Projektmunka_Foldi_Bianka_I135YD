@@ -55,36 +55,48 @@ class CircularDifficultRouteGenerator(
 
             val newPopulation = mutableListOf<Route>()
 
-            val randomIndices = selectedRoutes.indices.shuffled().take(2)
-            val parent1 = selectedRoutes[randomIndices[0]]
-            val parent2 = selectedRoutes[randomIndices[1]]
-            val cutPoints = Pair(1, 3)
-            val offspring = PMXCrossover(parent1, parent2, cutPoints)
+            if (selectedRoutes.size >= 2) {
+                val randomIndices = selectedRoutes.indices.shuffled().take(2)
+                val parent1 = selectedRoutes[randomIndices[0]]
+                val parent2 = selectedRoutes[randomIndices[1]]
+                val cutPoints = Pair(1, 3)
+                val offspring = PMXCrossover(parent1, parent2, cutPoints)
 
-            val matchedPairs = mutableSetOf<Pair<Route, Route>>()
+                val matchedPairs = mutableSetOf<Pair<Route, Route>>()
 
-            for (parent in selectedRoutes) {
-                newPopulation.add(parent)
-                for (i in 0 until nChildren) {
-                    var partner: Route
+                for (parent in selectedRoutes) {
+                    newPopulation.add(parent)
+                    for (i in 0 until nChildren) {
+                        var partner: Route
 
-                    do {
-                        partner = selectedRoutes.random()
-                    } while (partner == parent && selectedRoutes.size > 1)
+                        do {
+                            partner = selectedRoutes.random()
+                        } while (partner == parent && selectedRoutes.size > 1)
 
-                    matchedPairs.add(Pair(parent, partner))
+                        matchedPairs.add(Pair(parent, partner))
 
-                    val mutatedOffspring1 = exchangeMutation(offspring.first)
-                    val mutatedOffspring2 = exchangeMutation(offspring.second)
+                        val mutatedOffspring1 = exchangeMutation(offspring.first)
+                        val mutatedOffspring2 = exchangeMutation(offspring.second)
 
-                    val addFirstOffSpring = (0..1).random()
-                    if (addFirstOffSpring == 0) {
-                        newPopulation.add(mutatedOffspring1)
-                    } else {
-                        newPopulation.add(mutatedOffspring2)
+                        val addFirstOffSpring = (0..1).random()
+                        if (addFirstOffSpring == 0) {
+                            newPopulation.add(mutatedOffspring1)
+                        } else {
+                            newPopulation.add(mutatedOffspring2)
+                        }
                     }
                 }
             }
+            else {
+                for (parent in selectedRoutes) {
+                    newPopulation.add(parent)
+
+                    for (i in 0 until nChildren) {
+                        newPopulation.add(exchangeMutation(parent))
+                    }
+                }
+            }
+
             population = newPopulation
         }
 
