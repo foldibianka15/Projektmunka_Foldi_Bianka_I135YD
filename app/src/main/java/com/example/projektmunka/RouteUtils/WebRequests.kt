@@ -39,12 +39,16 @@ public fun getGraph(startNode : Node, endNode : Node) : Graph<Node, DefaultWeigh
 
         val graph = async(Dispatchers.IO) {
             callOverpass(bbox)
-        }.await() ?: return@runBlocking null
-
-        val elevations = async(Dispatchers.IO) {
-            getElevationData(graph)
         }.await()
 
+        if (graph != null)
+        {
+            val elevations = async(Dispatchers.IO) {
+                getElevationData(graph)
+            }.await()
+
+            return@runBlocking graph
+        }
         return@runBlocking graph
     }
 }
@@ -254,9 +258,11 @@ suspend fun fetchCityGraph(
 }
 
 fun createCityGraph(data: OverpassResponse): Graph<Node, DefaultWeightedEdge>? {
+    println("1")
     val graph =
         DefaultUndirectedWeightedGraph<Node, DefaultWeightedEdge>(DefaultWeightedEdge::class.java)
 
+    println("2")
     // Add nodes to the graph
     data.elements?.filter { it.type == "node" && it.lat != null && it.lon != null }
         ?.forEach { node ->
@@ -265,7 +271,7 @@ fun createCityGraph(data: OverpassResponse): Graph<Node, DefaultWeightedEdge>? {
 
     val nodes = graph.vertexSet().toMutableList()
 
-
+    println("3")
     // Add edges to the graph based on ways
     data.elements?.filter { it.type == "way" }
         ?.forEach { way ->
@@ -290,6 +296,7 @@ fun createCityGraph(data: OverpassResponse): Graph<Node, DefaultWeightedEdge>? {
             }
         }
 
+    println("4")
     println("graph$graph")
     return graph
 }

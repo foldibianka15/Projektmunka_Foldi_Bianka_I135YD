@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import com.example.projektmunka.RouteUtils.ShenandoahsHikingDifficulty
+import com.example.projektmunka.RouteUtils.drawRoute
 import com.example.projektmunka.RouteUtils.findNearestNode
 import com.example.projektmunka.RouteUtils.getGraph
 import com.example.projektmunka.data.Route
@@ -22,12 +23,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
 import java.util.concurrent.CountDownLatch
 
-class Form2Fragment(user : User, currentLocation : Location) : Fragment() {
+class Form2Fragment(osmMap : MapView, user : User, currentLocation : Location) : Fragment() {
+
+    private val osmMap: MapView = osmMap
+    private val user: User = user
+    private val currentLocation: Location = currentLocation
 
     private lateinit var binding: FragmentForm2Binding
-
     lateinit var editTextAddress : TextInputEditText
     lateinit var radioGroupLocation : RadioGroup
     lateinit var editTextTargetLocation : TextInputEditText
@@ -39,9 +44,9 @@ class Form2Fragment(user : User, currentLocation : Location) : Fragment() {
         binding = FragmentForm2Binding.inflate(inflater, container, false)
         val rootView = binding.root
 
-        val editTextAddress = binding.editTextAddress
-        val radioGroupLocation = binding.radioGroupLocation
-        val editTextTargetLocation = binding.editTextTargetLocation
+        editTextAddress = binding.editTextAddress
+        radioGroupLocation = binding.radioGroupLocation
+        editTextTargetLocation = binding.editTextTargetLocation
         val btnSetActualAddress = binding.btnSetActualAddress
         val btnCreateRoute = binding.btnCreateRoute
 
@@ -52,48 +57,7 @@ class Form2Fragment(user : User, currentLocation : Location) : Fragment() {
         }
 
         btnCreateRoute.setOnClickListener {
-            // Get the selected radio button
-            val selectedRadioButtonId = radioGroupLocation.checkedRadioButtonId
-            val selectedRadioButton = rootView.findViewById<RadioButton>(selectedRadioButtonId)
-
-            // Get the address from the EditText
-            val address = editTextAddress.text.toString()
-
-            // Check which radio button is selected
-            if (selectedRadioButton != null) {
-                val selectedOptionText = selectedRadioButton.text.toString()
-
-                if (selectedOptionText == "Choose Address") {
-                    performReverseGeocoding(address,
-                        { latitude, longitude ->
-                            // Handle the result (latitude and longitude) here
-                            Log.d("YourActivity", "Received result. Latitude: $latitude, Longitude: $longitude")
-                        },
-                        {
-                            // Handle the case where no location was found or an error occurred
-                            Log.e("YourActivity", "Error or no location found.")
-                        }
-                    )
-
-                } else if (selectedOptionText == "Set Actual Location") {
-                    // Call another method for setting actual location
-                }
-            }
-
-            val targetLocation = editTextTargetLocation.text.toString()
-
-            performReverseGeocoding(
-                targetLocation,
-                { latitude, longitude ->
-                    Log.d(
-                        "YourActivity",
-                        "Received result. Latitude: $latitude, Longitude: $longitude"
-                    )
-                },
-                {
-                    // Handle the case where no location was found or an error occurred
-                    Log.e("YourActivity", "Error or no location found.")
-                })
+            test()
         }
         return rootView
     }
@@ -120,7 +84,7 @@ class Form2Fragment(user : User, currentLocation : Location) : Fragment() {
         reverseGeocodingTask.execute(address)
     }
 
-    private suspend fun performReverseGeocodingBlocking(address: String): Pair<Double, Double>? {
+    private fun performReverseGeocodingBlocking(address: String): Pair<Double, Double>? {
         // Use CountDownLatch to wait for the result
         val latch = CountDownLatch(1)
 
@@ -160,12 +124,20 @@ class Form2Fragment(user : User, currentLocation : Location) : Fragment() {
                     source = async { performReverseGeocodingBlocking(sourceAddress) }.await()!!
 
                 } else if (selectedOptionText == "Set Actual Location") {
-                    source = Pair(0.0, 0.0)
+                    source = Pair(currentLocation.latitude, currentLocation.longitude)
                 }
 
-                val destination = async { performReverseGeocodingBlocking("asd") }.await()
+                var destination = Pair(0.0, 0.0)
 
-                val path = generateRoute(source, destination!!, 25.0)
+                performReverseGeocoding(
+                    editTextTargetLocation.text.toString(),
+                    { latitude, longitude ->
+                        destination = Pair(latitude, longitude)
+                        val path = generateRoute(source, destination, 25.0)
+                        drawRoute(osmMap, path!!)
+                    },
+                    { /* Error handling code here */ }
+                )
             }
         }
     }
@@ -180,10 +152,15 @@ class Form2Fragment(user : User, currentLocation : Location) : Fragment() {
                 findNearestNode(destination.first, destination.second)
             }.await() ?: return@runBlocking null
 
-            val graph = getGraph(startNode, endNode) ?: return@runBlocking null
-
-            val bestRoute = GeneratePaths(graph, startNode, endNode, 500, ::ShenandoahsHikingDifficulty, targetDifficulty, 1.5)
-            return@runBlocking bestRoute
+            val graph = getGraph(startNode, endNode)
+            if (graph == null) {
+                println("graph is null")
+            }
+            else {
+                val bestRoute = GeneratePaths(graph, startNode, endNode, 5, ::ShenandoahsHikingDifficulty, targetDifficulty, 1.5)
+                return@runBlocking bestRoute
+            }
+            return@runBlocking null
         }
     }
 }

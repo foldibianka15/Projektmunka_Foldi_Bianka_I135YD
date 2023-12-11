@@ -288,21 +288,20 @@ class MapActivity : BaseActivity() {
 
         lifecycleScope.launch {
             val location: Location? = updateCurrentLocation(this@MapActivity)
+
+            val currentUser = userDataViewModel.currentUserData.value
+            // Determine which fragment is selected based on the form type
+            val selectedFragment = when (selectedFormType) {
+                1 -> Form1Fragment()
+                2 -> Form2Fragment(mMap, currentUser!!, location!!)
+                3 -> Form3Fragment()
+                4 -> Form4Fragment()
+                else -> Form1Fragment()
+            }
+
+            replaceBottomSheetContent(selectedFragment)
+
+            hideBottomSheet()
         }
-        val currentUser = userDataViewModel.currentUserData.value ?: return
-        val currentLocation = runBlocking {async { getCurrentLocation() }.await()}
-
-        // Determine which fragment is selected based on the form type
-        val selectedFragment = when (selectedFormType) {
-            1 -> Form1Fragment()
-            2 -> Form2Fragment(currentUser, currentLocation)
-            3 -> Form3Fragment()
-            4 -> Form4Fragment()
-            else -> Form1Fragment()
-        }
-
-        replaceBottomSheetContent(selectedFragment)
-
-        hideBottomSheet()
     }
 }
