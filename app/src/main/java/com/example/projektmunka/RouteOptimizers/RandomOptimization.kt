@@ -52,7 +52,7 @@ private fun TestMetric(graph: Graph<Node, DefaultWeightedEdge>,
                        duplicatePunishment : Double,
                        testPairs : Int, rounds : Int) {
 
-    //val fos =  android.content.ContextWrapper.openFileOutput("log.txt", AppCompatActivity.MODE_APPEND)
+   // val fos =  android.content.ContextWrapper.openFileOutput("log.txt", AppCompatActivity.MODE_APPEND)
     val vertices = graph.vertexSet()
 
     for (t in 0 .. testPairs) {

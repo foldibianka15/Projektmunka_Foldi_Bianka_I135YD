@@ -49,10 +49,9 @@ class CircularDifficultRouteGenerator(
                     graph
                 )
             }
-            println("Best fitness: " + fitnessScores.max())
 
             val selectedRoutes = selectNodes(population, fitnessScores, survivorRate).distinct()
-
+            println("asd")
             val newPopulation = mutableListOf<Route>()
 
             if (selectedRoutes.size >= 2) {

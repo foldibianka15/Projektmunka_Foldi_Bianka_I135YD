@@ -1,7 +1,6 @@
 package com.example.projektmunka
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -26,6 +25,7 @@ import com.example.projektmunka.RouteUtils.countSelfIntersections
 import com.example.projektmunka.RouteUtils.displayCircularRoute
 import com.example.projektmunka.RouteUtils.fetchCityGraph
 import com.example.projektmunka.RouteUtils.fetchNodes
+import com.example.projektmunka.RouteUtils.findNearestNode
 import com.example.projektmunka.RouteUtils.findNearestOSMNode
 import com.example.projektmunka.RouteUtils.getElevationData
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -47,6 +47,14 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.osmdroid.util.GeoPoint
 import java.util.*
 import kotlin.math.*
+import kotlin.random.Random
+import android.content.ContextWrapper
+import android.content.Context.MODE_APPEND
+import java.io.FileOutputStream
+import android.content.Context
+import java.io.BufferedWriter
+import java.io.File
+import java.io.OutputStreamWriter
 
 class OsmPOIActivity : AppCompatActivity() {
 
@@ -113,6 +121,7 @@ class OsmPOIActivity : AppCompatActivity() {
             )
         }
 
+        println("0")
         awaitUpdateCurrentLocation()
     }
 
@@ -169,40 +178,66 @@ class OsmPOIActivity : AppCompatActivity() {
         }
     }
 
+    private fun getRandomLocationInBbox(A : Pair<Double, Double>, B : Pair<Double, Double>) : Pair<Double, Double> {
+        val minLat = (if (A.first < B.first) A.first else B.first) - 0.01
+        val minLon = (if (A.second < B.second) A.second else B.second) - 0.01
+        val maxLat = (if (A.first > B.first) A.first else B.first) + 0.01
+        val maxLon = (if (A.second > B.second) A.second else B.second) + 0.01
+
+        val lat = Random.nextDouble(minLat, maxLat)
+        val lon = Random.nextDouble(minLon, maxLon)
+        return Pair(lat, lon)
+    }
+
     private fun run() {
-        val maxWalkingTimeInHours = 0.5 // órában megadva
-        val desiredRouteLength = maxWalkingTimeInHours * 4   // 1. In fitness function we use distance measure in meters. Ld is the desired distance
-        // caclulated as desired route time (provided by user, and this is M) multiplied by
-        // average walking speed of 4 km per hour.
-        val rOpt = calculateROpt(1.1, maxWalkingTimeInHours)
-        val searchArea = calculateSearchArea(rOpt)
 
         GlobalScope.launch(Dispatchers.IO) {
-            // Use the findNearestOSMNode function to get the nearest node
-            val nearestNode = findNearestOSMNode(currentLocation!!, 300.0) ?: return@launch
 
-            val nodes = fetchNodes(nearestNode.lat, nearestNode.lon, rOpt) ?: return@launch
-            val evaluatedNodes = nodes.let { evaluateNodes(it) }
+            repeat(200) {
+                val maxWalkingTimeInHours = Random.nextDouble(0.25, 1.2)
+                val desiredAscent = Random.nextDouble(0.0, 25.0)
+                //val maxWalkingTimeInHours = 0.5 // órában megadva
+                val desiredRouteLength = maxWalkingTimeInHours * 4   // 1. In fitness function we use distance measure in meters. Ld is the desired distance
+                // caclulated as desired route time (provided by user, and this is M) multiplied by
+                // average walking speed of 4 km per hour.
+                val rOpt = calculateROpt(1.1, maxWalkingTimeInHours)
+                val searchArea = calculateSearchArea(rOpt)
 
-            val importantPOIs = evaluatedNodes.let { selectImportantPOIs(it, 0.1) }
+                // Use the findNearestOSMNode function to get the nearest node
+                val location = getRandomLocationInBbox(Pair(47.5, 19.0), Pair(47.55, 19.1))
+                val nearestNode = findNearestOSMNode(currentLocation!!, 300.0) ?: return@launch
 
-            val cityGraph = fetchCityGraph(nearestNode.lat, nearestNode.lon, rOpt) ?: return@launch
+                val nodes = fetchNodes(nearestNode.lat, nearestNode.lon, 600.0) ?: return@launch
+                val evaluatedNodes = nodes.let { evaluateNodes(it) }
 
-            runBlocking { async { getElevationData(cityGraph)} }.await()
+                val importantPOIs = evaluatedNodes.let { selectImportantPOIs(it, 0.1) }
 
-            val nearestNodeNonIsolated = findClosestNonIsolatedNode(cityGraph, nearestNode, 0.0)!!
 
-            for (poi in importantPOIs) {
-                val closestNonIsolatedNode = findClosestNonIsolatedNode(cityGraph, poi, 0.0)
-                poiToClosestNonIsolatedNode[poi] = closestNonIsolatedNode!!
+                val cityGraph = fetchCityGraph(nearestNode.lat, nearestNode.lon, 600.0) ?: return@launch
+
+                runBlocking { async { getElevationData(cityGraph)} }.await()
+
+                val nearestNodeNonIsolated = findClosestNonIsolatedNode(cityGraph, nearestNode, 0.0)!!
+
+                for (poi in importantPOIs) {
+                    val closestNonIsolatedNode = findClosestNonIsolatedNode(cityGraph, poi, 0.0)
+                    poiToClosestNonIsolatedNode[poi] = closestNonIsolatedNode!!
+                }
+
+                val generator = CircularDifficultRouteGenerator(cityGraph, poiToClosestNonIsolatedNode, importantPOIs, 5, desiredRouteLength, 15.0, searchArea, 20, 5, 50)
+                val bestRoute = generator.runGeneticAlgorithm(nearestNodeNonIsolated)
+                val connectedRoute = generator.connectPois(nearestNodeNonIsolated, bestRoute, cityGraph)
+
+                val routeLength = calculateRouteLength(connectedRoute)
+                val intersections = countSelfIntersections(connectedRoute.path)
+                val ascent = calculateRouteAscent(connectedRoute)
+                val beauty = bestRoute.path.sumOf { it.importance }
+                val area = calculateRouteArea(bestRoute)
+
+                val result = "$desiredRouteLength\t$routeLength\t$desiredAscent\t$ascent\t$searchArea\t$area\t$beauty\t$intersections"
+
+                println(result)
             }
-
-            val generator = CircularRouteGenerator(cityGraph, poiToClosestNonIsolatedNode, importantPOIs, 5, desiredRouteLength, searchArea, 20, 5, 50)
-            val bestRoute = generator.runGeneticAlgorithm(nearestNodeNonIsolated)
-            val connectedRoute = generator.connectPois(nearestNodeNonIsolated, bestRoute, cityGraph)
-            displayCircularRoute(mMap, bestRoute, connectedRoute, nearestNodeNonIsolated)
-            //val waypoints = addWaypoints(connectedRoute, 0.2, cityGraph)
-            //addMarkers(mMap, waypoints)
         }
     }
 

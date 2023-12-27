@@ -81,7 +81,6 @@ suspend fun findNearestNonIsolatedNode(poi : Node, radius: Double,
             val osmJson = JSONObject(osmData)
 
             val elements = osmJson.getJSONArray("elements")
-            println("elements size: " + elements.length())
 
             if (elements.length() > 0) {
                 val nodes = mutableListOf<Node>()
@@ -149,7 +148,6 @@ suspend fun fetchNodes(lat: Double, lon: Double, rOpt: Double): List<Node>? =
 
         val encodedQuery = URLEncoder.encode(query, "UTF-8")
         val url = "https://overpass-api.de/api/interpreter?data=$encodedQuery"
-        println("Generated URL: $url")
         val request = Request.Builder()
             .url(url)
             .build()
@@ -223,7 +221,6 @@ suspend fun fetchCityGraph(
 
     val encodedQuery = URLEncoder.encode(query, "UTF-8")
     val url = "https://overpass-api.de/api/interpreter?data=$encodedQuery"
-    println("Generated URL: $url")
     val request = Request.Builder()
         .url(url)
         .build()
@@ -258,11 +255,9 @@ suspend fun fetchCityGraph(
 }
 
 fun createCityGraph(data: OverpassResponse): Graph<Node, DefaultWeightedEdge>? {
-    println("1")
     val graph =
         DefaultUndirectedWeightedGraph<Node, DefaultWeightedEdge>(DefaultWeightedEdge::class.java)
 
-    println("2")
     // Add nodes to the graph
     data.elements?.filter { it.type == "node" && it.lat != null && it.lon != null }
         ?.forEach { node ->
@@ -271,7 +266,6 @@ fun createCityGraph(data: OverpassResponse): Graph<Node, DefaultWeightedEdge>? {
 
     val nodes = graph.vertexSet().toMutableList()
 
-    println("3")
     // Add edges to the graph based on ways
     data.elements?.filter { it.type == "way" }
         ?.forEach { way ->
@@ -287,17 +281,11 @@ fun createCityGraph(data: OverpassResponse): Graph<Node, DefaultWeightedEdge>? {
                         graph.setEdgeWeight(edge, edgeWeight)
                     } else {
                         // Print additional information to identify the cause of failure
-                        println("Failed to add edge between $source and $target")
-                        println("Nodes in graph: ${graph.vertexSet().size}")
-                        println("Nodes in data: ${data.elements?.filter { it.type == "node" }?.size}")
-                        println("Coordinates: $source -> $target")
                     }
                 }
             }
         }
 
-    println("4")
-    println("graph$graph")
     return graph
 }
 
@@ -477,7 +465,7 @@ suspend fun callOverpass(bbox: String): Graph<Node, DefaultWeightedEdge>? {
                     "(._;>;);" +
                     "out;"
 
-            println(url)
+
             val request = Request.Builder()
                 .url(url)
                 .build()
@@ -534,7 +522,6 @@ suspend fun getElevationData(graph: Graph<Node, DefaultWeightedEdge>): List<Doub
 
     val response: Response = client.newCall(request).execute()
 
-    println(response.message)
     if (!response.isSuccessful) {
         throw Exception("Request failed with code ${response.code}")
     }
