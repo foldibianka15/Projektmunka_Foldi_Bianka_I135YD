@@ -1,8 +1,11 @@
 package com.example.projektmunka.di
 
-import com.example.firstapp.data.models.remote.services.FireStoreService
 import com.example.firstapp.repository.FireStoreRepository
 import com.example.projektmunka.dataremote.AuthService
+import com.example.projektmunka.remote.UserDataService
+import com.example.projektmunka.remote.UserLocationService
+import com.example.projektmunka.remote.UserRouteService
+import com.example.projektmunka.remote.UserRouteTrackerService
 import com.example.projektmunka.repository.AuthRepository
 import dagger.Module
 import dagger.Provides
@@ -19,11 +22,20 @@ class ApplicationModule {
     fun provideAuthService() = AuthService()
     @Provides
     @Singleton
-    fun provideFireStoreService() = FireStoreService()
+    fun provideUserDataService() = UserDataService()
+    @Provides
+    @Singleton
+    fun provideUserLocationService() = UserLocationService()
+    @Provides
+    @Singleton
+    fun provideUserRouteService() = UserRouteService()
+    @Provides
+    @Singleton
+    fun provideUserRouteTrackerService() = UserRouteTrackerService()
     @Provides
     @Singleton
     fun provideAuthRepository(authService:AuthService, fireStoreRepository: FireStoreRepository) = AuthRepository(authService, fireStoreRepository )
     @Provides
     @Singleton
-    fun provideFireStoreRepository(fireStoreService: FireStoreService) = FireStoreRepository(fireStoreService)
+    fun provideFireStoreRepository(userDataService: UserDataService, userLocationService: UserLocationService) = FireStoreRepository(userDataService, userLocationService)
 }
