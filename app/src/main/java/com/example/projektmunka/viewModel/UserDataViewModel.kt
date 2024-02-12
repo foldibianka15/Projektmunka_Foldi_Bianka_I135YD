@@ -42,13 +42,14 @@ class UserDataViewModel @Inject constructor(private val authRepository: AuthRepo
         }
     }
 
-    fun getUserLocation(user: User) : UserLocation {
+    fun getUserLocation(user: User) : UserLocation? {
 
         return runBlocking {
             // Use withContext to switch to a background thread
             withContext(Dispatchers.IO) {
                 // Call the suspend function within a coroutine
-                fireStoreRepository.getAllUserLocations(user).first {it.userId == user.id}
+                val locations = fireStoreRepository.getAllUserLocations()
+                locations.firstOrNull() {it.userId == user.id}
             }
         }
     }

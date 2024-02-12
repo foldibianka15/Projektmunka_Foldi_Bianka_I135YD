@@ -42,10 +42,12 @@ class NearbyUserActivity : AppCompatActivity() {
 
         for (user in allUsers) {
             val userLocation = userDataViewModel.getUserLocation(user)
-            val distanceBetweenUsers =
-                calculateGeodesicDistanceInMeters(currentUserLocation?.geoPoint!!, userLocation?.geoPoint!!)
-            if (distanceBetweenUsers <= friendZone && !currentUser.friends.contains(user)) {
-                nearbyUsers.add(user)
+            if (userLocation != null) {
+                val distanceBetweenUsers =
+                    calculateGeodesicDistanceInMeters(currentUserLocation?.geoPoint!!, userLocation?.geoPoint!!)
+                if (distanceBetweenUsers <= friendZone && !currentUser.friends.contains(user)) {
+                    nearbyUsers.add(user)
+                }
             }
         }
 

@@ -190,7 +190,6 @@ class FireStoreService {
             .await()
     }
 
-
     suspend fun getAllUseLocations(): MutableList<UserLocation> {
         val userLocations = mutableListOf<UserLocation>()
 
@@ -202,7 +201,6 @@ class FireStoreService {
                 userLocations.add(userlocation)
             }
         }
-
         return userLocations
     }
 
