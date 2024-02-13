@@ -78,7 +78,9 @@ class FireStoreRepository(val userDataService: UserDataService, val userLocation
         return userDataService.getAllUsers()
     }
 
+
     suspend fun getAllUserLocations(user: User) : MutableList<UserLocation> {
         return userLocationService.getAllUserLocations()
+
     }
 }
