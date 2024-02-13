@@ -22,7 +22,7 @@ class UserDataViewModel @Inject constructor(private val authRepository: AuthRepo
         getUserData()
     }
 
-    fun getUserData() {
+    private fun getUserData() {
         viewModelScope.launch(Dispatchers.IO) {
             authRepository.currentUser.collect {
                 if (it != null) {
