@@ -50,7 +50,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
-        //binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+
         binding.viewModel = loginViewModel
         binding.lifecycleOwner = this
         setContentView(binding.root)
@@ -302,3 +302,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 }
+
+
+//TODO
+// A HeartRate-hez kapcsolódó függvényeket kivenni innen
+// Csak a kezdeti próbálgatás megkönnyítéséhez lettek ide téve

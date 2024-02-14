@@ -1,8 +1,7 @@
 package com.example.projektmunka.data
 
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ServerTimestamp
-import java.util.*
+import java.util.Date
 
 data class UserRoute(
     var id: String = "",
@@ -14,5 +13,4 @@ data class UserRoute(
     val endDate: Date? = null,
 
     val isFinished: Boolean = false,
-
-    )
+)

@@ -1,6 +1,6 @@
 package com.example.projektmunka.data
 
-data class UserRouteTracker (
+data class UserRouteTracker(
     val id: String,
     val userRoute: UserRoute,
     val duration: Double,

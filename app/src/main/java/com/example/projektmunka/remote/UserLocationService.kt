@@ -38,7 +38,7 @@ class UserLocationService {
             .await()
     }
 
-    suspend fun updateUserLocationField(key: String, value: String, id: String){
+    suspend fun updateUserLocationField(key: String, value: String, id: String) {
         fireStore.collection(Constants.USER_LOCATIONS)
             .document(id)
             .update(key, value)

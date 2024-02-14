@@ -21,6 +21,5 @@ abstract class BaseViewModel() : ViewModel() {
                 error.emit(message)
         }
     }
-
     val coroutineContext = coroutineExceptionHandler+Dispatchers.IO
 }

@@ -3,17 +3,16 @@ package com.example.projektmunka.fragment
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import androidx.core.app.ActivityOptionsCompat
+import androidx.fragment.app.Fragment
 import com.example.projektmunka.R
 import com.example.projektmunka.adapter.TourAdapter
 import com.example.projektmunka.databinding.FragmentRouteListBinding
 import com.example.projektmunka.uiData.TourItem
-import java.lang.ClassCastException
 
 class RouteListFragment : Fragment() {
 
@@ -25,9 +24,9 @@ class RouteListFragment : Fragment() {
         fun onRouteListItemSelected(selectedPosition: Int, transitionBundle: Bundle?)
     }
 
-   /* interface OnItemSelectedListener {
-        fun onItemSelected(position: Int, transitionBundle: Bundle?)
-    }*/
+    /* interface OnItemSelectedListener {
+         fun onItemSelected(position: Int, transitionBundle: Bundle?)
+     }*/
 
     private var routeListener: OnRouteListItemSelectedListener? = null
 
@@ -77,18 +76,26 @@ class RouteListFragment : Fragment() {
 
     // New method to retrieve the current tourList
     fun getTourList(): ArrayList<TourItem> {
-        val names = arrayOf("Explore the city", "Fitness Focus", "TimeTrail Fitness", "Burning calories")
-        val descriptions = arrayOf("Explore scenic routes highlighting city landmarks",
+        val names =
+            arrayOf("Explore the city", "Fitness Focus", "TimeTrail Fitness", "Burning calories")
+        val descriptions = arrayOf(
+            "Explore scenic routes highlighting city landmarks",
             "Tailor routes to your fitness level for an effective workout.",
             "Set start and end points, walk for a specified time on varied terrain.",
-            "Reach your destination while burning calories, tailored to your profile.")
-        val detailedDescription = arrayOf("Explore picturesque routes and enjoy the beauty of the city with this scenic route option. " +
-                "The algorithm considers attractive locations and landmarks along the way.", "Tailor your route based on fitness goals. " +
-                "The algorithm considers your fitness level and adjusts the route for optimal physical activity, ensuring a challenging and " +
-                "rewarding experience.", "Set your start and end points along with the desired walking time. The algorithm then factors in " +
-                "your fitness level to suggest routes with varying terrain difficulty, ensuring a timed fitness trek.", "Specify your route" +
-                " from point A to point B and set a calorie-burning goal. The algorithm takes into account your weight" +
-                " to calculate an optimal route that helps you achieve your calorie-burning target.")
+            "Reach your destination while burning calories, tailored to your profile."
+        )
+        val detailedDescription = arrayOf(
+            "Explore picturesque routes and enjoy the beauty of the city with this scenic route option. " +
+                    "The algorithm considers attractive locations and landmarks along the way.",
+            "Tailor your route based on fitness goals. " +
+                    "The algorithm considers your fitness level and adjusts the route for optimal physical activity, ensuring a challenging and " +
+                    "rewarding experience.",
+            "Set your start and end points along with the desired walking time. The algorithm then factors in " +
+                    "your fitness level to suggest routes with varying terrain difficulty, ensuring a timed fitness trek.",
+            "Specify your route" +
+                    " from point A to point B and set a calorie-burning goal. The algorithm takes into account your weight" +
+                    " to calculate an optimal route that helps you achieve your calorie-burning target."
+        )
         val imageIds = intArrayOf(
             R.drawable.nature1, R.drawable.nature3, R.drawable.nature2, R.drawable.nature4
         )

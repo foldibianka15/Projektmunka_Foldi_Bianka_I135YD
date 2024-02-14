@@ -7,6 +7,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 class AuthRepository(val authService: AuthService, val fireStoreRepository: FireStoreRepository) {
 
     val lastResult = authService.lastResult
+
     //val isLoggedIn = authService.isLoggedIn
     val currentUser = authService.currentUser
     val resetPasswordResult = authService.resetPasswordSendResult
@@ -15,7 +16,7 @@ class AuthRepository(val authService: AuthService, val fireStoreRepository: Fire
         authService.signInWithGoogle(account)
     }
 
-    suspend fun register(email: String, password: String, firstName: String, lastName: String){
+    suspend fun register(email: String, password: String, firstName: String, lastName: String) {
         authService.register(email, password)
         val user = currentUser.value
         if (user != null) {
@@ -23,15 +24,15 @@ class AuthRepository(val authService: AuthService, val fireStoreRepository: Fire
         }
     }
 
-    suspend fun login(email: String, password: String){
-       authService.login(email, password)
+    suspend fun login(email: String, password: String) {
+        authService.login(email, password)
     }
 
-    suspend fun resetPassword(email: String){
+    suspend fun resetPassword(email: String) {
         authService.resetPassword(email)
     }
 
-    suspend fun logout(){
+    suspend fun logout() {
         authService.logout()
     }
 }

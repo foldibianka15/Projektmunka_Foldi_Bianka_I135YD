@@ -34,6 +34,7 @@ class CircularDifficultRouteGenerator(
     }
 
     fun runGeneticAlgorithm(userLocation: Node): Route {
+
         initializePopulation(userLocation)
 
         val nChildren = (populationSize - survivorRate) / survivorRate
@@ -51,9 +52,9 @@ class CircularDifficultRouteGenerator(
             }
 
             val selectedRoutes = selectNodes(population, fitnessScores, survivorRate).distinct()
-            println("asd")
             val newPopulation = mutableListOf<Route>()
 
+            // Crossover: Create offspring routes by PMX crossover
             if (selectedRoutes.size >= 2) {
                 val randomIndices = selectedRoutes.indices.shuffled().take(2)
                 val parent1 = selectedRoutes[randomIndices[0]]
@@ -68,15 +69,19 @@ class CircularDifficultRouteGenerator(
                     for (i in 0 until nChildren) {
                         var partner: Route
 
+                        // Select random partner for crossover (ensuring they haven't been matched before)
                         do {
                             partner = selectedRoutes.random()
                         } while (partner == parent && selectedRoutes.size > 1)
 
+                        // Add the current pair to the set of matched pairs
                         matchedPairs.add(Pair(parent, partner))
 
+                        // Mutate offspring
                         val mutatedOffspring1 = exchangeMutation(offspring.first)
                         val mutatedOffspring2 = exchangeMutation(offspring.second)
 
+                        // Randomly choose whether to add offspring1 or offspring2 to the new population
                         val addFirstOffSpring = (0..1).random()
                         if (addFirstOffSpring == 0) {
                             newPopulation.add(mutatedOffspring1)
@@ -85,8 +90,7 @@ class CircularDifficultRouteGenerator(
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 for (parent in selectedRoutes) {
                     newPopulation.add(parent)
 
@@ -95,7 +99,7 @@ class CircularDifficultRouteGenerator(
                     }
                 }
             }
-
+            // Replace the old population with the new one
             population = newPopulation
         }
 
@@ -177,7 +181,11 @@ class CircularDifficultRouteGenerator(
         return beauty * lengthMultiplier * areaMultiplier * selfIntersectionMultiplier * ascentMultiplier
     }
 
-    private fun PMXCrossover(parent1: Route, parent2: Route, cutPoints: Pair<Int, Int>): Pair<Route, Route> {
+    private fun PMXCrossover(
+        parent1: Route,
+        parent2: Route,
+        cutPoints: Pair<Int, Int>
+    ): Pair<Route, Route> {
         val size = parent1.path.size
         val offspring1 = MutableList<Node?>(size) { null }
         val offspring2 = MutableList<Node?>(size) { null }
@@ -215,7 +223,10 @@ class CircularDifficultRouteGenerator(
                 }
             }
         }
-        return Pair(Route(offspring1.toList() as MutableList<Node>), Route(offspring2.toList() as MutableList<Node>))
+        return Pair(
+            Route(offspring1.toList() as MutableList<Node>),
+            Route(offspring2.toList() as MutableList<Node>)
+        )
     }
 
     private fun exchangeMutation(route: Route): Route {
@@ -238,22 +249,40 @@ class CircularDifficultRouteGenerator(
         return Route(mutatedRoute)
     }
 
-    fun connectPois(userLocation: Node, pois : Route, graph: Graph<Node, DefaultWeightedEdge>) : Route
-    {
+    fun connectPois(
+        userLocation: Node,
+        pois: Route,
+        graph: Graph<Node, DefaultWeightedEdge>
+    ): Route {
         val dijkstra = DijkstraShortestPath(graph)
         val connectedRoute = Route(mutableListOf())
 
-        connectedRoute.path.addAll(dijkstra.getPath(userLocation, poiToClosestNonIsolatedNode[pois.path.first()]).vertexList)
-        for (i in 0 .. pois.path.size - 2) {
+        connectedRoute.path.addAll(
+            dijkstra.getPath(
+                userLocation,
+                poiToClosestNonIsolatedNode[pois.path.first()]
+            ).vertexList
+        )
+        for (i in 0..pois.path.size - 2) {
             val current = pois.path[i]
             val next = pois.path[i + 1]
 
             val currentNonIsolated = poiToClosestNonIsolatedNode[current]
             val nextNonIsolated = poiToClosestNonIsolatedNode[next]
 
-            connectedRoute.path.addAll(dijkstra.getPath(currentNonIsolated, nextNonIsolated).vertexList)
+            connectedRoute.path.addAll(
+                dijkstra.getPath(
+                    currentNonIsolated,
+                    nextNonIsolated
+                ).vertexList
+            )
         }
-        connectedRoute.path.addAll(dijkstra.getPath(poiToClosestNonIsolatedNode[pois.path.last()], userLocation).vertexList)
+        connectedRoute.path.addAll(
+            dijkstra.getPath(
+                poiToClosestNonIsolatedNode[pois.path.last()],
+                userLocation
+            ).vertexList
+        )
 
         return connectedRoute
     }

@@ -3,11 +3,11 @@ package com.example.projektmunka.fragment
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
+import androidx.fragment.app.Fragment
 import com.example.projektmunka.R
 import com.example.projektmunka.databinding.FragmentRouteDetailBinding
 import com.example.projektmunka.uiData.TourItem
@@ -72,7 +72,10 @@ class RouteDetailFragment : Fragment() {
             binding.tourNameDetail.text = currentTourItem.name
             binding.tourDescriptionDetail.text = currentTourItem.detailedDescription
 
-            ViewCompat.setTransitionName(binding.tourImageDetail, getString(R.string.transition_tour_image))
+            ViewCompat.setTransitionName(
+                binding.tourImageDetail,
+                getString(R.string.transition_tour_image)
+            )
         }
 
         binding.startButton.setOnClickListener {

@@ -30,7 +30,7 @@ class UserRouteTrackerService {
             .await()
     }
 
-    suspend fun updateUserRouteTrackerField(key: String, value: String, id: String){
+    suspend fun updateUserRouteTrackerField(key: String, value: String, id: String) {
         fireStore.collection(Constants.USER_ROUTE_TRACKERS)
             .document(id)
             .update(key, value)

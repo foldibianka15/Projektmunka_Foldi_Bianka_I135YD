@@ -99,14 +99,12 @@ class MapActivity : BaseActivity() {
             )
         }
 
-
         val nearbyUserButton: ImageButton = findViewById(R.id.nearbyUserButton)
         nearbyUserButton.setOnClickListener {
             val intent = Intent(this@MapActivity, NearbyUserActivity::class.java)
             startActivity(intent)
             finish()
         }
-
 
         // Set up the bottom sheet
         val bottomSheet: FrameLayout = findViewById(R.id.bottom_sheet)
@@ -122,11 +120,9 @@ class MapActivity : BaseActivity() {
         displayMap()
     }
 
-
     override fun getLayoutResourceId(): Int {
         TODO("Not yet implemented")
     }
-
 
     fun displayMap() {
         //Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
@@ -192,50 +188,7 @@ class MapActivity : BaseActivity() {
                     // Handle cancellation if needed
                 }
             }
-
             return@withContext null
-        }
-    }
-
-
-    suspend fun updateCurrentLocation() = withContext(Dispatchers.IO) {
-        if (ContextCompat.checkSelfPermission(
-                this@MapActivity,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this@MapActivity,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                1
-            )
-        } else {
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location: Location? ->
-                    location?.let {
-                        // Handle the location update here
-                        currentLocation = GeoPoint(it.latitude, it.longitude)
-                    }
-                }
-        }
-    }
-
-    suspend fun getCurrentLocation() : Location {
-        if (ContextCompat.checkSelfPermission(
-                this@MapActivity,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this@MapActivity,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                1
-            )
-        }
-        return withContext(Dispatchers.IO) {
-            // Use async to launch a coroutine and await the result
-            val location = async { fusedLocationClient.lastLocation.await() }
-            location.await()
         }
     }
 
@@ -305,3 +258,7 @@ class MapActivity : BaseActivity() {
         }
     }
 }
+
+
+//TODO
+// A User aktuális helyzetét kezelő függvényeket kivenni innen

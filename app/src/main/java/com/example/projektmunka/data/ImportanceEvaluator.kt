@@ -1,7 +1,7 @@
 package com.example.projektmunka.data
 
 class ImportanceEvaluator {
-    companion object{
+    companion object {
         fun evaluate(node: Node): Int {
             var importance = 0
 
@@ -25,7 +25,8 @@ class ImportanceEvaluator {
             importance += nameTags?.size ?: 0
 
             // Check for tags defining architectural style
-            val architecturalStyleTags = listOf("architectural_style", "building:architecture", "heritage")
+            val architecturalStyleTags =
+                listOf("architectural_style", "building:architecture", "heritage")
             for (tag in architecturalStyleTags) {
                 if (node.tags?.containsKey(tag) == true) {
                     importance += 1

@@ -13,7 +13,7 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-class AntColonyRouteFinder(
+class AntColonyRouteGenerator(
     private val graph: Graph<Node, DefaultWeightedEdge>,
     private val populationSize: Int,    // 10
     private val evaporation: Double,    // 0.65
@@ -21,7 +21,7 @@ class AntColonyRouteFinder(
     private val alpha: Double,  // 1.0
     private val beta: Double,   // 10.0
     private val Q: Double,  // 4.0
-    private val maxIterations : Int,    // 200
+    private val maxIterations: Int,    // 200
     private val stepCount: Int,  // 1000
     private val metric: RouteMetric
 ) {
@@ -38,24 +38,24 @@ class AntColonyRouteFinder(
         val dijkstra = DijkstraShortestPath(graph)
         val path = dijkstra.getPath(source, target).vertexList
 
-        for (i in 0 .. path.size - 2) {
-            pheromones[graph.getEdge(path[i], path[i+1])] = 0.5
+        for (i in 0..path.size - 2) {
+            pheromones[graph.getEdge(path[i], path[i + 1])] = 0.5
         }
     }
 
     fun findRoute(source: Node, target: Node): Route {
 
         println("In find route!")
-        for (round in 0 .. maxIterations) {
+        for (round in 0..maxIterations) {
             val antPaths = mutableListOf<Route>()
-            for(antIndex in 0 .. populationSize - 1) {
+            for (antIndex in 0..populationSize - 1) {
                 antPaths.add(Route(mutableListOf()))
                 antPaths.last().path.add(source)
             }
 
-            for (antIndex in 0 .. populationSize - 1) {
+            for (antIndex in 0..populationSize - 1) {
 
-                for (i in 0 .. stepCount) {
+                for (i in 0..stepCount) {
                     val nextNode = calculateNextNode(antPaths[antIndex], target)
 
                     print("Round: $round, ant: $antIndex, step: $i -->")
@@ -80,7 +80,7 @@ class AntColonyRouteFinder(
             for (route in antPaths) {
                 if (route.path.last() != null && route.path.last() == target) {
                     val delta = Q / fitnessANT(route, target)
-                    for (i in 0 .. route.path.size - 2) {
+                    for (i in 0..route.path.size - 2) {
                         val edge = graph.getEdge(route.path[i], route.path[i + 1])
                         pheromones[edge] = pheromones[edge]!! + delta
                     }
@@ -91,7 +91,7 @@ class AntColonyRouteFinder(
         val bestPath = Route(mutableListOf<Node>())
         bestPath.path.add(source)
 
-        for (i in 0 .. 1000) { // max iterations
+        for (i in 0..1000) { // max iterations
             val nextNode = calculateNextNode(bestPath, target)
 
             if (nextNode == null) {
@@ -107,8 +107,7 @@ class AntColonyRouteFinder(
             println("Best path has reached the target!")
             println("Target metric is: " + targetRouteLength)
             println("Best path's metric is: " + metric(graph, bestPath))
-        }
-        else {
+        } else {
             println("Best path has not reached the target")
         }
 
@@ -121,7 +120,7 @@ class AntColonyRouteFinder(
         val edges = graph.edgesOf(currentNode).toMutableList()
 
         val nodes = mutableListOf<Node>()
-        val distances =  mutableListOf<Double>()
+        val distances = mutableListOf<Double>()
         val edgePheromones = mutableListOf<Double>()
         val probabilities = mutableListOf<Double>()
         var sum = 0.0
@@ -131,12 +130,11 @@ class AntColonyRouteFinder(
         for (edge in edges) {
             val source = graph.getEdgeSource(edge)
             val target = graph.getEdgeTarget(edge)
-            var adjecentNode : Node
+            var adjecentNode: Node
 
             if (source != currentNode) {
                 adjecentNode = source
-            }
-            else {
+            } else {
                 adjecentNode = target
             }
 
@@ -156,12 +154,12 @@ class AntColonyRouteFinder(
             val p = pheromones[edge]
             if (p != null) {
                 edgePheromones.add(p)
-            }
-            else {
+            } else {
                 edgePheromones.add(0.0)
             }
 
-            var probability = Math.pow(edgePheromones.last(), alpha) * Math.pow(distances.last(), beta)
+            var probability =
+                Math.pow(edgePheromones.last(), alpha) * Math.pow(distances.last(), beta)
             probability = Math.pow(probability, Math.E)
 
             if (probability.isInfinite()) {
@@ -172,7 +170,7 @@ class AntColonyRouteFinder(
             sum += probability
         }
 
-        for (i in 0 .. probabilities.size - 1) {
+        for (i in 0..probabilities.size - 1) {
             probabilities[i] /= sum
         }
 
@@ -205,7 +203,7 @@ class AntColonyRouteFinder(
         return length
     }
 
-    fun fitnessANT(route2: Route, target: Node) : Double {
+    fun fitnessANT(route2: Route, target: Node): Double {
         return kotlin.math.abs(metric(this.graph, route2) - targetRouteLength)
     }
 

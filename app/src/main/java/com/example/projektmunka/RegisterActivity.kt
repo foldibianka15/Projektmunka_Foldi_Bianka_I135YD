@@ -43,11 +43,4 @@ class RegisterActivity : AppCompatActivity() {
             registerViewModel.registerUser()
         }
     }
-
-    fun userRegistrationSuccess() {
-        Toast.makeText(
-            this@RegisterActivity, resources.getString(R.string.register_success),
-            Toast.LENGTH_LONG
-        ).show()
-    }
 }

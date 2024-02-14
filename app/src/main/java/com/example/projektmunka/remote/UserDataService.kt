@@ -30,7 +30,7 @@ class UserDataService {
         _currentUserData.emit(result.toObject(User::class.java))
     }
 
-    suspend fun registerUserWithGoogle(userInfo: User){
+    suspend fun registerUserWithGoogle(userInfo: User) {
         fireStore.collection(Constants.USERS)
             .document(userInfo.id)
             .set(userInfo, SetOptions.merge()).await()
@@ -50,14 +50,14 @@ class UserDataService {
             .await()
     }
 
-    suspend fun updateUserField(key: String, value: String, id: String){
+    suspend fun updateUserField(key: String, value: String, id: String) {
         fireStore.collection(Constants.USERS)
             .document(id)
             .update(key, value)
             .await()
     }
 
-    suspend fun uploadImageCloudStorage(bitmap: Bitmap, id: String){
+    suspend fun uploadImageCloudStorage(bitmap: Bitmap, id: String) {
         val storage: FirebaseStorage = FirebaseStorage.getInstance()
 
         val baos = ByteArrayOutputStream()
@@ -65,9 +65,13 @@ class UserDataService {
         val data: ByteArray = baos.toByteArray()
 
 
-        val uploadTask = storage.reference.child(id+".jpg")
+        val uploadTask = storage.reference.child(id + ".jpg")
             .putBytes(data).await()
-        updateUserField("image", uploadTask.metadata!!.reference!!.downloadUrl.await().toString(), id)
+        updateUserField(
+            "image",
+            uploadTask.metadata!!.reference!!.downloadUrl.await().toString(),
+            id
+        )
 
         _uploadPhotoResult.emit("Upload success")
     }

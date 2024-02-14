@@ -7,7 +7,7 @@ data class Node(
     val id: Long,
     val lat: Double,
     val lon: Double,
-    var elevation : Double = 0.0, // TODO: change this ot val!
+    var elevation: Double = 0.0, // TODO: change this ot val!
     val tags: Map<String, String>? = null,
     var importance: Int = 0  // Add an importance property with a default value of 0
 ) {

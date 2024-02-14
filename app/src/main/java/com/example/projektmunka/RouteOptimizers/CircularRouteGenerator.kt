@@ -1,7 +1,6 @@
 package com.example.projektmunka.RouteOptimizers
 
 import com.example.projektmunka.RouteUtils.calculateRouteArea
-import com.example.projektmunka.RouteUtils.calculateRouteAscent
 import com.example.projektmunka.RouteUtils.calculateRouteLength
 import com.example.projektmunka.RouteUtils.countSelfIntersections
 import com.example.projektmunka.data.Node
@@ -84,8 +83,7 @@ class CircularRouteGenerator(
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 for (parent in selectedRoutes) {
                     newPopulation.add(parent)
 
@@ -95,7 +93,7 @@ class CircularRouteGenerator(
                 }
             }
 
-             population = newPopulation
+            population = newPopulation
         }
 
         return population.maxBy {
@@ -170,7 +168,11 @@ class CircularRouteGenerator(
         return beauty * lengthMultiplier * areaMultiplier * selfIntersectionMultiplier
     }
 
-    private fun PMXCrossover(parent1: Route, parent2: Route, cutPoints: Pair<Int, Int>): Pair<Route, Route> {
+    private fun PMXCrossover(
+        parent1: Route,
+        parent2: Route,
+        cutPoints: Pair<Int, Int>
+    ): Pair<Route, Route> {
         val size = parent1.path.size
         val offspring1 = MutableList<Node?>(size) { null }
         val offspring2 = MutableList<Node?>(size) { null }
@@ -208,7 +210,10 @@ class CircularRouteGenerator(
                 }
             }
         }
-        return Pair(Route(offspring1.toList() as MutableList<Node>), Route(offspring2.toList() as MutableList<Node>))
+        return Pair(
+            Route(offspring1.toList() as MutableList<Node>),
+            Route(offspring2.toList() as MutableList<Node>)
+        )
     }
 
     private fun exchangeMutation(route: Route): Route {
@@ -231,22 +236,40 @@ class CircularRouteGenerator(
         return Route(mutatedRoute)
     }
 
-    fun connectPois(userLocation: Node, pois : Route, graph: Graph<Node, DefaultWeightedEdge>) : Route
-    {
+    fun connectPois(
+        userLocation: Node,
+        pois: Route,
+        graph: Graph<Node, DefaultWeightedEdge>
+    ): Route {
         val dijkstra = DijkstraShortestPath(graph)
         val connectedRoute = Route(mutableListOf())
 
-        connectedRoute.path.addAll(dijkstra.getPath(userLocation, poiToClosestNonIsolatedNode[pois.path.first()]).vertexList)
-        for (i in 0 .. pois.path.size - 2) {
+        connectedRoute.path.addAll(
+            dijkstra.getPath(
+                userLocation,
+                poiToClosestNonIsolatedNode[pois.path.first()]
+            ).vertexList
+        )
+        for (i in 0..pois.path.size - 2) {
             val current = pois.path[i]
             val next = pois.path[i + 1]
 
             val currentNonIsolated = poiToClosestNonIsolatedNode[current]
             val nextNonIsolated = poiToClosestNonIsolatedNode[next]
 
-            connectedRoute.path.addAll(dijkstra.getPath(currentNonIsolated, nextNonIsolated).vertexList)
+            connectedRoute.path.addAll(
+                dijkstra.getPath(
+                    currentNonIsolated,
+                    nextNonIsolated
+                ).vertexList
+            )
         }
-        connectedRoute.path.addAll(dijkstra.getPath(poiToClosestNonIsolatedNode[pois.path.last()], userLocation).vertexList)
+        connectedRoute.path.addAll(
+            dijkstra.getPath(
+                poiToClosestNonIsolatedNode[pois.path.last()],
+                userLocation
+            ).vertexList
+        )
 
         return connectedRoute
     }

@@ -10,14 +10,17 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class FireStoreRepository(val userDataService: UserDataService, val userLocationService: UserLocationService) {
+class FireStoreRepository(
+    val userDataService: UserDataService,
+    val userLocationService: UserLocationService
+) {
 
     val currentUserData = userDataService.currentUserData
     val uploadPhotoResult = userDataService.uploadPhotoResult
 
     private val currentUserLocationData = userLocationService.currentUserLocationData
 
-    suspend fun getUserProfileData(userId: String){
+    suspend fun getUserProfileData(userId: String) {
         userDataService.getUserProfileData(userId)
     }
 
@@ -31,6 +34,7 @@ class FireStoreRepository(val userDataService: UserDataService, val userLocation
         )
         userDataService.registerUserWithGoogle(user)
     }
+
     suspend fun registerUserIntoFireStore(
         userInfo: FirebaseUser,
         firstName: String,
@@ -70,16 +74,16 @@ class FireStoreRepository(val userDataService: UserDataService, val userLocation
         userDataService.updateUserProfileData(userInfo)
     }
 
-    suspend fun uploadPhoto(bitmap: Bitmap, id: String){
+    suspend fun uploadPhoto(bitmap: Bitmap, id: String) {
         userDataService.uploadImageCloudStorage(bitmap, id)
     }
 
-    suspend fun getAllUsers() : MutableList<User> {
+    suspend fun getAllUsers(): MutableList<User> {
         return userDataService.getAllUsers()
     }
 
 
-    suspend fun getAllUserLocations(user: User) : MutableList<UserLocation> {
+    suspend fun getAllUserLocations(): MutableList<UserLocation> {
         return userLocationService.getAllUserLocations()
 
     }

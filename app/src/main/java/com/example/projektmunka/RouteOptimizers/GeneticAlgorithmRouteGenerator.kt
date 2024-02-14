@@ -4,7 +4,6 @@ import org.jgrapht.Graph
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.jgrapht.alg.shortestpath.YenKShortestPath
 import org.jgrapht.graph.DefaultWeightedEdge
-import java.util.concurrent.ThreadLocalRandom
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.pow
@@ -14,7 +13,7 @@ import kotlin.random.Random
 
 typealias RouteMetric = (Graph<Node, DefaultWeightedEdge>, Route) -> Double
 
-class GeneticAlgorithmRouteFinder(
+class GeneticAlgorithmRouteGenerator(
     private val graph: Graph<Node, DefaultWeightedEdge>,
     private val startNode: Node,
     private val endNode: Node,
