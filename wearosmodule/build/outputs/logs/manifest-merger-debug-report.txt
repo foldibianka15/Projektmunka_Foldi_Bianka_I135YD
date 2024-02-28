@@ -1,0 +1,566 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:2:1-68:12
+MERGED from [com.google.android.horologist:horologist-compose-tools:0.1.5] C:\Users\foldi\.gradle\caches\transforms-3\2514fe4099cec01e2dddd62456b83eca\transformed\horologist-compose-tools-0.1.5\AndroidManifest.xml:17:1-26:12
+MERGED from [com.google.android.horologist:horologist-tiles:0.1.5] C:\Users\foldi\.gradle\caches\transforms-3\df8e32619dd51a6b6483395c7b9f97fc\transformed\horologist-tiles-0.1.5\AndroidManifest.xml:17:1-32:12
+MERGED from [androidx.compose.ui:ui-tooling:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\c96a8a9d8cddd62b0c40f72faf2b13a0\transformed\ui-tooling-1.3.0\AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.wear.compose:compose-navigation:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\ee7e9be50001b9d190dcbe542d631b5f\transformed\compose-navigation-1.0.0\AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.navigation:navigation-compose:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\66daa072f275a1c1067a08bd3517e8d9\transformed\navigation-compose-2.4.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity-compose:1.5.1] C:\Users\foldi\.gradle\caches\transforms-3\a1da4465a9ea8068878135e8e573bd04\transformed\activity-compose-1.5.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.wear.compose:compose-material:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\42e21ff3eb131cabb3b8ac7ea1076815\transformed\compose-material-1.0.0\AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.wear.compose:compose-foundation:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\8d8d9d1d4231a00bc08fd1bb81cee75d\transformed\compose-foundation-1.0.0\AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.compose.material:material:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\740ad46a804a0d5099cd5a266a067874\transformed\material-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.material:material-ripple:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\1e0e762d608b5328f45ba32fadd647ae\transformed\material-ripple-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [io.coil-kt:coil-compose:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\2f8ecc16aa528b198ca23ba833c5d109\transformed\coil-compose-2.1.0\AndroidManifest.xml:2:1-9:12
+MERGED from [io.coil-kt:coil-compose-base:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\78483b59f0cc9ea5dc1bce89660beb74\transformed\coil-compose-base-2.1.0\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.compose.foundation:foundation:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\4057a9fa7834a262e923aa55c9663ed1\transformed\foundation-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.animation:animation:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\91ae02738ad2cf8394defcfed33e0048\transformed\animation-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.foundation:foundation-layout:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\2b47b7cc4baef453cb6dcc5c450ef6c9\transformed\foundation-layout-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.ui:ui-tooling-data:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\f6ea7b0d5a173a57971ead291d45b7eb\transformed\ui-tooling-data-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.animation:animation-core:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\2cebfd786b39c2ff279db97f0a160422\transformed\animation-core-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.material:material-icons-core:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\ad1c00ce3ef2c5dac9b60dd0e49cacde\transformed\material-icons-core-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\948098f92900334b8e16073c8379b4d2\transformed\lifecycle-viewmodel-compose-2.4.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.23.1] C:\Users\foldi\.gradle\caches\transforms-3\79ef6aa9da85550b11fd13bedd1d6374\transformed\accompanist-drawablepainter-0.23.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.compose.ui:ui:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\68901eecffff70bbb4fa68d91b5c3f85\transformed\ui-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\786d329a31371455401dd90c2260eb8f\transformed\navigation-runtime-ktx-2.4.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-runtime:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\7718b0844ac102a5fcfcf100f3f07d46\transformed\navigation-runtime-2.4.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity-ktx:1.5.1] C:\Users\foldi\.gradle\caches\transforms-3\f854ddc416ae18c6feb8b8bd2f288a83\transformed\activity-ktx-1.5.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-common-ktx:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\bb0e30d8c9ff9146c8fdcd91e61a3554\transformed\navigation-common-ktx-2.4.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-common:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\af21fc62e4a6b3d0e99bfbad789a9de3\transformed\navigation-common-2.4.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\fa0336fc969f7825f9337cef6836438a\transformed\lifecycle-runtime-ktx-2.5.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.compose.ui:ui-tooling-preview:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\ee8b433a15175c74e44dfb6337bc006c\transformed\ui-tooling-preview-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.ui:ui-text:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\f8b24d1ee163d4a2084a81d6ae23a21b\transformed\ui-text-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.runtime:runtime-saveable:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\43e89d5a61d66643d184bf114dfec796\transformed\runtime-saveable-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.ui:ui-graphics:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\b2f2103836c76133bf24c009318b9842\transformed\ui-graphics-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.ui:ui-unit:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\c4e69396b9a9e2ace194613abce48f62\transformed\ui-unit-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.ui:ui-geometry:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\a4fab2a995a741f40208390547cf95d2\transformed\ui-geometry-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.runtime:runtime:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\f4596556144346faa7dd957dd0941e8d\transformed\runtime-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.wear.tiles:tiles-renderer:1.1.0-beta01] C:\Users\foldi\.gradle\caches\transforms-3\4a91b6319d436c0bd21316fb429f8bd4\transformed\tiles-renderer-1.1.0-beta01\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\8c8e8dec3a9b5c698a6064867ee9ee5d\transformed\lifecycle-viewmodel-ktx-2.5.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\840cdcb674a1c3d654ceb2ee3384b9e1\transformed\watchface-complications-data-source-ktx-1.1.1\AndroidManifest.xml:2:1-15:12
+MERGED from [androidx.wear.watchface:watchface-complications-data-source:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\fd73ceff14dc10db2219a6f351484708\transformed\watchface-complications-data-source-1.1.1\AndroidManifest.xml:2:1-15:12
+MERGED from [androidx.wear.watchface:watchface-complications:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\beb76b6995759ed39c524ef0284d7d5c\transformed\watchface-complications-1.1.1\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.wear.watchface:watchface-complications-data:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\501becef4d26528618c50710f0b89b49\transformed\watchface-complications-data-1.1.1\AndroidManifest.xml:2:1-15:12
+MERGED from [androidx.compose.ui:ui-test-manifest:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\0c56f97ea30e69c0f78c5229465807ae\transformed\ui-test-manifest-1.3.0\AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\aa5eda6a7f59ed746a4fd79ffc158171\transformed\legacy-support-v4-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-wearable:18.1.0] C:\Users\foldi\.gradle\caches\transforms-3\07f622df637c792f80a6c674826d8740\transformed\play-services-wearable-18.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-fitness:21.0.0] C:\Users\foldi\.gradle\caches\transforms-3\fb51546a33dab14c3250ed9af6bd4462\transformed\play-services-fitness-21.0.0\AndroidManifest.xml:17:1-28:12
+MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\foldi\.gradle\caches\transforms-3\b47b47ebc5d780bef97bdc1983e9ead2\transformed\play-services-base-18.0.1\AndroidManifest.xml:16:1-24:12
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] C:\Users\foldi\.gradle\caches\transforms-3\29b56808b3eb55cc4cae48f8dc8c99c9\transformed\play-services-tasks-18.0.1\AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\foldi\.gradle\caches\transforms-3\597e5a2fe8b186eb9ac9977eded0a72e\transformed\play-services-basement-18.0.0\AndroidManifest.xml:16:1-26:12
+MERGED from [androidx.wear:wear:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\61791d3956c990996cd1aeab6e46f5ef\transformed\wear-1.2.0\AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.preference:preference:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\7808b2ea9251f414be27a4b3d169b9f4\transformed\preference-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\c17d954b578ccc209c439c4a82040cdd\transformed\appcompat-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.fragment:fragment:1.2.4] C:\Users\foldi\.gradle\caches\transforms-3\6de3a0de97b89e38975b8f6cccf44b07\transformed\fragment-1.2.4\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity:1.5.1] C:\Users\foldi\.gradle\caches\transforms-3\9c655fc00b7036bde351b04f90885396\transformed\activity-1.5.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\e528cb8f66781214d3245dff8a2bd9d3\transformed\legacy-support-core-ui-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\d92f697501ccee9635d5ac51e961af4a\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\311633e7516282d5f0b11b9dffc899cc\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\c7079cc2a7c236522714cda61d9c9967\transformed\lifecycle-viewmodel-2.5.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\2806bbd5e2ef005b6117ef9f27d89d24\transformed\lifecycle-viewmodel-savedstate-2.5.1\AndroidManifest.xml:17:1-24:12
+MERGED from [io.coil-kt:coil:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\cbeb3a3a5e408951c08cf348a8ac8335\transformed\coil-2.1.0\AndroidManifest.xml:2:1-9:12
+MERGED from [io.coil-kt:coil-base:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\748d313deede146474ff9d9efa5ce4c2\transformed\coil-base-2.1.0\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.percentlayout:percentlayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\19f60118e248de56c2198506a107282c\transformed\percentlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.recyclerview:recyclerview:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\1d892f8a3c2307480187d90fb4e500f7\transformed\recyclerview-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\1a381942389ca4b2ce83249c8d6cbcd7\transformed\media-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\9dd8c07ed53d6243a1cca31b3d115e72\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\1c441cdd9b2d54c2c94189fbd2b120c0\transformed\coordinatorlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\6d1a5155d8ee522d2e4f4ea2fc71812c\transformed\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\68c897e8221fd1b90b329a8f97f064ce\transformed\slidingpanelayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\eb5b979bacaf0ba698c84a1677837c6c\transformed\customview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.autofill:autofill:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\a2a70a84fdb7f7e3b101dd2fb15220c6\transformed\autofill-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\ba1a70104d6aa35453d1f987ca19b4eb\transformed\swiperefreshlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\2f36b35d428a9a694197f4cef7a341b5\transformed\asynclayoutinflater-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.appcompat:appcompat-resources:1.4.1] C:\Users\foldi\.gradle\caches\transforms-3\28aaf24ba515c897740cf737926e7e13\transformed\appcompat-resources-1.4.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\d474e3a861c24331325e01653cf16a0f\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\70bdba016678ba88379c727cc609b6a7\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\14dde4f2f837e504df8bf887f313b1b7\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.core:core-ktx:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\bc88d23a6ccd6d05f5b0f875653daa10\transformed\core-ktx-1.9.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.wear.tiles:tiles-material:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\356260a66762d8b7c670d4636b3a0685\transformed\tiles-material-1.1.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.wear.tiles:tiles:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\7ad1bb2c2422535d3ee46b4679c69227\transformed\tiles-1.1.0\AndroidManifest.xml:2:1-13:12
+MERGED from [androidx.compose.ui:ui-util:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\3d309c9c7e4c770d8c7bc9e753437217\transformed\ui-util-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:17:1-50:12
+MERGED from [androidx.lifecycle:lifecycle-service:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\2c598c69b003741559c61a854bf7ee53\transformed\lifecycle-service-2.5.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\1c1a6410d3e1e16fafec9916832a85de\transformed\lifecycle-runtime-2.5.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\5b45cd7f40cff2f388c5db042843fd37\transformed\savedstate-ktx-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\aefb69ebdedc0c1b39e8c839cb0c91c8\transformed\savedstate-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\foldi\.gradle\caches\transforms-3\d6527c0ac72505a78f88dafdbb005d29\transformed\lifecycle-livedata-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\3a30612026939e001e386c4fc872a2f8\transformed\lifecycle-livedata-core-2.5.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\f176fd41a01dbdb31b73e70326602cf9\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\d0d0a85d7096cf9696a3782afa7e799c\transformed\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\e0155eb7f30bc246cae66d28321871ed\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\cd8ccc91f8ef8f6d9f0fe871795d7249\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\48d86a2e1185decd5af57bf00d71b539\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\6008e0b219b68a178f17cf39289ca5da\transformed\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\2cc9ac3fdf56dde90bc1c18d3feef12f\transformed\startup-runtime-1.1.1\AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\ebdb86434c803d1ed2f87e0f8489b415\transformed\core-runtime-2.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\c56ea3b995d38a063a2c2e51d5c38d71\transformed\tracing-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] C:\Users\foldi\.gradle\caches\transforms-3\c40d42e6c888c3619ea21aa232a1d7ba\transformed\exifinterface-1.3.3\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\4f0538879035d1d9e8bd0b7dc391361d\transformed\annotation-experimental-1.3.0\AndroidManifest.xml:17:1-22:12
+	package
+		INJECTED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:2:11-69
+uses-feature#android.hardware.type.watch
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:4:5-64
+MERGED from [com.google.android.horologist:horologist-compose-tools:0.1.5] C:\Users\foldi\.gradle\caches\transforms-3\2514fe4099cec01e2dddd62456b83eca\transformed\horologist-compose-tools-0.1.5\AndroidManifest.xml:24:5-64
+MERGED from [com.google.android.horologist:horologist-compose-tools:0.1.5] C:\Users\foldi\.gradle\caches\transforms-3\2514fe4099cec01e2dddd62456b83eca\transformed\horologist-compose-tools-0.1.5\AndroidManifest.xml:24:5-64
+MERGED from [com.google.android.horologist:horologist-tiles:0.1.5] C:\Users\foldi\.gradle\caches\transforms-3\df8e32619dd51a6b6483395c7b9f97fc\transformed\horologist-tiles-0.1.5\AndroidManifest.xml:30:5-64
+MERGED from [com.google.android.horologist:horologist-tiles:0.1.5] C:\Users\foldi\.gradle\caches\transforms-3\df8e32619dd51a6b6483395c7b9f97fc\transformed\horologist-tiles-0.1.5\AndroidManifest.xml:30:5-64
+	android:name
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:4:19-61
+uses-permission#android.permission.WAKE_LOCK
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:6:5-68
+	android:name
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:6:22-65
+application
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:8:5-66:19
+INJECTED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:8:5-66:19
+MERGED from [androidx.compose.ui:ui-tooling:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\c96a8a9d8cddd62b0c40f72faf2b13a0\transformed\ui-tooling-1.3.0\AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.compose.ui:ui-tooling:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\c96a8a9d8cddd62b0c40f72faf2b13a0\transformed\ui-tooling-1.3.0\AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\840cdcb674a1c3d654ceb2ee3384b9e1\transformed\watchface-complications-data-source-ktx-1.1.1\AndroidManifest.xml:9:5-13:19
+MERGED from [androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\840cdcb674a1c3d654ceb2ee3384b9e1\transformed\watchface-complications-data-source-ktx-1.1.1\AndroidManifest.xml:9:5-13:19
+MERGED from [androidx.wear.watchface:watchface-complications-data-source:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\fd73ceff14dc10db2219a6f351484708\transformed\watchface-complications-data-source-1.1.1\AndroidManifest.xml:9:5-13:19
+MERGED from [androidx.wear.watchface:watchface-complications-data-source:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\fd73ceff14dc10db2219a6f351484708\transformed\watchface-complications-data-source-1.1.1\AndroidManifest.xml:9:5-13:19
+MERGED from [androidx.wear.watchface:watchface-complications-data:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\501becef4d26528618c50710f0b89b49\transformed\watchface-complications-data-1.1.1\AndroidManifest.xml:9:5-13:19
+MERGED from [androidx.wear.watchface:watchface-complications-data:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\501becef4d26528618c50710f0b89b49\transformed\watchface-complications-data-1.1.1\AndroidManifest.xml:9:5-13:19
+MERGED from [androidx.compose.ui:ui-test-manifest:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\0c56f97ea30e69c0f78c5229465807ae\transformed\ui-test-manifest-1.3.0\AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.compose.ui:ui-test-manifest:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\0c56f97ea30e69c0f78c5229465807ae\transformed\ui-test-manifest-1.3.0\AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-wearable:18.1.0] C:\Users\foldi\.gradle\caches\transforms-3\07f622df637c792f80a6c674826d8740\transformed\play-services-wearable-18.1.0\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-wearable:18.1.0] C:\Users\foldi\.gradle\caches\transforms-3\07f622df637c792f80a6c674826d8740\transformed\play-services-wearable-18.1.0\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-fitness:21.0.0] C:\Users\foldi\.gradle\caches\transforms-3\fb51546a33dab14c3250ed9af6bd4462\transformed\play-services-fitness-21.0.0\AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-fitness:21.0.0] C:\Users\foldi\.gradle\caches\transforms-3\fb51546a33dab14c3250ed9af6bd4462\transformed\play-services-fitness-21.0.0\AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\foldi\.gradle\caches\transforms-3\b47b47ebc5d780bef97bdc1983e9ead2\transformed\play-services-base-18.0.1\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\foldi\.gradle\caches\transforms-3\b47b47ebc5d780bef97bdc1983e9ead2\transformed\play-services-base-18.0.1\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] C:\Users\foldi\.gradle\caches\transforms-3\29b56808b3eb55cc4cae48f8dc8c99c9\transformed\play-services-tasks-18.0.1\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] C:\Users\foldi\.gradle\caches\transforms-3\29b56808b3eb55cc4cae48f8dc8c99c9\transformed\play-services-tasks-18.0.1\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\foldi\.gradle\caches\transforms-3\597e5a2fe8b186eb9ac9977eded0a72e\transformed\play-services-basement-18.0.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\foldi\.gradle\caches\transforms-3\597e5a2fe8b186eb9ac9977eded0a72e\transformed\play-services-basement-18.0.0\AndroidManifest.xml:20:5-24:19
+MERGED from [androidx.wear:wear:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\61791d3956c990996cd1aeab6e46f5ef\transformed\wear-1.2.0\AndroidManifest.xml:24:5-28:19
+MERGED from [androidx.wear:wear:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\61791d3956c990996cd1aeab6e46f5ef\transformed\wear-1.2.0\AndroidManifest.xml:24:5-28:19
+MERGED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:28:5-89
+MERGED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:24:5-48:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:24:5-48:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\f176fd41a01dbdb31b73e70326602cf9\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\f176fd41a01dbdb31b73e70326602cf9\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\2cc9ac3fdf56dde90bc1c18d3feef12f\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\2cc9ac3fdf56dde90bc1c18d3feef12f\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
+	android:extractNativeLibs
+		INJECTED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
+	android:supportsRtl
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:12:9-35
+	android:label
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:11:9-41
+	android:icon
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:10:9-43
+	android:allowBackup
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:9:9-35
+	android:theme
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:13:9-59
+service#com.example.wearosmodule.complication.MainComplicationService
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:14:9-29:19
+	android:label
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:17:13-55
+	android:exported
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:16:13-36
+	android:permission
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:18:13-99
+	android:name
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:15:13-65
+intent-filter#action:name:android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:19:13-21:29
+action#android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:20:17-116
+	android:name
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:20:25-113
+meta-data#android.support.wearable.complications.SUPPORTED_TYPES
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:23:13-25:46
+	android:value
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:25:17-43
+	android:name
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:24:17-86
+meta-data#android.support.wearable.complications.UPDATE_PERIOD_SECONDS
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:26:13-28:37
+	android:value
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:28:17-34
+	android:name
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:27:17-92
+service#com.example.wearosmodule.tile.MainTileService
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:30:9-42:19
+	android:label
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:33:13-47
+	android:exported
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:32:13-36
+	android:permission
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:34:13-91
+	android:name
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:31:13-49
+intent-filter#action:name:androidx.wear.tiles.action.BIND_TILE_PROVIDER
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:35:13-37:29
+action#androidx.wear.tiles.action.BIND_TILE_PROVIDER
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:36:17-88
+	android:name
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:36:25-85
+meta-data#androidx.wear.tiles.PREVIEW
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:39:13-41:61
+	android:resource
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:41:17-58
+	android:name
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:40:17-59
+uses-library#com.google.android.wearable
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:44:9-46:39
+MERGED from [androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\840cdcb674a1c3d654ceb2ee3384b9e1\transformed\watchface-complications-data-source-ktx-1.1.1\AndroidManifest.xml:10:9-12:40
+MERGED from [androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\840cdcb674a1c3d654ceb2ee3384b9e1\transformed\watchface-complications-data-source-ktx-1.1.1\AndroidManifest.xml:10:9-12:40
+MERGED from [androidx.wear.watchface:watchface-complications-data-source:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\fd73ceff14dc10db2219a6f351484708\transformed\watchface-complications-data-source-1.1.1\AndroidManifest.xml:10:9-12:40
+MERGED from [androidx.wear.watchface:watchface-complications-data-source:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\fd73ceff14dc10db2219a6f351484708\transformed\watchface-complications-data-source-1.1.1\AndroidManifest.xml:10:9-12:40
+MERGED from [androidx.wear.watchface:watchface-complications-data:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\501becef4d26528618c50710f0b89b49\transformed\watchface-complications-data-1.1.1\AndroidManifest.xml:10:9-12:40
+MERGED from [androidx.wear.watchface:watchface-complications-data:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\501becef4d26528618c50710f0b89b49\transformed\watchface-complications-data-1.1.1\AndroidManifest.xml:10:9-12:40
+MERGED from [androidx.wear:wear:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\61791d3956c990996cd1aeab6e46f5ef\transformed\wear-1.2.0\AndroidManifest.xml:25:9-27:40
+MERGED from [androidx.wear:wear:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\61791d3956c990996cd1aeab6e46f5ef\transformed\wear-1.2.0\AndroidManifest.xml:25:9-27:40
+	android:required
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:46:13-36
+	android:name
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:45:13-55
+meta-data#com.google.android.wearable.standalone
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:51:9-53:36
+	android:value
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:53:13-33
+	android:name
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:52:13-66
+activity#com.example.wearosmodule.presentation.MainActivity
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:55:9-65:20
+	android:label
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:58:13-45
+	android:exported
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:57:13-36
+	android:theme
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:59:13-63
+	android:name
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:56:13-54
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:60:13-64:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:61:17-69
+	android:name
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:61:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:63:17-77
+	android:name
+		ADDED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml:63:27-74
+uses-sdk
+INJECTED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml
+INJECTED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml
+MERGED from [com.google.android.horologist:horologist-compose-tools:0.1.5] C:\Users\foldi\.gradle\caches\transforms-3\2514fe4099cec01e2dddd62456b83eca\transformed\horologist-compose-tools-0.1.5\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.horologist:horologist-compose-tools:0.1.5] C:\Users\foldi\.gradle\caches\transforms-3\2514fe4099cec01e2dddd62456b83eca\transformed\horologist-compose-tools-0.1.5\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.horologist:horologist-tiles:0.1.5] C:\Users\foldi\.gradle\caches\transforms-3\df8e32619dd51a6b6483395c7b9f97fc\transformed\horologist-tiles-0.1.5\AndroidManifest.xml:25:5-28:208
+MERGED from [com.google.android.horologist:horologist-tiles:0.1.5] C:\Users\foldi\.gradle\caches\transforms-3\df8e32619dd51a6b6483395c7b9f97fc\transformed\horologist-tiles-0.1.5\AndroidManifest.xml:25:5-28:208
+MERGED from [androidx.compose.ui:ui-tooling:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\c96a8a9d8cddd62b0c40f72faf2b13a0\transformed\ui-tooling-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\c96a8a9d8cddd62b0c40f72faf2b13a0\transformed\ui-tooling-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.wear.compose:compose-navigation:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\ee7e9be50001b9d190dcbe542d631b5f\transformed\compose-navigation-1.0.0\AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.wear.compose:compose-navigation:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\ee7e9be50001b9d190dcbe542d631b5f\transformed\compose-navigation-1.0.0\AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.navigation:navigation-compose:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\66daa072f275a1c1067a08bd3517e8d9\transformed\navigation-compose-2.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-compose:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\66daa072f275a1c1067a08bd3517e8d9\transformed\navigation-compose-2.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity-compose:1.5.1] C:\Users\foldi\.gradle\caches\transforms-3\a1da4465a9ea8068878135e8e573bd04\transformed\activity-compose-1.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity-compose:1.5.1] C:\Users\foldi\.gradle\caches\transforms-3\a1da4465a9ea8068878135e8e573bd04\transformed\activity-compose-1.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.wear.compose:compose-material:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\42e21ff3eb131cabb3b8ac7ea1076815\transformed\compose-material-1.0.0\AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.wear.compose:compose-material:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\42e21ff3eb131cabb3b8ac7ea1076815\transformed\compose-material-1.0.0\AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.wear.compose:compose-foundation:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\8d8d9d1d4231a00bc08fd1bb81cee75d\transformed\compose-foundation-1.0.0\AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.wear.compose:compose-foundation:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\8d8d9d1d4231a00bc08fd1bb81cee75d\transformed\compose-foundation-1.0.0\AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.compose.material:material:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\740ad46a804a0d5099cd5a266a067874\transformed\material-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material:material:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\740ad46a804a0d5099cd5a266a067874\transformed\material-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material:material-ripple:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\1e0e762d608b5328f45ba32fadd647ae\transformed\material-ripple-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material:material-ripple:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\1e0e762d608b5328f45ba32fadd647ae\transformed\material-ripple-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [io.coil-kt:coil-compose:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\2f8ecc16aa528b198ca23ba833c5d109\transformed\coil-compose-2.1.0\AndroidManifest.xml:5:5-7:41
+MERGED from [io.coil-kt:coil-compose:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\2f8ecc16aa528b198ca23ba833c5d109\transformed\coil-compose-2.1.0\AndroidManifest.xml:5:5-7:41
+MERGED from [io.coil-kt:coil-compose-base:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\78483b59f0cc9ea5dc1bce89660beb74\transformed\coil-compose-base-2.1.0\AndroidManifest.xml:5:5-7:41
+MERGED from [io.coil-kt:coil-compose-base:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\78483b59f0cc9ea5dc1bce89660beb74\transformed\coil-compose-base-2.1.0\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.compose.foundation:foundation:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\4057a9fa7834a262e923aa55c9663ed1\transformed\foundation-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.foundation:foundation:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\4057a9fa7834a262e923aa55c9663ed1\transformed\foundation-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.animation:animation:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\91ae02738ad2cf8394defcfed33e0048\transformed\animation-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.animation:animation:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\91ae02738ad2cf8394defcfed33e0048\transformed\animation-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.foundation:foundation-layout:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\2b47b7cc4baef453cb6dcc5c450ef6c9\transformed\foundation-layout-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.foundation:foundation-layout:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\2b47b7cc4baef453cb6dcc5c450ef6c9\transformed\foundation-layout-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-data:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\f6ea7b0d5a173a57971ead291d45b7eb\transformed\ui-tooling-data-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-data:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\f6ea7b0d5a173a57971ead291d45b7eb\transformed\ui-tooling-data-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.animation:animation-core:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\2cebfd786b39c2ff279db97f0a160422\transformed\animation-core-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.animation:animation-core:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\2cebfd786b39c2ff279db97f0a160422\transformed\animation-core-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material:material-icons-core:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\ad1c00ce3ef2c5dac9b60dd0e49cacde\transformed\material-icons-core-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material:material-icons-core:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\ad1c00ce3ef2c5dac9b60dd0e49cacde\transformed\material-icons-core-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\948098f92900334b8e16073c8379b4d2\transformed\lifecycle-viewmodel-compose-2.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\948098f92900334b8e16073c8379b4d2\transformed\lifecycle-viewmodel-compose-2.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.23.1] C:\Users\foldi\.gradle\caches\transforms-3\79ef6aa9da85550b11fd13bedd1d6374\transformed\accompanist-drawablepainter-0.23.1\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.23.1] C:\Users\foldi\.gradle\caches\transforms-3\79ef6aa9da85550b11fd13bedd1d6374\transformed\accompanist-drawablepainter-0.23.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.compose.ui:ui:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\68901eecffff70bbb4fa68d91b5c3f85\transformed\ui-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\68901eecffff70bbb4fa68d91b5c3f85\transformed\ui-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\786d329a31371455401dd90c2260eb8f\transformed\navigation-runtime-ktx-2.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\786d329a31371455401dd90c2260eb8f\transformed\navigation-runtime-ktx-2.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\7718b0844ac102a5fcfcf100f3f07d46\transformed\navigation-runtime-2.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\7718b0844ac102a5fcfcf100f3f07d46\transformed\navigation-runtime-2.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity-ktx:1.5.1] C:\Users\foldi\.gradle\caches\transforms-3\f854ddc416ae18c6feb8b8bd2f288a83\transformed\activity-ktx-1.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity-ktx:1.5.1] C:\Users\foldi\.gradle\caches\transforms-3\f854ddc416ae18c6feb8b8bd2f288a83\transformed\activity-ktx-1.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common-ktx:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\bb0e30d8c9ff9146c8fdcd91e61a3554\transformed\navigation-common-ktx-2.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common-ktx:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\bb0e30d8c9ff9146c8fdcd91e61a3554\transformed\navigation-common-ktx-2.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\af21fc62e4a6b3d0e99bfbad789a9de3\transformed\navigation-common-2.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common:2.4.0] C:\Users\foldi\.gradle\caches\transforms-3\af21fc62e4a6b3d0e99bfbad789a9de3\transformed\navigation-common-2.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\fa0336fc969f7825f9337cef6836438a\transformed\lifecycle-runtime-ktx-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\fa0336fc969f7825f9337cef6836438a\transformed\lifecycle-runtime-ktx-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.compose.ui:ui-tooling-preview:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\ee8b433a15175c74e44dfb6337bc006c\transformed\ui-tooling-preview-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-preview:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\ee8b433a15175c74e44dfb6337bc006c\transformed\ui-tooling-preview-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-text:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\f8b24d1ee163d4a2084a81d6ae23a21b\transformed\ui-text-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-text:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\f8b24d1ee163d4a2084a81d6ae23a21b\transformed\ui-text-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\43e89d5a61d66643d184bf114dfec796\transformed\runtime-saveable-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\43e89d5a61d66643d184bf114dfec796\transformed\runtime-saveable-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-graphics:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\b2f2103836c76133bf24c009318b9842\transformed\ui-graphics-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-graphics:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\b2f2103836c76133bf24c009318b9842\transformed\ui-graphics-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-unit:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\c4e69396b9a9e2ace194613abce48f62\transformed\ui-unit-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-unit:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\c4e69396b9a9e2ace194613abce48f62\transformed\ui-unit-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-geometry:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\a4fab2a995a741f40208390547cf95d2\transformed\ui-geometry-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-geometry:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\a4fab2a995a741f40208390547cf95d2\transformed\ui-geometry-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.runtime:runtime:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\f4596556144346faa7dd957dd0941e8d\transformed\runtime-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.runtime:runtime:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\f4596556144346faa7dd957dd0941e8d\transformed\runtime-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.wear.tiles:tiles-renderer:1.1.0-beta01] C:\Users\foldi\.gradle\caches\transforms-3\4a91b6319d436c0bd21316fb429f8bd4\transformed\tiles-renderer-1.1.0-beta01\AndroidManifest.xml:5:5-44
+MERGED from [androidx.wear.tiles:tiles-renderer:1.1.0-beta01] C:\Users\foldi\.gradle\caches\transforms-3\4a91b6319d436c0bd21316fb429f8bd4\transformed\tiles-renderer-1.1.0-beta01\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\8c8e8dec3a9b5c698a6064867ee9ee5d\transformed\lifecycle-viewmodel-ktx-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\8c8e8dec3a9b5c698a6064867ee9ee5d\transformed\lifecycle-viewmodel-ktx-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\840cdcb674a1c3d654ceb2ee3384b9e1\transformed\watchface-complications-data-source-ktx-1.1.1\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.wear.watchface:watchface-complications-data-source-ktx:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\840cdcb674a1c3d654ceb2ee3384b9e1\transformed\watchface-complications-data-source-ktx-1.1.1\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.wear.watchface:watchface-complications-data-source:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\fd73ceff14dc10db2219a6f351484708\transformed\watchface-complications-data-source-1.1.1\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.wear.watchface:watchface-complications-data-source:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\fd73ceff14dc10db2219a6f351484708\transformed\watchface-complications-data-source-1.1.1\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.wear.watchface:watchface-complications:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\beb76b6995759ed39c524ef0284d7d5c\transformed\watchface-complications-1.1.1\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.wear.watchface:watchface-complications:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\beb76b6995759ed39c524ef0284d7d5c\transformed\watchface-complications-1.1.1\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.wear.watchface:watchface-complications-data:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\501becef4d26528618c50710f0b89b49\transformed\watchface-complications-data-1.1.1\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.wear.watchface:watchface-complications-data:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\501becef4d26528618c50710f0b89b49\transformed\watchface-complications-data-1.1.1\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.compose.ui:ui-test-manifest:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\0c56f97ea30e69c0f78c5229465807ae\transformed\ui-test-manifest-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-test-manifest:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\0c56f97ea30e69c0f78c5229465807ae\transformed\ui-test-manifest-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\aa5eda6a7f59ed746a4fd79ffc158171\transformed\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\aa5eda6a7f59ed746a4fd79ffc158171\transformed\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-wearable:18.1.0] C:\Users\foldi\.gradle\caches\transforms-3\07f622df637c792f80a6c674826d8740\transformed\play-services-wearable-18.1.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-wearable:18.1.0] C:\Users\foldi\.gradle\caches\transforms-3\07f622df637c792f80a6c674826d8740\transformed\play-services-wearable-18.1.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-fitness:21.0.0] C:\Users\foldi\.gradle\caches\transforms-3\fb51546a33dab14c3250ed9af6bd4462\transformed\play-services-fitness-21.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-fitness:21.0.0] C:\Users\foldi\.gradle\caches\transforms-3\fb51546a33dab14c3250ed9af6bd4462\transformed\play-services-fitness-21.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\foldi\.gradle\caches\transforms-3\b47b47ebc5d780bef97bdc1983e9ead2\transformed\play-services-base-18.0.1\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\foldi\.gradle\caches\transforms-3\b47b47ebc5d780bef97bdc1983e9ead2\transformed\play-services-base-18.0.1\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] C:\Users\foldi\.gradle\caches\transforms-3\29b56808b3eb55cc4cae48f8dc8c99c9\transformed\play-services-tasks-18.0.1\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] C:\Users\foldi\.gradle\caches\transforms-3\29b56808b3eb55cc4cae48f8dc8c99c9\transformed\play-services-tasks-18.0.1\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\foldi\.gradle\caches\transforms-3\597e5a2fe8b186eb9ac9977eded0a72e\transformed\play-services-basement-18.0.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\foldi\.gradle\caches\transforms-3\597e5a2fe8b186eb9ac9977eded0a72e\transformed\play-services-basement-18.0.0\AndroidManifest.xml:18:5-43
+MERGED from [androidx.wear:wear:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\61791d3956c990996cd1aeab6e46f5ef\transformed\wear-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.wear:wear:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\61791d3956c990996cd1aeab6e46f5ef\transformed\wear-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.preference:preference:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\7808b2ea9251f414be27a4b3d169b9f4\transformed\preference-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.preference:preference:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\7808b2ea9251f414be27a4b3d169b9f4\transformed\preference-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\c17d954b578ccc209c439c4a82040cdd\transformed\appcompat-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\c17d954b578ccc209c439c4a82040cdd\transformed\appcompat-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.2.4] C:\Users\foldi\.gradle\caches\transforms-3\6de3a0de97b89e38975b8f6cccf44b07\transformed\fragment-1.2.4\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.2.4] C:\Users\foldi\.gradle\caches\transforms-3\6de3a0de97b89e38975b8f6cccf44b07\transformed\fragment-1.2.4\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.5.1] C:\Users\foldi\.gradle\caches\transforms-3\9c655fc00b7036bde351b04f90885396\transformed\activity-1.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.5.1] C:\Users\foldi\.gradle\caches\transforms-3\9c655fc00b7036bde351b04f90885396\transformed\activity-1.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\e528cb8f66781214d3245dff8a2bd9d3\transformed\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\e528cb8f66781214d3245dff8a2bd9d3\transformed\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\d92f697501ccee9635d5ac51e961af4a\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\d92f697501ccee9635d5ac51e961af4a\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\311633e7516282d5f0b11b9dffc899cc\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\311633e7516282d5f0b11b9dffc899cc\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\c7079cc2a7c236522714cda61d9c9967\transformed\lifecycle-viewmodel-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\c7079cc2a7c236522714cda61d9c9967\transformed\lifecycle-viewmodel-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\2806bbd5e2ef005b6117ef9f27d89d24\transformed\lifecycle-viewmodel-savedstate-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\2806bbd5e2ef005b6117ef9f27d89d24\transformed\lifecycle-viewmodel-savedstate-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [io.coil-kt:coil:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\cbeb3a3a5e408951c08cf348a8ac8335\transformed\coil-2.1.0\AndroidManifest.xml:5:5-7:41
+MERGED from [io.coil-kt:coil:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\cbeb3a3a5e408951c08cf348a8ac8335\transformed\coil-2.1.0\AndroidManifest.xml:5:5-7:41
+MERGED from [io.coil-kt:coil-base:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\748d313deede146474ff9d9efa5ce4c2\transformed\coil-base-2.1.0\AndroidManifest.xml:5:5-7:41
+MERGED from [io.coil-kt:coil-base:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\748d313deede146474ff9d9efa5ce4c2\transformed\coil-base-2.1.0\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.percentlayout:percentlayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\19f60118e248de56c2198506a107282c\transformed\percentlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.percentlayout:percentlayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\19f60118e248de56c2198506a107282c\transformed\percentlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\1d892f8a3c2307480187d90fb4e500f7\transformed\recyclerview-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\1d892f8a3c2307480187d90fb4e500f7\transformed\recyclerview-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\1a381942389ca4b2ce83249c8d6cbcd7\transformed\media-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\1a381942389ca4b2ce83249c8d6cbcd7\transformed\media-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\9dd8c07ed53d6243a1cca31b3d115e72\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\9dd8c07ed53d6243a1cca31b3d115e72\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\1c441cdd9b2d54c2c94189fbd2b120c0\transformed\coordinatorlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\1c441cdd9b2d54c2c94189fbd2b120c0\transformed\coordinatorlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\6d1a5155d8ee522d2e4f4ea2fc71812c\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\6d1a5155d8ee522d2e4f4ea2fc71812c\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\68c897e8221fd1b90b329a8f97f064ce\transformed\slidingpanelayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\68c897e8221fd1b90b329a8f97f064ce\transformed\slidingpanelayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\eb5b979bacaf0ba698c84a1677837c6c\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\eb5b979bacaf0ba698c84a1677837c6c\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.autofill:autofill:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\a2a70a84fdb7f7e3b101dd2fb15220c6\transformed\autofill-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.autofill:autofill:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\a2a70a84fdb7f7e3b101dd2fb15220c6\transformed\autofill-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\ba1a70104d6aa35453d1f987ca19b4eb\transformed\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\ba1a70104d6aa35453d1f987ca19b4eb\transformed\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\2f36b35d428a9a694197f4cef7a341b5\transformed\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\2f36b35d428a9a694197f4cef7a341b5\transformed\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.4.1] C:\Users\foldi\.gradle\caches\transforms-3\28aaf24ba515c897740cf737926e7e13\transformed\appcompat-resources-1.4.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.4.1] C:\Users\foldi\.gradle\caches\transforms-3\28aaf24ba515c897740cf737926e7e13\transformed\appcompat-resources-1.4.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\d474e3a861c24331325e01653cf16a0f\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\d474e3a861c24331325e01653cf16a0f\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\70bdba016678ba88379c727cc609b6a7\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\70bdba016678ba88379c727cc609b6a7\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\14dde4f2f837e504df8bf887f313b1b7\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\14dde4f2f837e504df8bf887f313b1b7\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.core:core-ktx:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\bc88d23a6ccd6d05f5b0f875653daa10\transformed\core-ktx-1.9.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\bc88d23a6ccd6d05f5b0f875653daa10\transformed\core-ktx-1.9.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.wear.tiles:tiles-material:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\356260a66762d8b7c670d4636b3a0685\transformed\tiles-material-1.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.wear.tiles:tiles-material:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\356260a66762d8b7c670d4636b3a0685\transformed\tiles-material-1.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.wear.tiles:tiles:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\7ad1bb2c2422535d3ee46b4679c69227\transformed\tiles-1.1.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.wear.tiles:tiles:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\7ad1bb2c2422535d3ee46b4679c69227\transformed\tiles-1.1.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-util:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\3d309c9c7e4c770d8c7bc9e753437217\transformed\ui-util-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-util:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\3d309c9c7e4c770d8c7bc9e753437217\transformed\ui-util-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:21:5-22:38
+MERGED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:21:5-22:38
+MERGED from [androidx.lifecycle:lifecycle-service:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\2c598c69b003741559c61a854bf7ee53\transformed\lifecycle-service-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-service:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\2c598c69b003741559c61a854bf7ee53\transformed\lifecycle-service-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\1c1a6410d3e1e16fafec9916832a85de\transformed\lifecycle-runtime-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\1c1a6410d3e1e16fafec9916832a85de\transformed\lifecycle-runtime-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\5b45cd7f40cff2f388c5db042843fd37\transformed\savedstate-ktx-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\5b45cd7f40cff2f388c5db042843fd37\transformed\savedstate-ktx-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\aefb69ebdedc0c1b39e8c839cb0c91c8\transformed\savedstate-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\aefb69ebdedc0c1b39e8c839cb0c91c8\transformed\savedstate-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\foldi\.gradle\caches\transforms-3\d6527c0ac72505a78f88dafdbb005d29\transformed\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\foldi\.gradle\caches\transforms-3\d6527c0ac72505a78f88dafdbb005d29\transformed\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\3a30612026939e001e386c4fc872a2f8\transformed\lifecycle-livedata-core-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.5.1] C:\Users\foldi\.gradle\caches\transforms-3\3a30612026939e001e386c4fc872a2f8\transformed\lifecycle-livedata-core-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\f176fd41a01dbdb31b73e70326602cf9\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\f176fd41a01dbdb31b73e70326602cf9\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\d0d0a85d7096cf9696a3782afa7e799c\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\d0d0a85d7096cf9696a3782afa7e799c\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\e0155eb7f30bc246cae66d28321871ed\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\e0155eb7f30bc246cae66d28321871ed\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\cd8ccc91f8ef8f6d9f0fe871795d7249\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\cd8ccc91f8ef8f6d9f0fe871795d7249\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\48d86a2e1185decd5af57bf00d71b539\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\48d86a2e1185decd5af57bf00d71b539\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\6008e0b219b68a178f17cf39289ca5da\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\6008e0b219b68a178f17cf39289ca5da\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\2cc9ac3fdf56dde90bc1c18d3feef12f\transformed\startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\2cc9ac3fdf56dde90bc1c18d3feef12f\transformed\startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\ebdb86434c803d1ed2f87e0f8489b415\transformed\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\foldi\.gradle\caches\transforms-3\ebdb86434c803d1ed2f87e0f8489b415\transformed\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\c56ea3b995d38a063a2c2e51d5c38d71\transformed\tracing-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\foldi\.gradle\caches\transforms-3\c56ea3b995d38a063a2c2e51d5c38d71\transformed\tracing-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] C:\Users\foldi\.gradle\caches\transforms-3\c40d42e6c888c3619ea21aa232a1d7ba\transformed\exifinterface-1.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] C:\Users\foldi\.gradle\caches\transforms-3\c40d42e6c888c3619ea21aa232a1d7ba\transformed\exifinterface-1.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\4f0538879035d1d9e8bd0b7dc391361d\transformed\annotation-experimental-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\4f0538879035d1d9e8bd0b7dc391361d\transformed\annotation-experimental-1.3.0\AndroidManifest.xml:20:5-44
+	tools:overrideLibrary
+		ADDED from [com.google.android.horologist:horologist-tiles:0.1.5] C:\Users\foldi\.gradle\caches\transforms-3\df8e32619dd51a6b6483395c7b9f97fc\transformed\horologist-tiles-0.1.5\AndroidManifest.xml:28:9-205
+	android:targetSdkVersion
+		INJECTED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\foldi\Documents\GitHub\Projektmunka_Foldi_Bianka_I135YD\wearosmodule\src\main\AndroidManifest.xml
+activity#androidx.compose.ui.tooling.PreviewActivity
+ADDED from [androidx.compose.ui:ui-tooling:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\c96a8a9d8cddd62b0c40f72faf2b13a0\transformed\ui-tooling-1.3.0\AndroidManifest.xml:23:9-25:39
+	android:exported
+		ADDED from [androidx.compose.ui:ui-tooling:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\c96a8a9d8cddd62b0c40f72faf2b13a0\transformed\ui-tooling-1.3.0\AndroidManifest.xml:25:13-36
+	android:name
+		ADDED from [androidx.compose.ui:ui-tooling:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\c96a8a9d8cddd62b0c40f72faf2b13a0\transformed\ui-tooling-1.3.0\AndroidManifest.xml:24:13-71
+activity#androidx.activity.ComponentActivity
+ADDED from [androidx.compose.ui:ui-test-manifest:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\0c56f97ea30e69c0f78c5229465807ae\transformed\ui-test-manifest-1.3.0\AndroidManifest.xml:23:9-25:39
+	android:exported
+		ADDED from [androidx.compose.ui:ui-test-manifest:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\0c56f97ea30e69c0f78c5229465807ae\transformed\ui-test-manifest-1.3.0\AndroidManifest.xml:25:13-36
+	android:name
+		ADDED from [androidx.compose.ui:ui-test-manifest:1.3.0] C:\Users\foldi\.gradle\caches\transforms-3\0c56f97ea30e69c0f78c5229465807ae\transformed\ui-test-manifest-1.3.0\AndroidManifest.xml:24:13-63
+meta-data#com.google.gms.fitness.sdk.version
+ADDED from [com.google.android.gms:play-services-fitness:21.0.0] C:\Users\foldi\.gradle\caches\transforms-3\fb51546a33dab14c3250ed9af6bd4462\transformed\play-services-fitness-21.0.0\AndroidManifest.xml:23:9-25:38
+	android:value
+		ADDED from [com.google.android.gms:play-services-fitness:21.0.0] C:\Users\foldi\.gradle\caches\transforms-3\fb51546a33dab14c3250ed9af6bd4462\transformed\play-services-fitness-21.0.0\AndroidManifest.xml:25:13-35
+	android:name
+		ADDED from [com.google.android.gms:play-services-fitness:21.0.0] C:\Users\foldi\.gradle\caches\transforms-3\fb51546a33dab14c3250ed9af6bd4462\transformed\play-services-fitness-21.0.0\AndroidManifest.xml:24:13-62
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\foldi\.gradle\caches\transforms-3\b47b47ebc5d780bef97bdc1983e9ead2\transformed\play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\foldi\.gradle\caches\transforms-3\b47b47ebc5d780bef97bdc1983e9ead2\transformed\play-services-base-18.0.1\AndroidManifest.xml:22:19-43
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\foldi\.gradle\caches\transforms-3\b47b47ebc5d780bef97bdc1983e9ead2\transformed\play-services-base-18.0.1\AndroidManifest.xml:21:19-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\foldi\.gradle\caches\transforms-3\b47b47ebc5d780bef97bdc1983e9ead2\transformed\play-services-base-18.0.1\AndroidManifest.xml:20:19-85
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\foldi\.gradle\caches\transforms-3\597e5a2fe8b186eb9ac9977eded0a72e\transformed\play-services-basement-18.0.0\AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\foldi\.gradle\caches\transforms-3\597e5a2fe8b186eb9ac9977eded0a72e\transformed\play-services-basement-18.0.0\AndroidManifest.xml:23:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\foldi\.gradle\caches\transforms-3\597e5a2fe8b186eb9ac9977eded0a72e\transformed\play-services-basement-18.0.0\AndroidManifest.xml:22:13-58
+permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
+permission#com.example.wearosmodule.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
+uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+uses-permission#com.example.wearosmodule.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.9.0] C:\Users\foldi\.gradle\caches\transforms-3\a1d9ff13774e0f4bb9be4b82fe482b77\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+queries
+ADDED from [androidx.wear.tiles:tiles:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\7ad1bb2c2422535d3ee46b4679c69227\transformed\tiles-1.1.0\AndroidManifest.xml:7:5-11:15
+intent#action:name:androidx.wear.tiles.action.BIND_UPDATE_REQUESTER
+ADDED from [androidx.wear.tiles:tiles:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\7ad1bb2c2422535d3ee46b4679c69227\transformed\tiles-1.1.0\AndroidManifest.xml:8:9-10:18
+action#androidx.wear.tiles.action.BIND_UPDATE_REQUESTER
+ADDED from [androidx.wear.tiles:tiles:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\7ad1bb2c2422535d3ee46b4679c69227\transformed\tiles-1.1.0\AndroidManifest.xml:9:13-87
+	android:name
+		ADDED from [androidx.wear.tiles:tiles:1.1.0] C:\Users\foldi\.gradle\caches\transforms-3\7ad1bb2c2422535d3ee46b4679c69227\transformed\tiles-1.1.0\AndroidManifest.xml:9:21-84
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:25:9-33:20
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\2cc9ac3fdf56dde90bc1c18d3feef12f\transformed\startup-runtime-1.1.1\AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\foldi\.gradle\caches\transforms-3\2cc9ac3fdf56dde90bc1c18d3feef12f\transformed\startup-runtime-1.1.1\AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:29:13-31
+	android:authorities
+		ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:27:13-68
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:28:13-37
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:26:13-67
+meta-data#androidx.profileinstaller.ProfileInstallerInitializer
+ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:30:13-32:52
+	android:value
+		ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:32:17-49
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:31:17-85
+receiver#androidx.profileinstaller.ProfileInstallReceiver
+ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:35:9-47:20
+	android:enabled
+		ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:38:13-35
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:39:13-36
+	android:permission
+		ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:40:13-57
+	android:directBootAware
+		ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:37:13-44
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:36:13-76
+intent-filter#action:name:androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:41:13-43:29
+action#androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:42:17-91
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:42:25-88
+intent-filter#action:name:androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:44:13-46:29
+action#androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:45:17-85
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.2.0] C:\Users\foldi\.gradle\caches\transforms-3\cc3b8224332f6390d4d0fe30191749b3\transformed\profileinstaller-1.2.0\AndroidManifest.xml:45:25-82
