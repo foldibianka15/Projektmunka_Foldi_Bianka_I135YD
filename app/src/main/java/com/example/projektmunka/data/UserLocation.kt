@@ -1,5 +1,7 @@
 package com.example.projektmunka.data
 
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.Date
@@ -7,10 +9,12 @@ import java.util.Date
 class UserLocation(
     val id: String = "",
 
-    var geoPoint: GeoPoint? = null,
+    var lastLocation: GeoPoint? = null,
 
     @ServerTimestamp
-    var timeStamp: Date? = null,
+    var timeStamp: Timestamp? = null,
 
-    var userId: String? = null
+    var userRef: DocumentReference? = null,
+
+    var userRouteTracker: DocumentReference? = null
 )

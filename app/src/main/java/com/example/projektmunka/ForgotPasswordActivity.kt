@@ -37,7 +37,6 @@ class ForgotPasswordActivity : AppCompatActivity() {
                         ).show()
                         val intent = Intent(this@ForgotPasswordActivity, LoginActivity::class.java)
                         startActivity(intent)
-
                     }
                     else{
                         Toast.makeText(

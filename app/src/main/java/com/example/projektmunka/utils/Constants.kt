@@ -31,6 +31,16 @@ object Constants {
     const val IMAGE: String = "image"
     const val COMPLETE_PROFILE: String = "profileCompleted"
 
+    // Tracking Options
+    const val LOCATION_UPDATE_INTERVAL = 5000L
+    const val FASTEST_LOCATION_UPDATE_INTERVAL = 2000L
+
+    const val PEDESTRIAN_SPEED = 1.1
+    const val SEARCH_RADIUS_NEAREST_NODE = 300.0
+    const val MAX_DISTANCE_SEARCH_IMPORTANT_POIS = 0.1
+    const val EXIT_DiSTANCE_FIND_NEAREST_NON_ISOLATED_NODE = 0.0
+    const val NUM_KEY_POIS = 5
+
     fun showImageChooser(activity: Activity) {
         val galleryIntent = Intent(
             Intent.ACTION_PICK,

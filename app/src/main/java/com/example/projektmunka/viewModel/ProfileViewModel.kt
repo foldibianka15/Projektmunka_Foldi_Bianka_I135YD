@@ -1,27 +1,23 @@
 package com.example.projektmunka.viewModel
 
 import android.graphics.Bitmap
-import androidx.databinding.Bindable
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.firstapp.repository.FireStoreRepository
+import com.example.firstapp.repository.UserDataRepository
 import com.example.projektmunka.data.User
 import com.example.projektmunka.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import androidx.databinding.BaseObservable
-import com.example.projektmunka.BR
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(private val authRepository: AuthRepository, private val fireStoreRepository: FireStoreRepository) : BaseViewModel() {
+class ProfileViewModel @Inject constructor(private val authRepository: AuthRepository, private val userDataRepository: UserDataRepository) : BaseViewModel() {
 
     val loginResult = authRepository.lastResult
-    val uploadPhotoResult = fireStoreRepository.uploadPhotoResult
-    val currentUserData = fireStoreRepository.currentUserData
+    val uploadPhotoResult = userDataRepository.uploadPhotoResult
+    val currentUserData = userDataRepository.currentUserData
 
 
     var bitmap: Bitmap? = null
@@ -40,7 +36,7 @@ class ProfileViewModel @Inject constructor(private val authRepository: AuthRepos
 
     fun observeUserData() {
         viewModelScope.launch(coroutineContext) {
-            fireStoreRepository.currentUserData.collect {
+            userDataRepository.currentUserData.collect {
                 it?.let { user ->
                     withContext(Dispatchers.Main) {
                         email.value = user.email
@@ -68,7 +64,7 @@ class ProfileViewModel @Inject constructor(private val authRepository: AuthRepos
                         age = age.value ?: "",
                         gender = gender.value ?: "",
                     )
-                    fireStoreRepository.updateUser(user)
+                    userDataRepository.updateUser(user)
                 }
             }
         }
@@ -77,7 +73,7 @@ class ProfileViewModel @Inject constructor(private val authRepository: AuthRepos
     fun uploadPhoto() {
         viewModelScope.launch(coroutineContext) {
             bitmap?.let {
-                fireStoreRepository.uploadPhoto(
+                userDataRepository.uploadPhoto(
                     it,
                     authRepository.currentUser.value!!.uid
 

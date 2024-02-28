@@ -2,26 +2,24 @@ package com.example.firstapp.repository
 
 import android.graphics.Bitmap
 import com.example.projektmunka.data.User
-import com.example.projektmunka.data.UserLocation
-import com.example.projektmunka.remote.UserDataService
-import com.example.projektmunka.remote.UserLocationService
+import com.example.projektmunka.remote.UserDataDao
+import com.example.projektmunka.remote.UserLocationDao
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class FireStoreRepository(
-    val userDataService: UserDataService,
-    val userLocationService: UserLocationService
+class UserDataRepository(
+    val userDataDao: UserDataDao,
+    val userLocationDao: UserLocationDao
 ) {
 
-    val currentUserData = userDataService.currentUserData
-    val uploadPhotoResult = userDataService.uploadPhotoResult
-
-    private val currentUserLocationData = userLocationService.currentUserLocationData
+    val currentUserData = userDataDao.currentUserData
+    val uploadPhotoResult = userDataDao.uploadPhotoResult
+    val allUsers = userDataDao.allUsers
 
     suspend fun getUserProfileData(userId: String) {
-        userDataService.getUserProfileData(userId)
+        userDataDao.getUserProfileData(userId)
     }
 
     suspend fun registerFromGoogleAccount(account: GoogleSignInAccount) {
@@ -32,7 +30,7 @@ class FireStoreRepository(
             email = account.email ?: "",
             // You can set other user properties here
         )
-        userDataService.registerUserWithGoogle(user)
+        userDataDao.registerUserWithGoogle(user)
     }
 
     suspend fun registerUserIntoFireStore(
@@ -47,7 +45,7 @@ class FireStoreRepository(
             lastName = lastName,
             email = userInfo.email!!
         )
-        userDataService.registerUserIntoFirestore(user)
+        userDataDao.registerUserIntoFirestore(user)
     }
 
     suspend fun checkForExistingUser(googleId: String, email: String): User? {
@@ -70,21 +68,15 @@ class FireStoreRepository(
         return null // No existing user found
     }
 
+    suspend fun getAllUsers() {
+        return userDataDao.getAllUsers()
+    }
+
     suspend fun updateUser(userInfo: User) {
-        userDataService.updateUserProfileData(userInfo)
+        userDataDao.updateUserProfileData(userInfo)
     }
 
     suspend fun uploadPhoto(bitmap: Bitmap, id: String) {
-        userDataService.uploadImageCloudStorage(bitmap, id)
-    }
-
-    suspend fun getAllUsers(): MutableList<User> {
-        return userDataService.getAllUsers()
-    }
-
-
-    suspend fun getAllUserLocations(): MutableList<UserLocation> {
-        return userLocationService.getAllUserLocations()
-
+        userDataDao.uploadImageCloudStorage(bitmap, id)
     }
 }

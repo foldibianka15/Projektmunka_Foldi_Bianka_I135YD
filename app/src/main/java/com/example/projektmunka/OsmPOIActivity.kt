@@ -9,12 +9,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.projektmunka.RouteOptimizers.CircularDifficultRouteGenerator
-import com.example.projektmunka.RouteOptimizers.CircularRouteGenerator
-import com.example.projektmunka.RouteUtils.ShenandoahsHikingDifficulty
+import com.example.projektmunka.RouteOptimizers.CircularDifficultRouteOptimizer
 import com.example.projektmunka.data.ImportanceEvaluator
 import com.example.projektmunka.data.Node
-import com.example.projektmunka.data.Route
 import com.example.projektmunka.databinding.ActivityOsmPoiactivityBinding
 import com.example.projektmunka.RouteUtils.calculateGeodesicDistance
 import com.example.projektmunka.RouteUtils.calculateRouteArea
@@ -22,10 +19,8 @@ import com.example.projektmunka.RouteUtils.calculateRouteAscent
 import com.example.projektmunka.RouteUtils.calculateRouteLength
 import com.example.projektmunka.RouteUtils.calculateSearchArea
 import com.example.projektmunka.RouteUtils.countSelfIntersections
-import com.example.projektmunka.RouteUtils.displayCircularRoute
 import com.example.projektmunka.RouteUtils.fetchCityGraph
 import com.example.projektmunka.RouteUtils.fetchNodes
-import com.example.projektmunka.RouteUtils.findNearestNode
 import com.example.projektmunka.RouteUtils.findNearestOSMNode
 import com.example.projektmunka.RouteUtils.getElevationData
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -43,18 +38,9 @@ import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.views.MapView
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.osmdroid.util.GeoPoint
-import java.util.*
-import kotlin.math.*
 import kotlin.random.Random
-import android.content.ContextWrapper
-import android.content.Context.MODE_APPEND
-import java.io.FileOutputStream
 import android.content.Context
-import java.io.BufferedWriter
-import java.io.File
-import java.io.OutputStreamWriter
 
 class OsmPOIActivity : AppCompatActivity() {
 
@@ -224,7 +210,7 @@ class OsmPOIActivity : AppCompatActivity() {
                     poiToClosestNonIsolatedNode[poi] = closestNonIsolatedNode!!
                 }
 
-                val generator = CircularDifficultRouteGenerator(cityGraph, poiToClosestNonIsolatedNode, importantPOIs, 5, desiredRouteLength, 15.0, searchArea, 20, 5, 50)
+                val generator = CircularDifficultRouteOptimizer(cityGraph, poiToClosestNonIsolatedNode, importantPOIs, 5, desiredRouteLength, 15.0, searchArea, 20, 5, 50)
                 val bestRoute = generator.runGeneticAlgorithm(nearestNodeNonIsolated)
                 val connectedRoute = generator.connectPois(nearestNodeNonIsolated, bestRoute, cityGraph)
 

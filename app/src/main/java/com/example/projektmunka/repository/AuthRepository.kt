@@ -1,38 +1,38 @@
 package com.example.projektmunka.repository
 
-import com.example.firstapp.repository.FireStoreRepository
-import com.example.projektmunka.dataremote.AuthService
+import com.example.firstapp.repository.UserDataRepository
+import com.example.projektmunka.dataremote.AuthDao
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
-class AuthRepository(val authService: AuthService, val fireStoreRepository: FireStoreRepository) {
+class AuthRepository(val authDao: AuthDao, val userDataRepository: UserDataRepository) {
 
-    val lastResult = authService.lastResult
+    val lastResult = authDao.lastResult
 
     //val isLoggedIn = authService.isLoggedIn
-    val currentUser = authService.currentUser
-    val resetPasswordResult = authService.resetPasswordSendResult
+    val currentUser = authDao.currentUser
+    val resetPasswordResult = authDao.resetPasswordSendResult
 
     suspend fun signInWithGoogle(account: GoogleSignInAccount) {
-        authService.signInWithGoogle(account)
+        authDao.signInWithGoogle(account)
     }
 
     suspend fun register(email: String, password: String, firstName: String, lastName: String) {
-        authService.register(email, password)
+        authDao.register(email, password)
         val user = currentUser.value
         if (user != null) {
-            fireStoreRepository.registerUserIntoFireStore(user, firstName, lastName)
+            userDataRepository.registerUserIntoFireStore(user, firstName, lastName)
         }
     }
 
     suspend fun login(email: String, password: String) {
-        authService.login(email, password)
+        authDao.login(email, password)
     }
 
     suspend fun resetPassword(email: String) {
-        authService.resetPassword(email)
+        authDao.resetPassword(email)
     }
 
     suspend fun logout() {
-        authService.logout()
+        authDao.logout()
     }
 }

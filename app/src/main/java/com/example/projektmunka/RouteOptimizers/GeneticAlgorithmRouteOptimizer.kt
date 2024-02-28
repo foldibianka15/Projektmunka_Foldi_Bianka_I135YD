@@ -13,7 +13,7 @@ import kotlin.random.Random
 
 typealias RouteMetric = (Graph<Node, DefaultWeightedEdge>, Route) -> Double
 
-class GeneticAlgorithmRouteGenerator(
+class GeneticAlgorithmRouteOptimizer(
     private val graph: Graph<Node, DefaultWeightedEdge>,
     private val startNode: Node,
     private val endNode: Node,
@@ -28,6 +28,7 @@ class GeneticAlgorithmRouteGenerator(
     private val dijkstra: DijkstraShortestPath<Node, DefaultWeightedEdge> = DijkstraShortestPath(graph)
 
     init {
+
         // You can perform any setup or initialization logic here if needed
     }
 

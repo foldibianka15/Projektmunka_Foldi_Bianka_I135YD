@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
-import com.example.projektmunka.RouteOptimizers.CircularDifficultRouteGenerator
+import com.example.projektmunka.RouteOptimizers.CircularDifficultRouteOptimizer
 import com.example.projektmunka.RouteUtils.calculateROpt
 import com.example.projektmunka.RouteUtils.calculateSearchArea
 import com.example.projektmunka.RouteUtils.displayCircularRoute
@@ -29,11 +29,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.osmdroid.views.MapView
 
-class Form1Fragment(osmMap: MapView, user: User, currentLocation: Location) : Fragment() {
-
-    private val osmMap: MapView = osmMap
-    private val user: User = user
-    private val currentLocation: Location = currentLocation
+class Form1Fragment() : Fragment() {
 
     private lateinit var binding: FragmentForm2Binding
     lateinit var editTextAddress: TextInputEditText
@@ -62,55 +58,8 @@ class Form1Fragment(osmMap: MapView, user: User, currentLocation: Location) : Fr
         }
 
         btnCreateRoute.setOnClickListener {
-            run()
+
         }
         return rootView
-    }
-
-    private fun run() {
-        val maxWalkingTimeInHours = 1.5 // órában megadva
-        val desiredRouteLength = maxWalkingTimeInHours * 4   // 1. In fitness function we use distance measure in meters. Ld is the desired distance
-        // caclulated as desired route time (provided by user, and this is M) multiplied by
-        // average walking speed of 4 km per hour.
-        val rOpt = calculateROpt(1.1, maxWalkingTimeInHours)
-        val searchArea = calculateSearchArea(rOpt)
-        println("1")
-
-        GlobalScope.launch(Dispatchers.IO) {
-            // Use the findNearestOSMNode function to get the nearest node
-            val nearestNode = findNearestOSMNode(currentLocation, 300.0) ?: return@launch
-
-            val nodes = fetchNodes(nearestNode.lat, nearestNode.lon, 600.0) ?: return@launch
-            val evaluatedNodes = nodes.let { evaluateNodes(it) }
-
-            val importantPOIs = evaluatedNodes.let { selectImportantPOIs(it, 0.1) }
-
-            val cityGraph = fetchCityGraph(nearestNode.lat, nearestNode.lon, 600.0) ?: return@launch
-            runBlocking { async { getElevationData(cityGraph) } }.await()
-            val nearestNonIsolatedNode = findClosestNonIsolatedNode(cityGraph, nearestNode, 0.0)!!
-
-            for (poi in importantPOIs) {
-                val closestNonIsolatedNode = findClosestNonIsolatedNode(cityGraph, poi, 0.0)
-                poiToClosestNonIsolatedNode[poi] = closestNonIsolatedNode!!
-            }
-
-            val generator = CircularDifficultRouteGenerator(
-                cityGraph,
-                poiToClosestNonIsolatedNode,
-                importantPOIs,
-                5,
-                desiredRouteLength,
-                10.0,
-                searchArea,
-                20,
-                5,
-                50
-            )
-            val bestRoute = generator.runGeneticAlgorithm(nearestNonIsolatedNode)
-            val connectedRoute = generator.connectPois(nearestNonIsolatedNode, bestRoute, cityGraph)
-            displayCircularRoute(osmMap, bestRoute, connectedRoute, nearestNonIsolatedNode)
-            // val milestones = addMilestones(connectedRoute, 0.9, cityGraph)
-            //addMarkers(osmMap, milestones)
-        }
     }
 }

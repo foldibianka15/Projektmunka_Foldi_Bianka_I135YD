@@ -24,12 +24,7 @@ class RouteListFragment : Fragment() {
         fun onRouteListItemSelected(selectedPosition: Int, transitionBundle: Bundle?)
     }
 
-    /* interface OnItemSelectedListener {
-         fun onItemSelected(position: Int, transitionBundle: Bundle?)
-     }*/
-
     private var routeListener: OnRouteListItemSelectedListener? = null
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

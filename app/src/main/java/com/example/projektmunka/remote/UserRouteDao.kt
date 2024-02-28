@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.tasks.await
 
-class UserRouteService {
+class UserRouteDao {
 
     private val fireStore = FirebaseFirestore.getInstance()
 
@@ -22,7 +22,7 @@ class UserRouteService {
         _currentUserRouteData.emit(result.toObject(UserRoute::class.java))
     }
 
-    suspend fun registerUserRouteIntoFirestore(userRouteInfo: UserRoute) {
+    suspend fun saveUserRouteIntoFirestore(userRouteInfo: UserRoute) {
 
         fireStore.collection(Constants.USER_ROUTES)
             .document(userRouteInfo.id)

@@ -13,12 +13,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 
-class UserDataService {
+class UserDataDao {
 
     private val fireStore = FirebaseFirestore.getInstance()
 
     private val _currentUserData = MutableStateFlow<User?>(null)
     val currentUserData = _currentUserData.asStateFlow()
+
+    private val _allUsers = MutableStateFlow<List<User?>>(emptyList())
+    val allUsers = _allUsers.asStateFlow()
 
     private val _uploadPhotoResult = MutableSharedFlow<String>()
     val uploadPhotoResult = _uploadPhotoResult.asSharedFlow()
@@ -76,7 +79,7 @@ class UserDataService {
         _uploadPhotoResult.emit("Upload success")
     }
 
-    suspend fun getAllUsers(): MutableList<User> {
+    suspend fun getAllUsers() {
         val users = mutableListOf<User>()
 
         val result = fireStore.collection(Constants.USERS).get().await()
@@ -87,7 +90,6 @@ class UserDataService {
                 users.add(user)
             }
         }
-
-        return users
+        _allUsers.emit(users)
     }
 }

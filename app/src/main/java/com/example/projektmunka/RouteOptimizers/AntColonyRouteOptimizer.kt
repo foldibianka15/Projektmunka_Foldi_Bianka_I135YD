@@ -13,7 +13,7 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-class AntColonyRouteGenerator(
+class AntColonyRouteOptimizer(
     private val graph: Graph<Node, DefaultWeightedEdge>,
     private val populationSize: Int,    // 10
     private val evaporation: Double,    // 0.65

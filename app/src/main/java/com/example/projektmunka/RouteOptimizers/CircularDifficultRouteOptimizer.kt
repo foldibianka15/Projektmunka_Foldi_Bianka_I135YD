@@ -1,6 +1,7 @@
 package com.example.projektmunka.RouteOptimizers
 
 import com.example.projektmunka.RouteUtils.calculateRouteArea
+import com.example.projektmunka.RouteUtils.calculateRouteAscent
 import com.example.projektmunka.RouteUtils.calculateRouteLength
 import com.example.projektmunka.RouteUtils.countSelfIntersections
 import com.example.projektmunka.data.Node
@@ -13,12 +14,13 @@ import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.pow
 
-class CircularRouteGenerator(
+class CircularDifficultRouteOptimizer(
     private val graph: Graph<Node, DefaultWeightedEdge>,
     private val poiToClosestNonIsolatedNode: MutableMap<Node, Node>,
     private val keyPois: List<Node>,
     private val numKeyPois: Int,
     private val desiredRouteLength: Double,
+    private val targetRouteAscent: Double,
     private val searchArea: Double,
     private val populationSize: Int,
     private val survivorRate: Int,
@@ -32,6 +34,7 @@ class CircularRouteGenerator(
     }
 
     fun runGeneticAlgorithm(userLocation: Node): Route {
+
         initializePopulation(userLocation)
 
         val nChildren = (populationSize - survivorRate) / survivorRate
@@ -42,16 +45,16 @@ class CircularRouteGenerator(
                     userLocation,
                     route,
                     desiredRouteLength,
+                    targetRouteAscent,
                     searchArea,
                     graph
                 )
             }
-            println("Best fitness: " + fitnessScores.max())
 
             val selectedRoutes = selectNodes(population, fitnessScores, survivorRate).distinct()
-
             val newPopulation = mutableListOf<Route>()
 
+            // Crossover: Create offspring routes by PMX crossover
             if (selectedRoutes.size >= 2) {
                 val randomIndices = selectedRoutes.indices.shuffled().take(2)
                 val parent1 = selectedRoutes[randomIndices[0]]
@@ -66,15 +69,19 @@ class CircularRouteGenerator(
                     for (i in 0 until nChildren) {
                         var partner: Route
 
+                        // Select random partner for crossover (ensuring they haven't been matched before)
                         do {
                             partner = selectedRoutes.random()
                         } while (partner == parent && selectedRoutes.size > 1)
 
+                        // Add the current pair to the set of matched pairs
                         matchedPairs.add(Pair(parent, partner))
 
+                        // Mutate offspring
                         val mutatedOffspring1 = exchangeMutation(offspring.first)
                         val mutatedOffspring2 = exchangeMutation(offspring.second)
 
+                        // Randomly choose whether to add offspring1 or offspring2 to the new population
                         val addFirstOffSpring = (0..1).random()
                         if (addFirstOffSpring == 0) {
                             newPopulation.add(mutatedOffspring1)
@@ -92,7 +99,7 @@ class CircularRouteGenerator(
                     }
                 }
             }
-
+            // Replace the old population with the new one
             population = newPopulation
         }
 
@@ -101,6 +108,7 @@ class CircularRouteGenerator(
                 userLocation,
                 it,
                 desiredRouteLength,
+                targetRouteAscent,
                 searchArea,
                 graph
             )
@@ -140,6 +148,7 @@ class CircularRouteGenerator(
         userLocation: Node,
         route: Route,
         desiredRouteLength: Double,
+        targetRouteAscent: Double,
         searchArea: Double,
         graph: Graph<Node, DefaultWeightedEdge>
     ): Double {
@@ -154,6 +163,10 @@ class CircularRouteGenerator(
         // Calculate the number of self-intersections
         val selfIntersections = countSelfIntersections(connectedRoute.path)
 
+        val routeAscent = calculateRouteAscent(connectedRoute)
+        val ascentDelta = abs(routeAscent - targetRouteAscent)
+        val ascentMultiplier = (1 - min(0.9, ascentDelta - routeAscent))
+
         // Calculate the area of the polygon outlined by the route
         val routeArea = calculateRouteArea(route)
 
@@ -165,7 +178,7 @@ class CircularRouteGenerator(
         val selfIntersectionMultiplier = 1.0 / (1 + selfIntersections)
 
         //return lengthMultiplier
-        return beauty * lengthMultiplier * areaMultiplier * selfIntersectionMultiplier
+        return beauty * lengthMultiplier * areaMultiplier * selfIntersectionMultiplier * ascentMultiplier
     }
 
     private fun PMXCrossover(

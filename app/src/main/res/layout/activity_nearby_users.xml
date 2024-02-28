@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.projektmunka.viewModel.UserDataViewModel" />
+            type="com.example.projektmunka.viewModel.NearbyUsersViewModel" />
     </data>
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"

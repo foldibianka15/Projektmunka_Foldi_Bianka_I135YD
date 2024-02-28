@@ -245,15 +245,14 @@ class MapActivity : BaseActivity() {
             val currentUser = userDataViewModel.currentUserData.value
             // Determine which fragment is selected based on the form type
             val selectedFragment = when (selectedFormType) {
-                1 -> Form1Fragment(mMap, currentUser!!, location!!)
-                2 -> Form2Fragment(mMap, currentUser!!, location!!)
+                1 -> Form1Fragment()
+                2 -> Form2Fragment()
                 3 -> Form3Fragment()
                 4 -> Form4Fragment()
-                else -> Form1Fragment(mMap, currentUser!!, location!!)
+                else -> Form1Fragment()
             }
 
             replaceBottomSheetContent(selectedFragment)
-
             hideBottomSheet()
         }
     }

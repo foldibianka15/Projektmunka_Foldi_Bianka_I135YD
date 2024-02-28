@@ -1,12 +1,15 @@
 package com.example.projektmunka.di
 
-import com.example.firstapp.repository.FireStoreRepository
-import com.example.projektmunka.dataremote.AuthService
-import com.example.projektmunka.remote.UserDataService
-import com.example.projektmunka.remote.UserLocationService
-import com.example.projektmunka.remote.UserRouteService
-import com.example.projektmunka.remote.UserRouteTrackerService
+import com.example.firstapp.repository.UserDataRepository
+import com.example.projektmunka.dataremote.AuthDao
+import com.example.projektmunka.remote.UserDataDao
+import com.example.projektmunka.remote.UserLocationDao
+import com.example.projektmunka.remote.UserRouteDao
+import com.example.projektmunka.remote.UserRouteTrackerDao
 import com.example.projektmunka.repository.AuthRepository
+import com.example.projektmunka.repository.NearbyUsersRepository
+import com.example.projektmunka.repository.UserLocationRepository
+import com.example.projektmunka.services.LocationService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,23 +22,33 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideAuthService() = AuthService()
+    fun provideAuthDao() = AuthDao()
     @Provides
     @Singleton
-    fun provideUserDataService() = UserDataService()
+    fun provideUserDataDao() = UserDataDao()
     @Provides
     @Singleton
-    fun provideUserLocationService() = UserLocationService()
+    fun provideUserLocationDao() = UserLocationDao()
     @Provides
     @Singleton
-    fun provideUserRouteService() = UserRouteService()
+    fun provideUserRouteDao() = UserRouteDao()
     @Provides
     @Singleton
-    fun provideUserRouteTrackerService() = UserRouteTrackerService()
+    fun provideUserRouteTrackerDao() = UserRouteTrackerDao()
     @Provides
     @Singleton
-    fun provideAuthRepository(authService:AuthService, fireStoreRepository: FireStoreRepository) = AuthRepository(authService, fireStoreRepository )
+    fun provideAuthRepository(authDao:AuthDao, userDataRepository: UserDataRepository) = AuthRepository(authDao, userDataRepository)
     @Provides
     @Singleton
-    fun provideFireStoreRepository(userDataService: UserDataService, userLocationService: UserLocationService) = FireStoreRepository(userDataService, userLocationService)
+    fun provideFireStoreRepository(userDataDao: UserDataDao, userLocationDao: UserLocationDao) = UserDataRepository(userDataDao, userLocationDao)
+    @Provides
+    @Singleton
+    fun provideUserLocationRepository(userLocationDao: UserLocationDao) = UserLocationRepository(userLocationDao)
+    @Provides
+    @Singleton
+    fun provideUserLocationService(userDataRepository: UserDataRepository ,userLocationRepository: UserLocationRepository) = LocationService(userDataRepository, userLocationRepository)
+    @Provides
+    @Singleton
+    fun provideNearbyUsersRepository(userDataDao: UserDataDao, userLocationDao: UserLocationDao) = NearbyUsersRepository(userDataDao, userLocationDao)
+
 }

@@ -1,7 +1,9 @@
 package com.example.projektmunka.data
 //import kotlinx.android.parcel.Parcelize
 import android.os.Parcelable
+import com.google.firebase.firestore.DocumentReference
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import java.util.Collections.emptyList
 
 @Parcelize

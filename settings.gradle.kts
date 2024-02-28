@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Projektmunka"
 include(":app")
- 
+include(":wearosmodule")

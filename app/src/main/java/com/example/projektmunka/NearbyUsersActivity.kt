@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ListView
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.projektmunka.RouteUtils.calculateGeodesicDistanceInMeters
 import com.example.projektmunka.adapter.NearbyUsersAdapter
 import com.example.projektmunka.data.User
 import com.example.projektmunka.databinding.ActivityMapBinding
 import com.example.projektmunka.databinding.ActivityNearbyUsersBinding
+import com.example.projektmunka.viewModel.NearbyUsersViewModel
 import com.example.projektmunka.viewModel.UserDataViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,12 +21,13 @@ class NearbyUserActivity : AppCompatActivity() {
     private lateinit var nearbyUsersAdapter: NearbyUsersAdapter
     private lateinit var listViewNearbyUsers: ListView
 
-    private val userDataViewModel: UserDataViewModel by viewModels()
+    private val nearbyUsersViewModel : NearbyUsersViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nearby_users)
         binding = ActivityNearbyUsersBinding.inflate(layoutInflater)
-        binding.viewModel = userDataViewModel
+        binding.viewModel = nearbyUsersViewModel
 
         listViewNearbyUsers = binding.listViewNearbyUsers
         nearbyUsersAdapter = NearbyUsersAdapter(this, R.layout.nearby_user_list_item, mutableListOf())
@@ -33,32 +36,16 @@ class NearbyUserActivity : AppCompatActivity() {
         observeUserData()
     }
 
-    private fun getNearbyUsers(friendZone: Double): MutableList<User> {
-        val currentUser = userDataViewModel.currentUserData.value ?: return mutableListOf()
-        val currentUserLocation = userDataViewModel.getUserLocation(currentUser)
-        val allUsers = userDataViewModel.getAllUsers()
-        allUsers.remove(currentUser)
-        val nearbyUsers = mutableListOf<User>()
-
-        for (user in allUsers) {
-            val userLocation = userDataViewModel.getUserLocation(user)
-            if (userLocation != null) {
-                val distanceBetweenUsers =
-                    calculateGeodesicDistanceInMeters(currentUserLocation?.geoPoint!!, userLocation?.geoPoint!!)
-                if (distanceBetweenUsers <= friendZone && !currentUser.friends.contains(user)) {
-                    nearbyUsers.add(user)
-                }
-            }
-        }
-
-        return nearbyUsers
-    }
 
     private fun observeUserData() {
-        val nearbyUsersList = getNearbyUsers(1000.0)
 
-        nearbyUsersAdapter.clear()
-        nearbyUsersAdapter.addAll(nearbyUsersList)
-        nearbyUsersAdapter.notifyDataSetChanged()
+        nearbyUsersViewModel.getNearbyUsers(1000.0)
+        lifecycleScope.launchWhenCreated {
+            nearbyUsersViewModel.nearbyUsers.collect{ users ->
+                nearbyUsersAdapter.clear()
+                nearbyUsersAdapter.addAll(users)
+                nearbyUsersAdapter.notifyDataSetChanged()
+            }
+        }
     }
 }

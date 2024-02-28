@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.tasks.await
 
-class AuthService {
+class AuthDao {
 
     private val auth = FirebaseAuth.getInstance()
 

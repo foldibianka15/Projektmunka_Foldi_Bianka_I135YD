@@ -28,11 +28,7 @@ import kotlinx.coroutines.runBlocking
 import org.osmdroid.views.MapView
 import java.util.concurrent.CountDownLatch
 
-class Form2Fragment(osmMap: MapView, user: User, currentLocation: Location) : Fragment() {
-
-    private val osmMap: MapView = osmMap
-    private val user: User = user
-    private val currentLocation: Location = currentLocation
+class Form2Fragment() : Fragment() {
 
     private lateinit var binding: FragmentForm2Binding
     lateinit var editTextAddress: TextInputEditText
@@ -59,80 +55,11 @@ class Form2Fragment(osmMap: MapView, user: User, currentLocation: Location) : Fr
         }
 
         btnCreateRoute.setOnClickListener {
-            test()
+
         }
         return rootView
     }
 
-    private fun test() {
-        runBlocking {
-            val selectedRadioButtonId = radioGroupLocation.checkedRadioButtonId
-            val selectedRadioButton = binding.root.findViewById<RadioButton>(selectedRadioButtonId)
 
-            val sourceAddress = editTextAddress.text.toString()
 
-            if (selectedRadioButton != null) {
-                var source = Pair(0.0, 0.0)
-
-                val selectedOptionText = selectedRadioButton.text.toString()
-
-                if (selectedOptionText == "Choose Address") {
-                    source = async { performReverseGeocodingBlocking(sourceAddress) }.await()!!
-
-                } else if (selectedOptionText == "Set Actual Location") {
-                    source = Pair(currentLocation.latitude, currentLocation.longitude)
-                }
-
-                var destination = Pair(0.0, 0.0)
-
-                performReverseGeocoding(
-                    editTextTargetLocation.text.toString(),
-                    { latitude, longitude ->
-                        destination = Pair(latitude, longitude)
-                        val path = generateRoute(source, destination, 30.0)
-
-                    },
-                    { /* Error handling code here */ }
-                )
-            }
-        }
-    }
-
-    private fun generateRoute(
-        source: Pair<Double, Double>,
-        destination: Pair<Double, Double>,
-        targetDifficulty: Double
-    ): Route? {
-        return runBlocking {
-            val startNode = async(Dispatchers.IO) {
-                findNearestNode(source.first, source.second)
-            }.await() ?: return@runBlocking null
-
-            val endNode = async(Dispatchers.IO) {
-                findNearestNode(destination.first, destination.second)
-            }.await() ?: return@runBlocking null
-
-            val graph = getGraph(startNode, endNode)
-            if (graph == null) {
-                println("graph is null")
-            } else {
-                val bestRoute = GeneratePaths(
-                    graph,
-                    startNode,
-                    endNode,
-                    300,
-                    ::ShenandoahsHikingDifficulty,
-                    targetDifficulty,
-                    0.0
-                )
-
-                drawRoute(osmMap, bestRoute!!)
-                addMarker(osmMap, source.first, source.second)
-                addMarker(osmMap, destination.first, destination.second)
-
-                return@runBlocking bestRoute
-            }
-            return@runBlocking null
-        }
-    }
 }

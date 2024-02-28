@@ -1,7 +1,7 @@
 package com.example.projektmunka.viewModel
 
 import androidx.lifecycle.viewModelScope
-import com.example.firstapp.repository.FireStoreRepository
+import com.example.firstapp.repository.UserDataRepository
 import com.example.projektmunka.repository.AuthRepository
 import com.example.projektmunka.utils.isFieldNotEmpty
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(val authRepository: AuthRepository, val fireStoreRepository: FireStoreRepository) : BaseViewModel() {
+class LoginViewModel @Inject constructor(val authRepository: AuthRepository, val userDataRepository: UserDataRepository) : BaseViewModel() {
 
     val loginResult = authRepository.lastResult
 
@@ -34,21 +34,21 @@ class LoginViewModel @Inject constructor(val authRepository: AuthRepository, val
             val email = account.email ?: ""
 
             // Check if the user with this Google ID or email already exists
-            val existingUser = fireStoreRepository.checkForExistingUser(googleId, email)
+            val existingUser = userDataRepository.checkForExistingUser(googleId, email)
 
             if (existingUser != null){
                 authRepository.signInWithGoogle(account)
             } else {
                 viewModelScope.launch(Dispatchers.IO) {
                     // After signing in with Google, create a user collection
-                    fireStoreRepository.registerFromGoogleAccount(account)
+                    userDataRepository.registerFromGoogleAccount(account)
                 }
             }
         }
 
         viewModelScope.launch(Dispatchers.IO) {
             // After signing in with Google, create a user collection
-            fireStoreRepository.registerFromGoogleAccount(account)
+            userDataRepository.registerFromGoogleAccount(account)
         }
     }
 }

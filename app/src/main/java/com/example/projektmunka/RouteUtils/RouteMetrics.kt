@@ -6,6 +6,7 @@ import com.example.projektmunka.data.Route
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultWeightedEdge
 import android.location.Location
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.GeoPoint
 import java.util.HashSet
 import kotlin.math.abs
@@ -52,7 +53,6 @@ fun ShenandoahsHikingDifficulty(
 fun WeightedRouteDifficulty(
     graph: Graph<Node, DefaultWeightedEdge>,
     route: Route) : Double {
-
     return sqrt(calculateRouteAscent(route) * 1 + calculateRouteLength(graph, route) * 20)
 }
 
@@ -63,8 +63,35 @@ fun calculateRouteGradientForSegment(graph: Graph<Node, DefaultWeightedEdge>, so
     return  AD / Dist * 100
 }
 
+fun calculateRouteGradientForSegment(source: Location, target: Location) : Double {
+    val AD = abs(target!!.altitude - source!!.altitude)
+    val results = FloatArray(1)
+    Location.distanceBetween(source.latitude, source.longitude, target.latitude, target.longitude, results)
+    val dist = results[0].toDouble()
+    return  AD / dist * 100
+}
+
 fun calculateWalkingSpeedForSegment(graph: Graph<Node, DefaultWeightedEdge>, source: Node, target: Node) : Double {
     val gradient = calculateRouteGradientForSegment(graph, source, target)
+
+    if (gradient >= 4 && gradient < 8) {
+        return 70.0;
+    }
+    else if (gradient >= 0 && gradient < 4) {
+        return 80.0;
+    }
+    else if (gradient >= -4 && gradient < 0) {
+        return 90.0;
+    }
+    else if (gradient >= -8 && gradient < -4) {
+        return 100.0;
+    }
+
+    return 85.0;
+}
+
+fun calculateWalkingSpeedForSegment(source: Location, target: Location) : Double {
+    val gradient = calculateRouteGradientForSegment(source, target)
 
     if (gradient >= 4 && gradient < 8) {
         return 70.0;
@@ -92,6 +119,16 @@ fun calculateWalkingSpeed(graph: Graph<Node, DefaultWeightedEdge>, route: Route)
     return speed / route.path.size
 }
 
+fun calculateWalkingSpeed(locationData: MutableList<Pair<Location, Long>>) : Double {
+    var speed = 0.0
+    for (i in 0 until locationData.size - 1) {
+        val source = locationData[i]
+        val target = locationData[i + 1]
+        speed += calculateWalkingSpeedForSegment(source.first, target.first)
+    }
+    return speed / locationData.size
+}
+
 // return is in minutes
 fun calculateWalkingtime(graph: Graph<Node, DefaultWeightedEdge>, route: Route) : Double {
     var time = 0.0
@@ -103,20 +140,20 @@ fun calculateWalkingtime(graph: Graph<Node, DefaultWeightedEdge>, route: Route) 
     return time
 }
 
-fun calculateMETValue(speed : Double) : Double {
-    return when {
-        speed < 70 -> 3.1 // 0.894 m/s is approximately 2 mph
-        speed < 80 -> 3.3  // Casual walking
-        speed < 90 -> 3.6 // Brisk walking
-        speed < 100 -> 4.0 // Fast-paced walking
-        else -> 4.0 // Assuming 4.0 METs for speeds above 5 m/s
+fun calculateWalkingTime(locationData: MutableList<Pair<Location, Long>>) : Double {
+    var time = 0.0
+    for (i in 0 until locationData.size - 1) {
+        val source = locationData[i]
+        val target = locationData[i + 1]
+
+        val results = FloatArray(1)
+        Location.distanceBetween(source.first.latitude, source.first.longitude, target.first.latitude, target.first.longitude, results)
+        val dist = results[0].toDouble()
+        time += dist * 1000 / calculateWalkingSpeedForSegment(source.first, target.first)
     }
+    return time
 }
 
-fun calculateCaloriesBurned(graph: Graph<Node, DefaultWeightedEdge>, route: Route) : Double {
-    val weightInKg = 57.0
-    return (calculateMETValue(calculateWalkingSpeed(graph, route)) * weightInKg * calculateWalkingtime(graph, route)) / 200
-}
 
 fun calculateDifficultyLevelChange(heartrate : Double, age : Int) : Int {
     val percantage = (heartrate / (220.0 - age)) * 100
