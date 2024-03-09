@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(val authRepository: AuthRepository, val userDataRepository: UserDataRepository) : BaseViewModel() {
+class LoginViewModel @Inject constructor(private val authRepository: AuthRepository, private val userDataRepository: UserDataRepository) : BaseViewModel() {
 
     val loginResult = authRepository.lastResult
 

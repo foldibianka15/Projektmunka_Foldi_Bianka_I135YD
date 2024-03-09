@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NearbyUsersViewModel @Inject constructor(val nearbyUsersRepository: NearbyUsersRepository) : BaseViewModel() {
+class NearbyUsersViewModel @Inject constructor(private val nearbyUsersRepository: NearbyUsersRepository) : BaseViewModel() {
 
     private val _nearbyUsers = MutableSharedFlow<MutableList<User>>()
     val nearbyUsers = _nearbyUsers.asSharedFlow()

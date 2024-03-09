@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.projektmunka.databinding.ActivityProfileBinding
 import com.example.projektmunka.viewModel.ProfileViewModel
+import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 
@@ -28,7 +29,7 @@ class ProfileActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         setContentView(binding.root)
 
-      userProfileViewModel.email.observe(this) { newEmail ->
+        userProfileViewModel.email.observe(this) { newEmail ->
             // Update UI with the newEmail
             // For example, set it to a TextView
             findViewById<TextView>(R.id.editTextEmail)

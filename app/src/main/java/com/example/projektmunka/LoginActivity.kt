@@ -143,11 +143,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 } catch (e: ApiException) {
                     // Handle Google Sign-In failure
                     // You can show an error message or take appropriate action.
-                    Toast.makeText(this, "Google Sign-In failed", Toast.LENGTH_SHORT).show()
-
-                    // Print or log the exception details
-
                 }
+                Toast.makeText(this, "Google Sign-In failed", Toast.LENGTH_SHORT).show()
+
+                // Print or log the exception details
+
             }
 
         }

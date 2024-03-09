@@ -4,7 +4,7 @@ import com.example.firstapp.repository.UserDataRepository
 import com.example.projektmunka.dataremote.AuthDao
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
-class AuthRepository(val authDao: AuthDao, val userDataRepository: UserDataRepository) {
+class AuthRepository(private val authDao: AuthDao, val userDataRepository: UserDataRepository) {
 
     val lastResult = authDao.lastResult
 

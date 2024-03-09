@@ -64,7 +64,7 @@
                         android:background="@drawable/edit_text_bg"
                         android:hint="First Name"
                         android:inputType="text"
-                        android:text="@={viewModel.firstName}"
+                        android:text="@{viewModel.firstName}"
                         android:textSize="15dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 

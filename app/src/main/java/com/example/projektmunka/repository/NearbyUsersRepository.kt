@@ -6,7 +6,7 @@ import com.example.projektmunka.data.User
 import com.example.projektmunka.remote.UserDataDao
 import com.example.projektmunka.remote.UserLocationDao
 
-class NearbyUsersRepository(val userDataDao: UserDataDao, val userLocationDao: UserLocationDao)
+class NearbyUsersRepository(private val userDataDao: UserDataDao, private val userLocationDao: UserLocationDao)
 {
     suspend fun getNearbyUsers(friendZone: Double): MutableList<User> {
         val currentUser = userDataDao.currentUserData.value ?: return mutableListOf()
@@ -21,7 +21,7 @@ class NearbyUsersRepository(val userDataDao: UserDataDao, val userLocationDao: U
             }
             val userLocation = userLocationDao.currentUserLocation
             val distanceBetweenUsers =
-                userLocation?.value?.lastLocation?.let {
+                userLocation.value?.lastLocation?.let {
                     currentUserLocation.value?.lastLocation?.let { it1 ->
                         calculateGeodesicDistanceInMeters(
                             it1,

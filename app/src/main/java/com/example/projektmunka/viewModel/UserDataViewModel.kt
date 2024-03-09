@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserDataViewModel @Inject constructor(
-    private val userDataRepository: UserDataRepository,
+    private val userDataRepository: UserDataRepository, private val authRepository: AuthRepository
 ) : BaseViewModel() {
 
     val currentUserData = userDataRepository.currentUserData
@@ -25,7 +25,17 @@ class UserDataViewModel @Inject constructor(
         getUserData()
     }
 
-    private fun getUserData() {
+    fun getUserData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepository.currentUser.collect {
+                if (it != null) {
+                    userDataRepository.getUserProfileData(it.uid)
+                }
+            }
+        }
+    }
+
+    /*private fun getUserData() {
         viewModelScope.launch(Dispatchers.IO) {
             currentUserData
                 .filterNotNull()
@@ -33,6 +43,6 @@ class UserDataViewModel @Inject constructor(
                     userDataRepository.getUserProfileData(user.id)
                 }
         }
-    }
+    }*/
 
 }

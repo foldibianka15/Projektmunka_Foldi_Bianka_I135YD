@@ -17,6 +17,7 @@ import com.example.projektmunka.viewModel.UserDataViewModel
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var drawerLayout: DrawerLayout

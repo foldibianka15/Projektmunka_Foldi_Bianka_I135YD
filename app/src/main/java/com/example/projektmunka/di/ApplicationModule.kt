@@ -40,7 +40,7 @@ class ApplicationModule {
     fun provideAuthRepository(authDao:AuthDao, userDataRepository: UserDataRepository) = AuthRepository(authDao, userDataRepository)
     @Provides
     @Singleton
-    fun provideFireStoreRepository(userDataDao: UserDataDao, userLocationDao: UserLocationDao) = UserDataRepository(userDataDao, userLocationDao)
+    fun provideUserDataRepository(userDataDao: UserDataDao, userLocationDao: UserLocationDao) = UserDataRepository(userDataDao, userLocationDao)
     @Provides
     @Singleton
     fun provideUserLocationRepository(userLocationDao: UserLocationDao) = UserLocationRepository(userLocationDao)
